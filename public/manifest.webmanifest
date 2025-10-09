@@ -1,13 +1,13 @@
 {
-  "name": "CANDYMAN EXOTICS",
-  "short_name": "CANDYMAN",
+  "name": "TD Studios Platform",
+  "short_name": "TD Studios",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f0b09",
-  "theme_color": "#0f0b09",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
   "icons": [
     {
-      "src": "/favicon.png",
+      "src": "/images/td-studios-logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }

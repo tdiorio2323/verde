@@ -20,18 +20,23 @@ export default {
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',
+				'border-glass': 'hsl(var(--border-glass))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				'glass-base': 'hsl(var(--glass-base))',
+				'glass-light': 'hsl(var(--glass-light))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					glow: 'hsl(var(--primary-glow))'
+					glow: 'hsl(var(--primary-glow))',
+					light: 'hsl(var(--primary-light))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					foreground: 'hsl(var(--secondary-foreground))',
+					glow: 'hsl(var(--secondary-glow))'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -43,11 +48,13 @@ export default {
 				},
 				accent: {
 					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					foreground: 'hsl(var(--accent-foreground))',
+					glow: 'hsl(var(--accent-glow))'
 				},
 				golden: {
 					DEFAULT: 'hsl(var(--golden))',
-					foreground: 'hsl(var(--golden-foreground))'
+					foreground: 'hsl(var(--golden-foreground))',
+					glow: 'hsl(var(--golden-glow))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -70,20 +77,41 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-holographic': 'var(--gradient-holographic)',
-				'gradient-tropical': 'var(--gradient-tropical)'
+				'gradient-glass': 'var(--gradient-glass)',
+				'gradient-chrome': 'var(--gradient-chrome)',
+				'gradient-glass-shine': 'var(--gradient-glass-shine)',
+				'gradient-overlay': 'var(--gradient-overlay)'
 			},
 			boxShadow: {
 				'glow': 'var(--shadow-glow)',
-				'golden': 'var(--shadow-golden)'
+				'glow-sm': 'var(--shadow-glow-sm)',
+				'golden': 'var(--shadow-golden)',
+				'glass': 'var(--shadow-glass)',
+				'glass-xl': 'var(--shadow-glass-xl)',
+				'inset-glass': 'var(--shadow-inset-glass)',
+				'glass-border': 'var(--shadow-glass-border)'
+			},
+			backdropBlur: {
+				'xs': '4px',
+				'sm': 'var(--blur-sm)',
+				'md': 'var(--blur-md)',
+				'lg': 'var(--blur-lg)',
+				'xl': 'var(--blur-xl)',
+				'2xl': '40px',
+				'3xl': '64px'
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',
-				'bounce': 'var(--transition-bounce)'
+				'bounce': 'var(--transition-bounce)',
+				'glass': 'var(--transition-glass)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'xl': '1.25rem',
+				'2xl': '1.5rem',
+				'3xl': '2rem'
 			},
 			keyframes: {
 				'accordion-down': {
@@ -101,11 +129,53 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'shimmer': {
+					'0%': {
+						backgroundPosition: '-1000px 0'
+					},
+					'100%': {
+						backgroundPosition: '1000px 0'
+					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px) translateX(0px)'
+					},
+					'25%': {
+						transform: 'translateY(-10px) translateX(5px)'
+					},
+					'50%': {
+						transform: 'translateY(-5px) translateX(-5px)'
+					},
+					'75%': {
+						transform: 'translateY(-15px) translateX(3px)'
+					}
+				},
+				'glow-pulse': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px rgba(59, 130, 246, 0.3)'
+					},
+					'50%': {
+						boxShadow: '0 0 40px rgba(59, 130, 246, 0.6)'
+					}
+				},
+				'breathe': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'shimmer': 'shimmer 2s ease-in-out',
+				'float': 'float 6s ease-in-out infinite',
+				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+				'breathe': 'breathe 3s ease-in-out infinite'
 			}
 		}
 	},

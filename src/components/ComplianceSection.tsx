@@ -26,35 +26,38 @@ const compliancePoints = [
 
 export default function ComplianceSection() {
   return (
-    <section className="py-16 px-6 bg-secondary/20">
-      <div className="container mx-auto">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+    <section className="relative py-28 px-6 section-glass">
+      {/* Background glass overlay with accent gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 via-accent/5 to-primary/10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-glass pointer-events-none" />
+
+      <div className="relative container mx-auto">
+        <div className="text-center mb-16">
+          <h3 className="text-4xl md:text-5xl font-bold mb-6 text-gradient-holographic">
             Safe, Legal, & Trusted
           </h3>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Your safety is our priority. Every step is compliant, secure, and transparent
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+
+        <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {compliancePoints.map((point, index) => (
-            <Card 
-              key={index} 
-              className="bg-card/30 border-border/30 backdrop-blur-sm hover:bg-card/50 transition-smooth text-center"
-            >
-              <CardContent className="p-6">
-                <div className="mx-auto mb-3 p-3 rounded-full bg-accent/20 w-fit">
-                  <point.icon className="h-6 w-6 text-accent" />
-                </div>
-                <h4 className="text-base font-semibold text-foreground mb-2">
-                  {point.title}
-                </h4>
-                <p className="text-sm text-muted-foreground">
-                  {point.description}
-                </p>
-              </CardContent>
-            </Card>
+            <div key={index} className="group">
+              <div className="glass-card rounded-3xl shadow-glass-xl hover:shadow-glow-sm transition-smooth text-center h-full">
+                <CardContent className="p-8">
+                  <div className="mx-auto mb-5 p-4 rounded-2xl glass-lg w-fit group-hover:shadow-glow-sm transition-smooth">
+                    <point.icon className="h-8 w-8 text-secondary" />
+                  </div>
+                  <h4 className="text-lg font-bold text-foreground mb-3">
+                    {point.title}
+                  </h4>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    {point.description}
+                  </p>
+                </CardContent>
+              </div>
+            </div>
           ))}
         </div>
       </div>

@@ -27,42 +27,58 @@ const benefits = [
 
 export default function LoyaltySection() {
   return (
-    <section className="py-24 px-6 bg-card/20">
-      <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+    <section className="relative py-32 px-6 section-glass">
+      {/* Background glass overlay with subtle gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-secondary/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-glass pointer-events-none" />
+
+      <div className="relative container mx-auto">
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-6xl font-bold mb-8 text-gradient-holographic">
             Join The Candy Club Rewards
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Turn every order into rewards. Earn points automatically, refer friends for instant credit, 
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Turn every order into rewards. Earn points automatically, refer friends for instant credit,
             and unlock VIP perks as you level up.
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto mb-16">
           {benefits.map((benefit, index) => (
-            <Card 
-              key={index} 
-              className="bg-gradient-to-br from-primary/10 to-accent/10 border-border/50 backdrop-blur-sm hover:scale-105 transition-bounce group"
-            >
-              <CardContent className="p-6 text-center">
-                <div className="mx-auto mb-4 p-4 rounded-full bg-gradient-holographic w-fit group-hover:shadow-glow transition-smooth">
-                  <benefit.icon className="h-8 w-8 text-foreground" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {benefit.description}
-                </p>
-              </CardContent>
-            </Card>
+            <div key={index} className="group">
+              <div className="glass-card rounded-3xl shadow-glass-xl hover:shadow-glow transition-smooth h-full">
+                <CardContent className="p-8 text-center">
+                  <div className="mx-auto mb-6 p-5 rounded-2xl glass-lg w-fit group-hover:shadow-glow-sm transition-smooth">
+                    <benefit.icon className="h-10 w-10 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-4">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    {benefit.description}
+                  </p>
+                </CardContent>
+              </div>
+            </div>
           ))}
         </div>
-        
+
         <div className="text-center">
-          <Button variant="golden" size="lg" className="text-lg px-8">
-            Sign Up Free
+          <Button
+            size="lg"
+            className="
+              text-xl px-12 py-7 rounded-full font-bold
+              bg-gradient-holographic
+              border border-white/20
+              shadow-golden hover:shadow-glow hover:scale-105
+              transition-smooth
+              relative
+              before:content-[''] before:absolute before:inset-0 before:rounded-full
+              before:bg-gradient-to-b before:from-white/20 before:to-white/5
+              before:pointer-events-none
+            "
+          >
+            <span className="relative z-10">Sign Up Free</span>
           </Button>
         </div>
       </div>

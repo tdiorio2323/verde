@@ -8,77 +8,111 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* CABANA Cannabis Marketplace Design System */
-    --background: 12 15% 8%;
-    --foreground: 45 100% 96%;
+    /* TD Studios Luxury Glass Morphism Design System */
+    --background: 220 35% 6%;
+    --foreground: 210 25% 98%;
 
-    --card: 220 27% 12%;
-    --card-foreground: 45 100% 96%;
+    /* Glass Morphism Cards */
+    --card: 220 30% 14%;
+    --card-foreground: 210 20% 98%;
+    --glass-base: 220 25% 12%;
+    --glass-light: 220 30% 18%;
 
-    --popover: 220 27% 12%;
-    --popover-foreground: 45 100% 96%;
+    --popover: 220 28% 13%;
+    --popover-foreground: 210 20% 98%;
 
-    /* Holographic Primary - Deep Purple/Blue */
-    --primary: 250 75% 60%;
-    --primary-foreground: 45 100% 96%;
-    --primary-glow: 280 100% 70%;
+    /* Electric Blue Primary */
+    --primary: 222 90% 60%;
+    --primary-foreground: 210 20% 98%;
+    --primary-glow: 222 90% 68%;
+    --primary-light: 222 85% 75%;
 
-    /* Cannabis Green Secondary */
-    --secondary: 120 30% 25%;
-    --secondary-foreground: 45 100% 96%;
+    /* Aqua/Cyan Secondary */
+    --secondary: 180 75% 52%;
+    --secondary-foreground: 220 30% 8%;
+    --secondary-glow: 180 75% 60%;
 
-    /* Tropical Accent - Teal/Cyan */
-    --accent: 180 75% 55%;
-    --accent-foreground: 220 27% 12%;
+    /* Purple Accent */
+    --accent: 267 95% 68%;
+    --accent-foreground: 210 20% 98%;
+    --accent-glow: 267 95% 75%;
 
     /* Golden Highlight */
-    --golden: 45 100% 65%;
-    --golden-foreground: 220 27% 12%;
+    --golden: 45 100% 68%;
+    --golden-foreground: 220 30% 8%;
+    --golden-glow: 45 100% 75%;
 
-    --muted: 220 15% 20%;
-    --muted-foreground: 45 30% 70%;
+    --muted: 220 25% 16%;
+    --muted-foreground: 210 18% 68%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 45 100% 96%;
+    --destructive-foreground: 210 20% 98%;
 
-    --border: 220 15% 25%;
-    --input: 220 15% 20%;
-    --ring: 250 75% 60%;
+    /* Glass Borders & Overlays */
+    --border: 220 25% 20%;
+    --border-glass: 220 30% 28%;
+    --input: 220 25% 16%;
+    --ring: 222 90% 60%;
 
     --radius: 1rem;
 
-    /* Gradients for holographic effects */
-    --gradient-holographic: linear-gradient(135deg, 
-      hsl(250 75% 60%) 0%,
-      hsl(280 100% 70%) 25%,
-      hsl(180 75% 55%) 50%,
-      hsl(45 100% 65%) 75%,
-      hsl(250 75% 60%) 100%);
-    
-    --gradient-tropical: linear-gradient(180deg,
-      hsl(45 80% 20%) 0%,
-      hsl(25 60% 15%) 100%);
+    /* Premium Gradients */
+    --gradient-holographic: linear-gradient(135deg,
+      hsl(222 90% 60% / 1) 0%,
+      hsl(267 95% 68% / 1) 35%,
+      hsl(180 75% 52% / 1) 70%,
+      hsl(45 100% 68% / 1) 100%);
 
-    /* Shadows with glow effects */
-    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
-    --shadow-golden: 0 10px 40px -10px hsl(var(--golden) / 0.3);
-    
-    /* Animations */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --gradient-glass: linear-gradient(135deg,
+      hsl(222 85% 58% / 0.12) 0%,
+      hsl(267 92% 66% / 0.12) 50%,
+      hsl(180 70% 50% / 0.12) 100%);
 
-    --sidebar-background: 220 27% 10%;
-    --sidebar-foreground: 45 30% 70%;
-    --sidebar-primary: 250 75% 60%;
-    --sidebar-primary-foreground: 45 100% 96%;
-    --sidebar-accent: 220 15% 20%;
-    --sidebar-accent-foreground: 45 100% 96%;
-    --sidebar-border: 220 15% 25%;
-    --sidebar-ring: 250 75% 60%;
+    --gradient-chrome: linear-gradient(180deg,
+      hsl(220 30% 14%) 0%,
+      hsl(220 35% 9%) 100%);
+
+    --gradient-glass-shine: linear-gradient(to bottom right,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0) 100%);
+
+    --gradient-overlay: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.03) 100%);
+
+    /* Luxury Shadows & Glows */
+    --shadow-glow: 0 0 60px hsl(var(--primary) / 0.35);
+    --shadow-glow-sm: 0 0 30px hsl(var(--primary) / 0.25);
+    --shadow-golden: 0 10px 50px -10px hsl(var(--golden) / 0.5);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --shadow-glass-xl: 0 20px 60px -10px rgba(0, 0, 0, 0.5);
+    --shadow-inset-glass: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    --shadow-glass-border: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    /* Premium Animations */
+    --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-glass: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Backdrop Blur Levels */
+    --blur-sm: 8px;
+    --blur-md: 16px;
+    --blur-lg: 24px;
+    --blur-xl: 32px;
+
+    --sidebar-background: 220 30% 10%;
+    --sidebar-foreground: 210 15% 65%;
+    --sidebar-primary: 222 90% 60%;
+    --sidebar-primary-foreground: 210 20% 98%;
+    --sidebar-accent: 220 25% 16%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 220 25% 20%;
+    --sidebar-ring: 222 90% 60%;
   }
 
   .dark {
-    /* Using main tropical theme - no separate dark mode needed */
+    /* Using main dark luxury theme - no separate dark mode needed */
   }
 }
 
@@ -98,5 +132,142 @@ All colors MUST be HSL.
     50% {
       transform: translateY(-10px);
     }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px);
+    }
+    25% {
+      transform: translateY(-10px) translateX(5px);
+    }
+    50% {
+      transform: translateY(-5px) translateX(-5px);
+    }
+    75% {
+      transform: translateY(-15px) translateX(3px);
+    }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+    }
+  }
+}
+
+@layer components {
+  /* Glass Morphism Base Classes */
+  .glass {
+    @apply bg-white/[0.08] backdrop-blur-xl border border-white/[0.15];
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-sm {
+    @apply bg-white/[0.06] backdrop-blur-lg border border-white/[0.12];
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-md {
+    @apply bg-white/[0.08] backdrop-blur-xl border border-white/[0.15];
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-lg {
+    @apply bg-white/[0.10] backdrop-blur-2xl border border-white/[0.18];
+    box-shadow: var(--shadow-glass-xl);
+  }
+
+  .glass-card {
+    @apply bg-white/[0.08] backdrop-blur-2xl border border-white/[0.15] rounded-2xl;
+    box-shadow: var(--shadow-glass);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-glass-shine);
+    pointer-events: none;
+  }
+
+  .glass-card:hover::before {
+    animation: shimmer 2s ease-in-out;
+  }
+
+  /* Premium Button Styles */
+  .btn-holographic {
+    @apply relative font-bold text-foreground rounded-full px-6 py-3;
+    background: var(--gradient-holographic);
+    box-shadow: var(--shadow-glow-sm);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: var(--transition-smooth);
+  }
+
+  .btn-holographic::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    pointer-events: none;
+  }
+
+  .btn-holographic:hover {
+    box-shadow: var(--shadow-golden);
+    transform: translateY(-2px);
+  }
+
+  .btn-glass {
+    @apply glass rounded-full px-6 py-3 font-semibold;
+    transition: var(--transition-glass);
+  }
+
+  .btn-glass:hover {
+    @apply bg-white/[0.12] border-white/[0.25];
+    transform: translateY(-2px);
+  }
+
+  /* Text Gradient Classes */
+  .text-gradient-holographic {
+    background: var(--gradient-holographic);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Section Backgrounds */
+  .section-glass {
+    @apply relative;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.01) 100%);
+  }
+
+  /* Utility Classes */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

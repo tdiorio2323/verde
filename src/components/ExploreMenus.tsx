@@ -49,67 +49,83 @@ const brands = [
 
 export default function ExploreMenus() {
   return (
-    <section className="py-24 px-6">
-      <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-holographic bg-clip-text text-transparent">
+    <section className="relative py-32 px-6 section-glass">
+      {/* Background glass overlay */}
+      <div className="absolute inset-0 bg-gradient-glass pointer-events-none" />
+
+      <div className="relative container mx-auto">
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-gradient-holographic">
             Featured Drops & Local Favorites
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Browse top-rated dispensaries near you. Each menu features lab-tested products, 
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Browse top-rated dispensaries near you. Each menu features lab-tested products,
             real customer reviews, and fast delivery times.
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {brands.map((brand, index) => (
-            <Card 
-              key={index} 
-              className="bg-card/50 border-border/50 backdrop-blur-sm hover:scale-105 hover:shadow-glow transition-smooth group overflow-hidden"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={brand.image} 
-                  alt={brand.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-smooth"
-                />
-                <Badge className="absolute top-3 right-3 bg-accent text-accent-foreground">
-                  {brand.badge}
-                </Badge>
+            <div key={index} className="group">
+              <div className="glass-card rounded-3xl overflow-hidden shadow-glass-xl hover:shadow-glow transition-smooth">
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={brand.image}
+                    alt={brand.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-smooth"
+                  />
+                  {/* Image overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <Badge className="absolute top-4 right-4 glass border border-white/20 text-foreground font-bold px-4 py-1.5 text-sm shadow-glass">
+                    {brand.badge}
+                  </Badge>
+                </div>
+
+                <CardHeader className="space-y-3 pb-4">
+                  <CardTitle className="text-2xl text-foreground font-bold">
+                    {brand.name}
+                  </CardTitle>
+                  <CardDescription className="text-base text-gradient-holographic font-semibold">
+                    {brand.specialty}
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="space-y-5 pt-0">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <Star className="h-5 w-5 fill-golden text-golden" />
+                      <span className="font-bold text-foreground text-base">{brand.rating}</span>
+                      <span className="text-muted-foreground">({brand.reviews})</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      <span className="font-medium">{brand.distance}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Clock className="h-5 w-5" />
+                    <span className="font-medium">{brand.deliveryTime}</span>
+                  </div>
+
+                  <Button
+                    className="
+                      w-full rounded-full py-6 font-bold text-base
+                      bg-gradient-holographic
+                      border border-white/20
+                      shadow-glow-sm hover:shadow-golden hover:scale-[1.02]
+                      transition-smooth
+                      relative
+                      before:content-[''] before:absolute before:inset-0 before:rounded-full
+                      before:bg-gradient-to-b before:from-white/20 before:to-white/5
+                      before:pointer-events-none
+                    "
+                  >
+                    <span className="relative z-10">View Menu</span>
+                  </Button>
+                </CardContent>
               </div>
-              
-              <CardHeader>
-                <CardTitle className="text-xl text-foreground">
-                  {brand.name}
-                </CardTitle>
-                <CardDescription className="text-accent font-medium">
-                  {brand.specialty}
-                </CardDescription>
-              </CardHeader>
-              
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-golden text-golden" />
-                    <span className="font-semibold text-foreground">{brand.rating}</span>
-                    <span className="text-muted-foreground">({brand.reviews})</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    <span>{brand.distance}</span>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="h-4 w-4" />
-                  <span>{brand.deliveryTime}</span>
-                </div>
-                
-                <Button variant="holographic" className="w-full">
-                  View Menu
-                </Button>
-              </CardContent>
-            </Card>
+            </div>
           ))}
         </div>
       </div>

@@ -12,7 +12,7 @@ interface CartItem {
 }
 
 export default function Dashboard() {
-  const [selectedCategory, setSelectedCategory] = useState("flower");
+  const [selectedCategory, setSelectedCategory] = useState("pre-packaged-flower");
   const [cart, setCart] = useState<CartItem[]>([]);
 
   const filtered = products.filter(p => p.category === selectedCategory);
@@ -31,32 +31,40 @@ export default function Dashboard() {
 
   return (
     <main
-      className="min-h-screen text-white bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: 'url(/candy-shop.png)' }}
+      className="min-h-screen text-white bg-cover bg-center bg-no-repeat relative"
+      style={{ backgroundImage: 'url(/images/twitter-image-short.jpg)' }}
     >
-      {/* Header */}
-      <div className="bg-black/80 backdrop-blur-sm border-b border-white/10 p-4">
+      {/* Background overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-glass pointer-events-none" />
+
+      {/* Header with luxury glass morphism */}
+      <div className="relative glass-lg border-b border-border-glass/50 p-6 shadow-glass-xl">
         <div className="flex justify-center">
           <img
-            src="/candy-main-logo.png"
-            alt="Candyman Exotics"
-            className="h-16 w-auto drop-shadow-lg"
+            src="/images/td-studios-logo.png"
+            alt="TD Studios"
+            className="h-36 w-auto animate-breathe"
+            style={{
+              filter: 'drop-shadow(0 0 35px rgba(59, 130, 246, 0.3))'
+            }}
           />
         </div>
       </div>
 
-      {/* Category Slider */}
-      <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-white/10">
-        <div className="flex overflow-x-auto gap-2 px-4 py-3">
+      {/* Category Slider with premium glass styling */}
+      <div className="relative sticky top-0 z-20 glass-md border-b border-border-glass/50 shadow-glass">
+        <div className="flex overflow-x-auto gap-3 px-6 py-4 scrollbar-hide">
           {categories.map(cat => (
             <Button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
               className={`
-                rounded-full px-5 py-2 text-sm font-semibold
+                rounded-full px-6 py-3 text-sm font-bold whitespace-nowrap
+                transition-glass
                 ${cat.id === selectedCategory
-                  ? "bg-gradient-to-r from-fuchsia-400 via-amber-300 to-cyan-300 text-black"
-                  : "bg-white/8 text-white/80 ring-1 ring-white/10 hover:bg-white/12"}
+                  ? "bg-gradient-holographic text-foreground shadow-glow-sm border border-white/20"
+                  : "glass-sm text-white/90 hover:bg-white/[0.12] hover:border-white/[0.25]"}
               `}
               variant="ghost"
             >
@@ -66,59 +74,82 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Product List */}
-      <div className="space-y-4 px-4 py-6">
+      {/* Product List with luxury cards */}
+      <div className="relative space-y-5 px-6 py-8 pb-32">
         {filtered.map(p => (
-          <Card
+          <div
             key={p.id}
             className="
-              flex items-center gap-4 p-4
+              glass-card
               rounded-3xl
-              bg-white/6 backdrop-blur-2xl
-              ring-1 ring-white/10 hover:ring-white/20
-              shadow-[0_10px_30px_rgba(0,0,0,0.35)]
-              transition
+              shadow-glass-xl
+              hover:shadow-glow-sm
+              transition-glass
+              overflow-hidden
             "
           >
-            <img
-              src={p.image}
-              alt={p.name}
-              className="w-16 h-16 rounded-2xl object-cover ring-1 ring-white/15 bg-black/30"
-            />
-            <div className="flex-1">
-              <h3 className="font-semibold text-white/95">{p.name}</h3>
-              <p className="text-sm font-semibold text-amber-300">${p.price.toFixed(2)}</p>
+            <div className="flex items-center gap-5 p-5">
+              <div className="relative">
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  className="w-20 h-20 rounded-2xl object-cover ring-2 ring-white/[0.15] shadow-glass"
+                />
+                {/* Subtle shine effect on image */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-foreground text-lg truncate">{p.name}</h3>
+                <p className="text-base font-bold text-gradient-holographic">${p.price.toFixed(2)}</p>
+              </div>
+              <Button
+                onClick={() => addToCart(p)}
+                className="
+                  relative rounded-full px-6 py-3 text-sm font-bold
+                  bg-gradient-holographic
+                  text-foreground
+                  shadow-glow-sm
+                  hover:shadow-golden hover:scale-105
+                  transition-smooth
+                  border border-white/20
+                  before:content-[''] before:absolute before:inset-0 before:rounded-full
+                  before:bg-gradient-to-b before:from-white/20 before:to-white/5
+                  before:pointer-events-none
+                "
+              >
+                <span className="relative z-10">Add</span>
+              </Button>
             </div>
-            <Button
-              onClick={() => addToCart(p)}
-              className="
-                relative rounded-full px-4 py-2 text-sm font-bold text-slate-900
-                bg-gradient-to-r from-fuchsia-300 via-amber-200 to-cyan-300
-                shadow-[0_8px_24px_rgba(0,0,0,0.35)]
-                hover:opacity-95
-                before:content-[''] before:absolute before:inset-0 before:rounded-full
-                before:bg-[linear-gradient(to_bottom,rgba(255,255,255,0.65),rgba(255,255,255,0.08))]
-                before:pointer-events-none
-              "
-            >
-              Add to Cart
-            </Button>
-          </Card>
+          </div>
         ))}
       </div>
 
-      {/* Checkout Bar */}
+      {/* Luxury Checkout Bar */}
       {cart.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-md border-t border-white/10 p-4 flex justify-between items-center z-30">
-          <div>
-            <p className="font-medium text-white">
-              {totalItems} item{totalItems > 1 ? "s" : ""}
-            </p>
-            <p className="text-green-400 font-bold text-lg">${totalPrice.toFixed(2)}</p>
+        <div className="fixed bottom-0 left-0 right-0 z-30 glass-lg border-t border-border-glass/50 shadow-glass-xl">
+          <div className="container mx-auto px-6 py-5 flex justify-between items-center">
+            <div className="space-y-1">
+              <p className="font-semibold text-foreground text-sm">
+                {totalItems} item{totalItems > 1 ? "s" : ""}
+              </p>
+              <p className="text-gradient-holographic font-bold text-2xl">${totalPrice.toFixed(2)}</p>
+            </div>
+            <button
+              className="
+                relative rounded-full px-10 py-4 font-bold text-lg
+                bg-gradient-holographic
+                text-foreground
+                shadow-glow hover:shadow-golden hover:scale-105
+                transition-smooth
+                border border-white/20
+                before:content-[''] before:absolute before:inset-0 before:rounded-full
+                before:bg-gradient-to-b before:from-white/20 before:to-white/5
+                before:pointer-events-none
+              "
+            >
+              <span className="relative z-10">Checkout</span>
+            </button>
           </div>
-          <button className="bg-gradient-to-r from-green-400 to-emerald-500 text-black font-bold px-8 py-3 rounded-full hover:opacity-90">
-            Checkout
-          </button>
         </div>
       )}
     </main>

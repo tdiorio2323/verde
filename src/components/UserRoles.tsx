@@ -49,52 +49,69 @@ const roles = [
 
 export default function UserRoles() {
   return (
-    <section className="py-24 px-6">
-      <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-holographic bg-clip-text text-transparent">
+    <section className="relative py-32 px-6 bg-gradient-to-b from-background via-glass-base to-background">
+      {/* Background glass overlay */}
+      <div className="absolute inset-0 bg-gradient-glass pointer-events-none" />
+
+      <div className="relative container mx-auto">
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-gradient-holographic">
             A Platform Built for Everyone
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Whether you're ordering your favorites, growing your brand, or managing the marketplace, 
-            The Candy Shop delivers the tools you need to succeed.
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Whether you're ordering your favorites, growing your brand, or managing the marketplace,
+            TD Studios delivers the tools you need to succeed.
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+        <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto">
           {roles.map((role, index) => (
-            <Card key={index} className="bg-card/50 border-border/50 backdrop-blur-sm hover:scale-105 transition-bounce group">
-              <CardHeader className="text-center">
-                <div className="mx-auto mb-4 p-4 rounded-full bg-primary/20 w-fit group-hover:shadow-glow transition-smooth">
-                  <role.icon className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="text-2xl font-bold text-foreground">
-                  {role.title}
-                </CardTitle>
-                <CardDescription className="text-accent font-medium">
-                  {role.subtitle}
-                </CardDescription>
-              </CardHeader>
-              
-              <CardContent className="space-y-6">
-                <p className="text-muted-foreground leading-relaxed">
-                  {role.description}
-                </p>
-                
-                <ul className="space-y-2">
-                  {role.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center text-sm text-foreground/80">
-                      <div className="w-2 h-2 bg-accent rounded-full mr-3 flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                <Button variant={role.ctaVariant} className="w-full">
-                  {role.cta}
-                </Button>
-              </CardContent>
-            </Card>
+            <div key={index} className="group">
+              <div className="glass-card rounded-3xl shadow-glass-xl hover:shadow-glow transition-smooth h-full">
+                <CardHeader className="text-center pt-10 pb-8">
+                  <div className="mx-auto mb-6 p-6 rounded-2xl glass-lg w-fit group-hover:shadow-glow-sm transition-smooth">
+                    <role.icon className="h-10 w-10 text-primary" />
+                  </div>
+                  <CardTitle className="text-3xl font-bold text-foreground mb-3">
+                    {role.title}
+                  </CardTitle>
+                  <CardDescription className="text-lg text-gradient-holographic font-semibold">
+                    {role.subtitle}
+                  </CardDescription>
+                </CardHeader>
+
+                <CardContent className="space-y-8 px-8 pb-10">
+                  <p className="text-muted-foreground leading-relaxed text-base">
+                    {role.description}
+                  </p>
+
+                  <ul className="space-y-4">
+                    {role.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start text-sm text-foreground">
+                        <div className="w-2.5 h-2.5 bg-gradient-holographic rounded-full mr-4 mt-1.5 flex-shrink-0" />
+                        <span className="font-medium">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button
+                    className="
+                      w-full rounded-full py-6 font-bold text-base
+                      bg-gradient-holographic
+                      border border-white/20
+                      shadow-glow-sm hover:shadow-golden hover:scale-[1.02]
+                      transition-smooth
+                      relative
+                      before:content-[''] before:absolute before:inset-0 before:rounded-full
+                      before:bg-gradient-to-b before:from-white/20 before:to-white/5
+                      before:pointer-events-none
+                    "
+                  >
+                    <span className="relative z-10">{role.cta}</span>
+                  </Button>
+                </CardContent>
+              </div>
+            </div>
           ))}
         </div>
       </div>

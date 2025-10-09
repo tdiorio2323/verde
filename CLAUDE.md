@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React + TypeScript + Vite project called "Green Glide" (branded as CABANA Cannabis Marketplace), a cannabis marketplace web application built with shadcn/ui components and Tailwind CSS. The project is managed via Lovable.dev and follows a single-page application (SPA) architecture.
+This is a React + TypeScript + Vite project called "TD Canna App" (branded as CABANA Cannabis Marketplace), a cannabis marketplace web application built with shadcn/ui components and Tailwind CSS. The project is a TD Studios showcase platform for dispensary-style storefronts, managed via Lovable.dev, and follows a single-page application (SPA) architecture.
 
 ## Development Commands
 
@@ -54,18 +54,18 @@ src/
 
 ### Design System
 
-The project uses a **CABANA tropical/holographic cannabis marketplace** design system defined in `src/index.css`:
+The project uses a **TD Studios platform design system** with electric blue, aqua, and purple colors defined in `src/index.css`:
 
 - **Colors**: All colors use HSL format with CSS custom properties
-  - Primary: Deep purple/blue holographic (`--primary: 250 75% 60%`)
-  - Secondary: Cannabis green (`--secondary: 120 30% 25%`)
-  - Accent: Tropical teal/cyan (`--accent: 180 75% 55%`)
+  - Primary: Electric blue (`--primary: 222 85% 58%`)
+  - Secondary: Aqua (`--secondary: 180 70% 50%`)
+  - Accent: Purple (`--accent: 267 92% 66%`)
   - Golden: Highlight color (`--golden: 45 100% 65%`)
-  - Background: Dark warm brown (`--background: 12 15% 8%`)
+  - Background: Dark blue-gray (`--background: 220 30% 8%`)
 - **Gradients**:
-  - `--gradient-holographic`: Multi-color holographic effect (purple → magenta → cyan → gold)
-  - `--gradient-tropical`: Warm brown gradient
-- **Shadows**: Glow effects via `--shadow-glow` and `--shadow-golden`
+  - `--gradient-glass`: Multi-color glass effect (blue → purple → aqua)
+  - `--gradient-chrome`: Dark chrome gradient
+- **Shadows**: Glow effects via `--shadow-glow`, `--shadow-golden`, and `--shadow-glass`
 - **Animations**: Custom timing functions (`--transition-smooth`, `--transition-bounce`)
 - **Theme**: Uses dark theme by default (no separate dark mode toggle needed)
 
