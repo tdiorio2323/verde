@@ -76,20 +76,25 @@ export default {
 				}
 			},
 			backgroundImage: {
-				'gradient-holographic': 'var(--gradient-holographic)',
+				'gradient-holographic': 'var(--gradient-chrome-metallic)',
+				'gradient-chrome-metallic': 'var(--gradient-chrome-metallic)',
 				'gradient-glass': 'var(--gradient-glass)',
 				'gradient-chrome': 'var(--gradient-chrome)',
 				'gradient-glass-shine': 'var(--gradient-glass-shine)',
-				'gradient-overlay': 'var(--gradient-overlay)'
+				'gradient-overlay': 'var(--gradient-overlay)',
+				'gradient-liquid-glass': 'var(--gradient-liquid-glass)',
+				'gradient-frosted': 'var(--gradient-frosted)'
 			},
 			boxShadow: {
 				'glow': 'var(--shadow-glow)',
 				'glow-sm': 'var(--shadow-glow-sm)',
-				'golden': 'var(--shadow-golden)',
+				'golden': 'var(--shadow-silver)',
+				'silver': 'var(--shadow-silver)',
 				'glass': 'var(--shadow-glass)',
 				'glass-xl': 'var(--shadow-glass-xl)',
 				'inset-glass': 'var(--shadow-inset-glass)',
-				'glass-border': 'var(--shadow-glass-border)'
+				'glass-border': 'var(--shadow-glass-border)',
+				'metallic': 'var(--shadow-metallic)'
 			},
 			backdropBlur: {
 				'xs': '4px',
@@ -154,10 +159,10 @@ export default {
 				},
 				'glow-pulse': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px rgba(59, 130, 246, 0.3)'
+						boxShadow: '0 0 20px rgba(255, 255, 255, 0.2)'
 					},
 					'50%': {
-						boxShadow: '0 0 40px rgba(59, 130, 246, 0.6)'
+						boxShadow: '0 0 40px rgba(255, 255, 255, 0.3)'
 					}
 				},
 				'breathe': {

@@ -54,22 +54,37 @@ src/
 
 ### Design System
 
-The project uses a **TD Studios platform design system** with electric blue, aqua, and purple colors defined in `src/index.css`:
+The project uses a **chrome silver luxury glass morphism design system** with metallic silver tones defined in `src/index.css`:
 
 - **Colors**: All colors use HSL format with CSS custom properties
-  - Primary: Electric blue (`--primary: 222 85% 58%`)
-  - Secondary: Aqua (`--secondary: 180 70% 50%`)
-  - Accent: Purple (`--accent: 267 92% 66%`)
-  - Golden: Highlight color (`--golden: 45 100% 65%`)
-  - Background: Dark blue-gray (`--background: 220 30% 8%`)
+  - Primary: Chrome silver (`--primary: 0 0% 75%`)
+  - Secondary: Platinum (`--secondary: 0 0% 60%`)
+  - Accent: Steel (`--accent: 0 0% 50%`)
+  - Golden: Silver highlight (`--golden: 0 0% 80%`)
+  - Background: Deep black (`--background: 0 0% 4%`)
 - **Gradients**:
-  - `--gradient-glass`: Multi-color glass effect (blue → purple → aqua)
-  - `--gradient-chrome`: Dark chrome gradient
-- **Shadows**: Glow effects via `--shadow-glow`, `--shadow-golden`, and `--shadow-glass`
-- **Animations**: Custom timing functions (`--transition-smooth`, `--transition-bounce`)
+  - `--gradient-chrome-metallic`: Multi-stop chrome silver gradient
+  - `--gradient-liquid-glass`: Frosted glass overlay
+  - `--gradient-glass-shine`: Shimmer effect for glass cards
+- **Shadows**: Chrome glow effects via `--shadow-glow`, `--shadow-silver`, and `--shadow-metallic`
+- **Animations**: Custom timing functions (`--transition-smooth`, `--transition-bounce`, `--transition-glass`, `--transition-liquid`)
+- **Backdrop Blur**: Five levels from `--blur-sm` (8px) to `--blur-2xl` (40px)
 - **Theme**: Uses dark theme by default (no separate dark mode toggle needed)
 
 **IMPORTANT**: When adding new colors, they MUST be defined as HSL values in `src/index.css` and referenced via CSS custom properties. The design system extends into `tailwind.config.ts` where color utilities like `bg-golden` or `text-primary-glow` are defined.
+
+### Glass Morphism Component Classes
+
+The design system includes pre-built glass morphism utility classes in `src/index.css`:
+
+- `.glass`, `.glass-sm`, `.glass-md`, `.glass-lg` - Frosted glass backgrounds with varying opacity
+- `.glass-card` - Full glass card with shimmer animation on hover
+- `.liquid-glass` - Advanced liquid glass effect with gradient border
+- `.btn-holographic` - Chrome metallic button with silver gradient
+- `.btn-glass` - Frosted glass button
+- `.text-gradient-holographic`, `.text-gradient-chrome` - Metallic text gradients
+
+Use these classes instead of creating custom glass effects.
 
 ### Key Technical Details
 
