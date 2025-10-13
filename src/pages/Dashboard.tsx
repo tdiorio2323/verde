@@ -1,159 +1,154 @@
-import { useState } from "react";
-import { categories } from "@/data/categories";
-import products from "@/data/products";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ShopView from "@/components/dashboard/ShopView";
+import CartDrawer from "@/components/dashboard/CartDrawer";
+import OrderTracking from "@/components/dashboard/OrderTracking";
+import DriverView from "@/components/dashboard/DriverView";
+import AdminView from "@/components/dashboard/AdminView";
+import CheckoutModal from "@/components/dashboard/CheckoutModal";
+import { appActions, selectors, useAppStore, type CheckoutPayload, type Role } from "@/data/store";
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-}
+const roleOptions = [
+  { id: "customer" as const, label: "Customer", description: "Browse, curate, track orders" },
+  { id: "driver" as const, label: "Driver", description: "Live runs & premium handoffs" },
+  { id: "admin" as const, label: "Admin", description: "Command center insights" },
+];
 
-export default function Dashboard() {
-  const [selectedCategory, setSelectedCategory] = useState("pre-packaged-flower");
-  const [cart, setCart] = useState<CartItem[]>([]);
+const Dashboard = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const session = useAppStore(selectors.session);
+  const activeOrder = useAppStore(selectors.activeOrder);
+  const totals = useAppStore(selectors.cartTotals);
+  const cart = useAppStore(selectors.cart);
+  const dispensaries = useAppStore(selectors.dispensaries);
+  const cartItems = cart.items;
+  const dispensaryName = useMemo(() => {
+    const selected = dispensaries.find((item) => item.id === session.selectedDispensaryId);
+    return selected?.name ?? "TD Studios";
+  }, [dispensaries, session.selectedDispensaryId]);
 
-  const filtered = products.filter(p => p.category === selectedCategory);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  const addToCart = (item: typeof products[0]) => {
-    const existing = cart.find((c) => c.id === item.id);
-    if (existing) {
-      setCart(cart.map((c) => (c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c)));
+  useEffect(() => {
+    if (location.pathname.includes("/dashboard/driver") && session.role !== "driver") {
+      appActions.setRole("driver");
+    } else if (location.pathname.includes("/dashboard/admin") && session.role !== "admin") {
+      appActions.setRole("admin");
+    } else if (location.pathname === "/dashboard" && session.role !== "customer") {
+      appActions.setRole("customer");
+    }
+  }, [location.pathname, session.role]);
+
+  const handleRoleChange = (value: string) => {
+    const role = value as Role;
+    if (role === session.role) return;
+    appActions.setRole(role);
+    if (role === "customer") {
+      navigate("/dashboard", { replace: true });
     } else {
-      setCart([...cart, { ...item, quantity: 1 }]);
+      navigate(`/dashboard/${role}`, { replace: true });
     }
   };
 
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const handleCheckoutConfirm = (payload: CheckoutPayload) => {
+    appActions.checkout(payload);
+    setIsCheckoutOpen(false);
+    setIsCartOpen(false);
+  };
+
+  const cartCount = useMemo(
+    () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
+    [cartItems]
+  );
 
   return (
     <main
-      className="min-h-screen text-white bg-cover bg-center bg-no-repeat relative"
+      className="relative min-h-screen bg-cover bg-center bg-no-repeat text-white"
       style={{ backgroundImage: 'url(/images/twitter-image-short.jpg)' }}
     >
-      {/* Background overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-glass pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/65 to-black/85" />
+      <div className="absolute inset-0 bg-gradient-glass" />
 
-      {/* Header with luxury glass morphism */}
-      <div className="relative liquid-glass border-b border-border-glass/50 p-6 shadow-glass-xl">
-        <div className="flex justify-center">
-          <img
-            src="/images/td-studios-logo.png"
-            alt="TD Studios"
-            className="h-36 w-auto animate-breathe metallic-glow"
-            style={{
-              filter: 'drop-shadow(0 0 35px rgba(255, 255, 255, 0.2))'
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Category Slider with premium glass styling */}
-      <div className="relative sticky top-0 z-20 liquid-glass border-b border-border-glass/50 shadow-glass chrome-reflect">
-        <div className="flex overflow-x-auto gap-3 px-6 py-4 scrollbar-hide">
-          {categories.map(cat => (
-            <Button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`
-                rounded-full px-6 py-3 text-sm font-bold whitespace-nowrap
-                transition-glass
-                ${cat.id === selectedCategory
-                  ? "btn-holographic text-background shadow-glow-sm border border-white/30"
-                  : "glass-sm text-white/90 hover:bg-white/[0.12] hover:border-white/[0.25]"}
-              `}
-              variant="ghost"
-            >
-              {cat.name}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      {/* Product List with luxury cards */}
-      <div className="relative space-y-5 px-6 py-8 pb-32">
-        {filtered.map(p => (
-          <div
-            key={p.id}
-            className="
-              liquid-glass
-              rounded-3xl
-              shadow-glass-xl
-              hover:shadow-glow-sm
-              transition-glass
-              overflow-hidden
-              border-2 border-white/[0.12]
-              hover:border-white/[0.2]
-            "
-          >
-            <div className="flex items-center gap-5 p-5">
-              <div className="relative">
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="w-20 h-20 rounded-2xl object-cover ring-2 ring-white/[0.15] shadow-glass"
-                />
-                {/* Subtle shine effect on image */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/15 to-transparent pointer-events-none chrome-reflect" />
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-8 px-4 pb-24 pt-12 sm:px-6">
+        <header className="liquid-glass relative overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 shadow-glass-xl sm:p-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-4">
+              <div className="rounded-2xl border border-white/15 bg-white/10 p-3 shadow-inner">
+                <img src="/images/td-studios-logo.png" alt="TD Studios" className="h-16 w-auto" />
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-foreground text-lg truncate">{p.name}</h3>
-                <p className="text-base font-bold text-gradient-chrome">${p.price.toFixed(2)}</p>
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">TD Studios Delivery Cloud</p>
+                <h1 className="bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-3xl font-semibold text-transparent md:text-4xl">
+                  Multi-role experience hub
+                </h1>
               </div>
-              <Button
-                onClick={() => addToCart(p)}
-                className="
-                  relative rounded-full px-6 py-3 text-sm font-bold
-                  btn-holographic
-                  text-background
-                  shadow-glow-sm
-                  hover:shadow-silver hover:scale-105
-                  transition-smooth
-                  border border-white/30
-                  before:content-[''] before:absolute before:inset-0 before:rounded-full
-                  before:bg-gradient-to-b before:from-white/30 before:to-white/10
-                  before:pointer-events-none
-                "
+            </div>
+            <div className="text-sm text-white/70">
+              <p className="font-semibold text-white">Current lounge</p>
+              <p>{dispensaryName}</p>
+              <p>{cartCount} items in cart</p>
+            </div>
+          </div>
+        </header>
+
+        <Tabs value={session.role} onValueChange={handleRoleChange}>
+          <TabsList className="flex w-full flex-col gap-3 rounded-3xl border border-white/15 bg-white/5 p-3 text-white shadow-glass md:flex-row">
+            {roleOptions.map((option) => (
+              <TabsTrigger
+                key={option.id}
+                value={option.id}
+                className="group flex-1 rounded-2xl border border-transparent bg-transparent px-6 py-4 text-left text-sm font-semibold uppercase tracking-[0.2em] text-white/60 transition-all duration-300 data-[state=active]:border-white/20 data-[state=active]:bg-gradient-to-r data-[state=active]:from-sky-400/30 data-[state=active]:via-purple-400/20 data-[state=active]:to-amber-200/20 data-[state=active]:text-white"
               >
-                <span className="relative z-10">Add</span>
-              </Button>
+                <div className="space-y-1">
+                  <span className="block text-xs text-white/50">{option.label}</span>
+                  <span className="text-sm normal-case tracking-normal text-white/70 group-data-[state=active]:text-white">
+                    {option.description}
+                  </span>
+                </div>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          <TabsContent value="customer" className="mt-8">
+            <div className="space-y-10">
+              <ShopView onOpenCart={() => setIsCartOpen(true)} />
+              <div className="px-4 pb-16 sm:px-6">
+                <OrderTracking order={activeOrder} onAdvance={appActions.advanceActiveOrderStatus} />
+              </div>
             </div>
-          </div>
-        ))}
+          </TabsContent>
+
+          <TabsContent value="driver" className="mt-8">
+            <div className="px-4 pb-16 sm:px-6">
+              <DriverView />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="admin" className="mt-8">
+            <div className="px-4 pb-16 sm:px-6">
+              <AdminView />
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
 
-      {/* Luxury Checkout Bar */}
-      {cart.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 z-30 liquid-glass border-t border-border-glass/50 shadow-glass-xl">
-          <div className="container mx-auto px-6 py-5 flex justify-between items-center">
-            <div className="space-y-1">
-              <p className="font-semibold text-foreground text-sm">
-                {totalItems} item{totalItems > 1 ? "s" : ""}
-              </p>
-              <p className="text-gradient-chrome font-bold text-2xl">${totalPrice.toFixed(2)}</p>
-            </div>
-            <button
-              className="
-                relative rounded-full px-10 py-4 font-bold text-lg
-                btn-holographic
-                text-background
-                shadow-glow hover:shadow-silver hover:scale-105
-                transition-smooth
-                border border-white/30
-                before:content-[''] before:absolute before:inset-0 before:rounded-full
-                before:bg-gradient-to-b before:from-white/30 before:to-white/10
-                before:pointer-events-none
-              "
-            >
-              <span className="relative z-10">Checkout</span>
-            </button>
-          </div>
-        </div>
-      )}
+      <CartDrawer
+        open={isCartOpen}
+        onOpenChange={setIsCartOpen}
+        onCheckout={() => setIsCheckoutOpen(true)}
+      />
+
+      <CheckoutModal
+        open={isCheckoutOpen}
+        onOpenChange={setIsCheckoutOpen}
+        onConfirm={handleCheckoutConfirm}
+        cartTotal={totals.total}
+      />
     </main>
   );
-}
+};
+
+export default Dashboard;

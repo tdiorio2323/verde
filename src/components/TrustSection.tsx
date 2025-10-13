@@ -70,7 +70,7 @@ export default function TrustSection() {
 
                     {/* Icon Glass Container */}
                     <div className="relative p-5 rounded-2xl glass-lg w-fit mx-auto border border-white/[0.15] group-hover:border-white/[0.25] group-hover:shadow-glow-sm transition-all duration-700 group-hover:scale-110 metallic-glow">
-                      <point.icon className="h-10 w-10 text-accent group-hover:text-foreground transition-colors duration-700" />
+                      <point.icon className="h-10 w-10 text-foreground transition-colors duration-700" />
                     </div>
                   </div>
 

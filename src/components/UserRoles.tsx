@@ -92,7 +92,7 @@ export default function UserRoles() {
 
                     {/* Icon Glass Container */}
                     <div className="relative p-6 rounded-2xl glass-lg w-fit mx-auto border border-white/[0.15] group-hover:border-white/[0.25] group-hover:shadow-glow-sm transition-all duration-700 group-hover:scale-110 metallic-glow">
-                      <role.icon className="h-11 w-11 text-primary group-hover:text-foreground transition-colors duration-700" />
+                      <role.icon className="h-11 w-11 text-foreground transition-colors duration-700" />
                     </div>
                   </div>
 

@@ -13,7 +13,9 @@ export default function App() {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter
+          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+        >
           <Routes>
             {routes.map(r => (
               <Route key={r.path} path={r.path} element={<r.component />} />

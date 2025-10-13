@@ -1,21 +1,7 @@
-import Hero from "@/components/Hero";
-import UserRoles from "@/components/UserRoles";
-import LoyaltySection from "@/components/LoyaltySection";
-import TrustSection from "@/components/TrustSection";
-import ComplianceSection from "@/components/ComplianceSection";
-import Footer from "@/components/Footer";
+import LandingPage from "@/pages/LandingPage";
 
 const Index = () => {
-  return (
-    <main className="min-h-screen bg-background">
-      <Hero />
-      <UserRoles />
-      <LoyaltySection />
-      <TrustSection />
-      <ComplianceSection />
-      <Footer />
-    </main>
-  );
+  return <LandingPage />;
 };
 
 export default Index;

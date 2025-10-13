@@ -43,7 +43,7 @@ export default function Footer() {
               </div>
 
               <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gradient-holographic leading-tight tracking-tight">
-                Built for creators. Designed for scale.
+                Built for Brands. Designed to Scale.
               </h2>
               <p className="text-lg md:text-xl text-muted-foreground/90 mb-12 leading-relaxed max-w-3xl mx-auto">
                 Premium digital infrastructure for modern dispensaries and creative brands.
