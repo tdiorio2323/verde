@@ -1,67 +1,183 @@
-import { Link } from "react-router-dom";
-import LoyaltySection from "@/components/LoyaltySection";
-import TrustSection from "@/components/TrustSection";
-import ComplianceSection from "@/components/ComplianceSection";
+import BackgroundGrid from "@/components/ui/BackgroundGrid";
+import GlowButton from "@/components/ui/GlowButton";
+import Section from "@/components/layout/Section";
+import FeatureCard from "@/components/ui/FeatureCard";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
-import UserRoles from "@/components/UserRoles";
+import { motion } from 'framer-motion';
+import { fr } from '@/lib/motion';
+import { ShoppingCart, ShieldCheck, CreditCard, Zap, Users, TrendingUp, Lock, Truck } from 'lucide-react';
 
 const LandingPage = () => {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-background" />
-        <div className="absolute inset-0">
-          <img
-            src="/images/twitter-image-short.jpg"
-            alt="TD Studios glass morphism backdrop"
-            className="h-full w-full object-cover opacity-70"
+    <main className="relative min-h-screen bg-black text-white">
+      {/* HERO */}
+      <section className="relative isolate overflow-hidden py-28 sm:py-36">
+        <BackgroundGrid />
+        <div className="mx-auto max-w-5xl px-4 relative">
+          <motion.h1
+            variants={fr.fadeUp()}
+            initial="hidden"
+            animate="show"
+            className="text-center text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-transparent"
+          >
+            Curated. On-Demand. Personal.
+          </motion.h1>
+        </div>
+      </section>
+
+      {/* PLATFORM */}
+      <Section id="platform" title="A Platform Built for Everyone" subtitle="For shoppers, creators, and operators.">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <FeatureCard
+            icon={<ShoppingCart size={20} className="text-sky-300" />}
+            title="Shoppers"
+            bullets={[
+              "Licensed inventory only",
+              "Real-time delivery tracking",
+              "Loyalty rewards on every order"
+            ]}
+          />
+          <FeatureCard
+            icon={<Zap size={20} className="text-purple-300" />}
+            title="Creators"
+            bullets={[
+              "Audience tools & analytics",
+              "Insights & monthly payouts",
+              "Partner storefronts"
+            ]}
+          />
+          <FeatureCard
+            icon={<ShieldCheck size={20} className="text-amber-300" />}
+            title="Operators"
+            bullets={[
+              "Age/ID verified checkout",
+              "Menu sync & inventory",
+              "Admin dashboard & reports"
+            ]}
           />
         </div>
-        <div className="relative z-10 mx-auto flex min-h-[80vh] w-full max-w-6xl flex-col items-center justify-center px-6 text-center">
-          <div className="mb-8 flex justify-center">
-            <img
-              src="/images/td-studios-logo.png"
-              alt="TD Studios"
-              className="h-32 w-auto drop-shadow-[0_20px_45px_rgba(80,160,255,0.35)]"
-            />
-          </div>
-          <p className="mb-6 text-sm uppercase tracking-[0.35em] text-white/70">
-            ULTRA PREMIUM DELIVERY EXPERIENCES
-          </p>
-          <h1 className="max-w-3xl bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-5xl font-bold leading-tight text-transparent md:text-6xl">
-            TD Canna Platform - Curated, On Demand, Personal
-          </h1>
-          <p className="mt-6 max-w-2xl text-base text-white/80 md:text-lg">
-            Discover dispensaries across Los Angeles, sync live delivery updates, and manage operations in a single glass-morphism environment crafted by TD Studios.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button
-              asChild
-              size="lg"
-              className="btn-holographic rounded-full px-8 py-6 text-base font-semibold text-background shadow-glow"
-            >
-              <Link to="/dashboard">Enter Platform</Link>
-            </Button>
-            <Button
-              variant="ghost"
-              size="lg"
-              asChild
-              className="rounded-full border border-white/20 bg-white/10 px-8 py-6 text-base font-semibold text-white/80 shadow-glass hover:bg-white/15"
-            >
-              <a href="#roles">View Roles</a>
-            </Button>
-          </div>
+      </Section>
+
+      {/* LOYALTY */}
+      <Section id="loyalty" title="TD Loyalty System" subtitle="Earn credits, unlock tiers, access member benefits.">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <FeatureCard
+            icon={<CreditCard size={20} className="text-sky-300" />}
+            title="Earn Credits"
+            bullets={[
+              "Every purchase adds value",
+              "Auto accrual & tracking",
+              "Redeem at checkout"
+            ]}
+          />
+          <FeatureCard
+            icon={<TrendingUp size={20} className="text-purple-300" />}
+            title="Unlock Tiers"
+            bullets={[
+              "Silver • Gold • Platinum",
+              "Exclusive drops & products",
+              "VIP support access"
+            ]}
+          />
+          <FeatureCard
+            icon={<Users size={20} className="text-amber-300" />}
+            title="Member Benefits"
+            bullets={[
+              "Priority delivery slots",
+              "Verified sellers only",
+              "Early access to launches"
+            ]}
+          />
         </div>
-      </section>
+        <div className="mt-8 flex justify-center">
+          <GlowButton href="/dashboard">Sign Up Free</GlowButton>
+        </div>
+      </Section>
 
-      <section id="roles" className="relative z-10 bg-background/60 backdrop-blur">
-        <UserRoles />
-      </section>
+      {/* WHY TD STUDIOS */}
+      <Section id="why" title="Why TD Studios" subtitle="Because presentation, quality, and trust matter.">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <FeatureCard
+            icon={<ShieldCheck size={20} className="text-sky-300" />}
+            title="Premium Quality"
+            bullets={[
+              "Curated brands only",
+              "Strict quality standards",
+              "No gray-market products"
+            ]}
+          />
+          <FeatureCard
+            icon={<ShieldCheck size={20} className="text-purple-300" />}
+            title="Verified Brands"
+            bullets={[
+              "Licenses on file",
+              "Audit trails maintained",
+              "Public verification badges"
+            ]}
+          />
+          <FeatureCard
+            icon={<Lock size={20} className="text-amber-300" />}
+            title="Secure Payments"
+            bullets={[
+              "PCI-compliant processing",
+              "End-to-end encrypted",
+              "Dispute-ready system"
+            ]}
+          />
+          <FeatureCard
+            icon={<Truck size={20} className="text-sky-300" />}
+            title="Fast Delivery"
+            bullets={[
+              "Optimized routing",
+              "Live ETA tracking",
+              "Full LA coverage"
+            ]}
+          />
+        </div>
+      </Section>
 
-      <LoyaltySection />
-      <TrustSection />
-      <ComplianceSection />
+      {/* COMPLIANCE */}
+      <Section id="compliance" title="Compliance & Transparency" subtitle="Every transaction verified. Every brand licensed. No exceptions.">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <FeatureCard
+            icon={<ShieldCheck size={20} className="text-sky-300" />}
+            title="Age/ID Verification"
+            bullets={[
+              "KYC at signup",
+              "ID re-checks enabled",
+              "Complete audit logs"
+            ]}
+          />
+          <FeatureCard
+            icon={<ShieldCheck size={20} className="text-purple-300" />}
+            title="License Management"
+            bullets={[
+              "Brand uploads required",
+              "Auto expiry alerts",
+              "Reviewer workflow"
+            ]}
+          />
+          <FeatureCard
+            icon={<Lock size={20} className="text-amber-300" />}
+            title="Security First"
+            bullets={[
+              "TLS everywhere",
+              "HSTS enforced",
+              "Abuse monitoring 24/7"
+            ]}
+          />
+          <FeatureCard
+            icon={<ShieldCheck size={20} className="text-sky-300" />}
+            title="Privacy Focused"
+            bullets={[
+              "Data minimization",
+              "Strict access controls",
+              "Auto redaction tools"
+            ]}
+          />
+        </div>
+      </Section>
+
       <Footer />
     </main>
   );

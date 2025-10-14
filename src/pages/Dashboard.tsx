@@ -65,12 +65,22 @@ const Dashboard = () => {
   );
 
   return (
-    <main
-      className="relative min-h-screen bg-cover bg-center bg-no-repeat text-white"
-      style={{ backgroundImage: 'url(/images/twitter-image-short.jpg)' }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/65 to-black/85" />
-      <div className="absolute inset-0 bg-gradient-glass" />
+    <main className="relative min-h-screen text-white">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-slate-900 to-black" />
+
+      {/* Chrome metallic gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-sky-950/20 via-purple-950/30 to-amber-950/20" />
+
+      {/* Animated mesh gradient - subtler for dashboard */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float" />
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-amber-500/15 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+      </div>
+
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
 
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-8 px-4 pb-24 pt-12 sm:px-6">
         <header className="liquid-glass relative overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 shadow-glass-xl sm:p-8">

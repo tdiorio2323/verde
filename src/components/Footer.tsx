@@ -17,83 +17,79 @@ export default function Footer() {
             }} />
 
             {/* Main Glass Container */}
-            <div className="relative liquid-glass p-12 md:p-16 rounded-[2rem] shadow-glass-xl border-2 border-white/[0.15] backdrop-blur-3xl">
+            <div className="relative liquid-glass rounded-[2rem] shadow-glass-xl border-2 border-white/[0.15] backdrop-blur-3xl overflow-hidden">
               {/* Inner Shine */}
               <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white/[0.12] via-transparent to-transparent pointer-events-none chrome-reflect" />
 
-              {/* Logo with Breathing Animation */}
-              <div className="relative flex justify-center mb-10">
-                <div className="relative">
-                  {/* Glow Background */}
-                  <div className="absolute inset-0 blur-3xl opacity-30">
-                    <div className="w-full h-full rounded-full" style={{
-                      background: 'radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%)'
-                    }} />
-                  </div>
-
-                  <img
-                    src="/images/td-studios-logo.png"
-                    alt="TD Studios"
-                    className="relative h-24 md:h-32 w-auto animate-breathe metallic-glow"
-                    style={{
-                      filter: 'drop-shadow(0 4px 40px rgba(255, 255, 255, 0.2))'
-                    }}
-                  />
-                </div>
+              {/* Full-Width Image - Upper Half */}
+              <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden">
+                <img
+                  src="/images/twitter-image-short.jpg"
+                  alt="TD Studios Design Department"
+                  className="w-full h-full object-cover"
+                  style={{
+                    filter: 'drop-shadow(0 4px 40px rgba(255, 255, 255, 0.2))'
+                  }}
+                />
+                {/* Gradient overlay for smooth transition */}
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
 
-              <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gradient-holographic leading-tight tracking-tight">
-                Built for Brands. Designed to Scale.
-              </h2>
-              <p className="text-lg md:text-xl text-muted-foreground/90 mb-12 leading-relaxed max-w-3xl mx-auto">
-                Premium digital infrastructure for modern dispensaries and creative brands.
-              </p>
+              {/* Content Section */}
+              <div className="relative p-12 md:p-16">
+                <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gradient-holographic leading-tight tracking-tight">
+                  Built for Brands. Designed to Scale.
+                </h2>
+                <p className="text-lg md:text-xl text-muted-foreground/90 mb-12 leading-relaxed max-w-3xl mx-auto">
+                  Premium digital infrastructure for modern dispensaries and creative brands.
+                </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-5 justify-center">
-                <div className="relative inline-block">
-                  {/* Button Glow Background */}
-                  <div className="absolute inset-0 rounded-full blur-xl opacity-40 group-hover:opacity-60 transition-smooth" style={{
-                    background: 'radial-gradient(ellipse, rgba(255, 255, 255, 0.3) 0%, transparent 70%)'
-                  }} />
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-5 justify-center">
+                  <div className="relative inline-block">
+                    {/* Button Glow Background */}
+                    <div className="absolute inset-0 rounded-full blur-xl opacity-40 group-hover:opacity-60 transition-smooth" style={{
+                      background: 'radial-gradient(ellipse, rgba(255, 255, 255, 0.3) 0%, transparent 70%)'
+                    }} />
+
+                    <Button
+                      size="lg"
+                      className="
+                        relative text-lg px-12 py-7 rounded-full font-bold
+                        btn-holographic
+                        text-background
+                        border-2 border-white/30
+                        shadow-glow hover:shadow-silver hover:scale-[1.02] hover:border-white/40
+                        active:scale-[0.98]
+                        transition-all duration-500
+                        before:content-[''] before:absolute before:inset-0 before:rounded-full
+                        before:bg-gradient-to-b before:from-white/30 before:via-white/15 before:to-transparent
+                        before:pointer-events-none
+                      "
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        Get Started
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </span>
+                    </Button>
+                  </div>
 
                   <Button
+                    variant="outline"
                     size="lg"
                     className="
-                      relative text-lg px-12 py-7 rounded-full font-bold
-                      btn-holographic
-                      text-background
-                      border-2 border-white/30
-                      shadow-glow hover:shadow-silver hover:scale-[1.02] hover:border-white/40
+                      text-lg px-12 py-7 rounded-full font-semibold
+                      glass border-2 border-white/[0.15]
+                      hover:bg-white/[0.12] hover:border-white/[0.25] hover:scale-[1.02]
                       active:scale-[0.98]
                       transition-all duration-500
-                      before:content-[''] before:absolute before:inset-0 before:rounded-full
-                      before:bg-gradient-to-b before:from-white/30 before:via-white/15 before:to-transparent
-                      before:pointer-events-none
                     "
                   >
-                    <span className="relative z-10 flex items-center gap-2">
-                      Get Started
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
+                    Learn More
                   </Button>
                 </div>
-
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="
-                    text-lg px-12 py-7 rounded-full font-semibold
-                    glass border-2 border-white/[0.15]
-                    hover:bg-white/[0.12] hover:border-white/[0.25] hover:scale-[1.02]
-                    active:scale-[0.98]
-                    transition-all duration-500
-                  "
-                >
-                  Learn More
-                </Button>
               </div>
             </div>
           </div>

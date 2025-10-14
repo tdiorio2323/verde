@@ -36,7 +36,12 @@ npm run preview
   - App.tsx maps over the routes array to generate `<Route>` elements
   - To add new routes: add entry to `routes` array in `src/routes.ts` ABOVE the catch-all "*" route
   - NotFound page handles 404s
-- **State Management**: TanStack Query (React Query) for server state
+- **State Management**:
+  - Custom store implementation using `useSyncExternalStore` (React 18)
+  - Store defined in `src/data/store.ts` with `useAppStore` hook
+  - Uses derived selectors with memoization to prevent unnecessary re-renders
+  - TanStack Query (React Query) for server state (when needed)
+  - **IMPORTANT**: All selectors must return stable references (see Zustand Selector Stability section)
 - **UI Framework**: shadcn/ui components (~50 components in `src/components/ui/`)
 - **Styling**: Tailwind CSS with custom design system
 
@@ -46,7 +51,13 @@ npm run preview
 src/
 ├── components/        # Feature components (Hero, Footer, etc.)
 │   └── ui/           # shadcn/ui components (auto-generated)
-├── pages/            # Route pages (Index, NotFound)
+├── pages/            # Route pages (LandingPage, Dashboard, NotFound, RoutesDebug)
+├── data/             # Data layer and state management
+│   ├── store.ts      # Custom state store with useSyncExternalStore
+│   ├── products.ts   # Product catalog data
+│   ├── categories.ts # Product categories
+│   ├── dispensaries.ts # Dispensary locations
+│   └── orders.ts     # Order management and mock data
 ├── hooks/            # Custom React hooks (use-mobile, use-toast)
 ├── lib/              # Utilities (utils.ts for cn() helper)
 └── assets/           # Static assets
@@ -139,6 +150,45 @@ Note: The `private` flag is for organizational purposes (e.g., routes requiring 
 ## Current Pages
 
 - `/` - Landing page with OTP authentication
-- `/dashboard` - Main storefront (marked as private)
+- `/dashboard` - Customer Experience storefront (marked as private)
+- `/dashboard/driver` - Driver Console (marked as private)
+- `/dashboard/admin` - Admin Command center (marked as private)
 - `/_routes` - Routes debug page for development
 - `*` - 404 Not Found page
+
+## Zustand Selector Stability
+
+The custom store relies on `useSyncExternalStore`, requiring every selector to return a stable reference to prevent infinite re-renders.
+
+### Rules
+
+- **Memoize derived data**: Wrap multi-field selectors with `createDerivedSelector` (see `src/data/store.ts:173`) and supply an equality check (`shallowEqual`, custom equality functions).
+- **Avoid inline objects/functions**: Instead of `useAppStore(state => ({ foo: state.foo, bar: state.bar }))`, use individual selectors or pre-defined derived selectors.
+- **Cache snapshots**: When adding selectors that compute arrays or objects, ensure they reference existing state objects or return memoized copies.
+- **Use pre-defined selectors**: Import from `selectors` object in `src/data/store.ts:645` when possible.
+
+### Example
+
+```tsx
+// ❌ BAD: Creates new object on every render
+const data = useAppStore(state => ({
+  items: state.cart.items,
+  total: state.cart.total
+}));
+
+// ✅ GOOD: Use separate selectors
+const items = useAppStore(state => state.cart.items);
+const total = useAppStore(state => state.cart.total);
+
+// ✅ BETTER: Use pre-defined derived selector
+const cartTotals = useAppStore(selectors.cartTotals);
+```
+
+### Testing
+
+Before merging changes to the store:
+1. Run `npm run build` to confirm no TypeScript errors
+2. Test in browser DevTools → Console for React's `getSnapshot` warnings
+3. Check that components don't re-render unnecessarily
+
+See `CONTRIBUTING.md` for deployment guidelines.
