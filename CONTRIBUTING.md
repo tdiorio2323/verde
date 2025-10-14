@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Thanks for helping evolve the TD Canna App experience. Please read the patterns below before opening a pull request.
+Thanks for helping evolve the Verde experience. Please read the patterns below before opening a pull request.
 
 ### Zustand Selector Stability
 

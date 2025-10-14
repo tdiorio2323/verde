@@ -19,7 +19,7 @@ const roles = [
   },
   {
     icon: Store,
-    title: "Creators",
+    title: "Brand Owners",
     subtitle: "Build. Engage. Scale.",
     description: "Your brand, your storefront, your audience. Manage menus, track performance, and grow with built-in tools designed for modern brands.",
     features: [

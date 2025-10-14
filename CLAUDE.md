@@ -4,25 +4,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React + TypeScript + Vite project called "TD Canna App" (branded as CABANA Cannabis Marketplace), a cannabis marketplace web application built with shadcn/ui components and Tailwind CSS. The project is a TD Studios showcase platform for dispensary-style storefronts, managed via Lovable.dev, and follows a single-page application (SPA) architecture.
+This is a React + TypeScript + Vite project called "Verde" (branded as CABANA Cannabis Marketplace), a cannabis marketplace web application built with shadcn/ui components and Tailwind CSS. The project is a TD Studios platform for dispensary-style storefronts, managed via Lovable.dev, and follows a single-page application (SPA) architecture.
 
 ## Development Commands
 
+**Package Manager**: Use `pnpm` (preferred) or `npm`. Install dependencies with `pnpm install` or `npm install`.
+
+**Node.js Requirement**: Node.js >= 18.18 and <= 22 (see `package.json` engines field)
+
 ```bash
 # Start development server (runs on port 8080)
-npm run dev
+pnpm dev  # or: npm run dev
 
 # Build for production
-npm run build
+pnpm build  # or: npm run build
 
 # Build for development mode
-npm run build:dev
+pnpm build:dev  # or: npm run build:dev
 
 # Lint the codebase
-npm run lint
+pnpm lint  # or: npm run lint
 
 # Preview production build
-npm run preview
+pnpm preview  # or: npm run preview
 ```
 
 ## Architecture
@@ -41,7 +45,7 @@ npm run preview
   - Store defined in `src/data/store.ts` with `useAppStore` hook
   - Uses derived selectors with memoization to prevent unnecessary re-renders
   - TanStack Query (React Query) for server state (when needed)
-  - **IMPORTANT**: All selectors must return stable references (see Zustand Selector Stability section)
+  - **IMPORTANT**: All selectors must return stable references (see Selector Stability section)
 - **UI Framework**: shadcn/ui components (~50 components in `src/components/ui/`)
 - **Styling**: Tailwind CSS with custom design system
 
@@ -156,9 +160,9 @@ Note: The `private` flag is for organizational purposes (e.g., routes requiring 
 - `/_routes` - Routes debug page for development
 - `*` - 404 Not Found page
 
-## Zustand Selector Stability
+## Selector Stability
 
-The custom store relies on `useSyncExternalStore`, requiring every selector to return a stable reference to prevent infinite re-renders.
+The custom store relies on `useSyncExternalStore` (React 18), requiring every selector to return a stable reference to prevent infinite re-renders. This is NOT Zustand—it's a custom implementation inspired by Zustand patterns.
 
 ### Rules
 
@@ -187,8 +191,8 @@ const cartTotals = useAppStore(selectors.cartTotals);
 ### Testing
 
 Before merging changes to the store:
-1. Run `npm run build` to confirm no TypeScript errors
+1. Run `pnpm build` (or `npm run build`) to confirm no TypeScript errors
 2. Test in browser DevTools → Console for React's `getSnapshot` warnings
 3. Check that components don't re-render unnecessarily
 
-See `CONTRIBUTING.md` for deployment guidelines.
+See `CONTRIBUTING.md` for deployment guidelines and `AGENTS.md` for commit conventions.

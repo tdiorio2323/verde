@@ -39,7 +39,7 @@ const LandingPage = () => {
           />
           <FeatureCard
             icon={<Zap size={20} className="text-purple-300" />}
-            title="Creators"
+            title="Brand Owners"
             bullets={[
               "Audience tools & analytics",
               "Insights & monthly payouts",
