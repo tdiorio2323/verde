@@ -15,15 +15,25 @@ export default function Footer() {
             <div>
               {/* Full-Width Image - Upper Half */}
               <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden">
+                {/* Green gradient background */}
                 <img
-                  src="/images/twitter-image-short.jpg"
-                  alt="TD Studios Design Department building"
+                  src="/images/GreenGradient.png"
+                  alt="Verde brand gradient background"
                   className="w-full h-full object-cover"
-                  style={{
-                    filter: 'drop-shadow(0 4px 40px rgba(255, 255, 255, 0.2))'
-                  }}
                   loading="lazy"
                 />
+                {/* Verde logo overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    src="/images/verde-transparent-logo.png"
+                    alt="Verde Logo"
+                    className="w-64 md:w-96 h-auto"
+                    style={{
+                      filter: 'drop-shadow(0 8px 60px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.2))'
+                    }}
+                    loading="lazy"
+                  />
+                </div>
                 {/* Gradient overlay for smooth transition */}
                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true" />
               </div>
