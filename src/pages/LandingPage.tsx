@@ -14,6 +14,18 @@ const LandingPage = () => {
       <section className="relative isolate overflow-hidden py-28 sm:py-36">
         <BackgroundGrid />
         <div className="mx-auto max-w-5xl px-4 relative">
+          <motion.div
+            variants={fr.fadeUp()}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col items-center gap-8 mb-8"
+          >
+            <img
+              src="/images/verde-transparent-logo.png"
+              alt="Verde Logo"
+              className="w-48 sm:w-64 md:w-80 h-auto"
+            />
+          </motion.div>
           <motion.h1
             variants={fr.fadeUp()}
             initial="hidden"

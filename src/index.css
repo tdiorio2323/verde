@@ -113,6 +113,13 @@ All colors MUST be HSL.
     --blur-xl: 32px;
     --blur-2xl: 40px;
 
+    /* Drop Shadow Effects */
+    --drop-shadow-logo: drop-shadow(0 8px 60px rgba(255, 255, 255, 0.25)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.15));
+
+    /* Animation Delays */
+    --animation-delay-1: 2s;
+    --animation-delay-2: 4s;
+
     --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 65%;
     --sidebar-primary: 0 0% 75%;

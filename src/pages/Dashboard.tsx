@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 import ShopView from "@/components/dashboard/ShopView";
 import CartDrawer from "@/components/dashboard/CartDrawer";
 import OrderTracking from "@/components/dashboard/OrderTracking";
@@ -18,6 +19,7 @@ const roleOptions = [
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const session = useAppStore(selectors.session);
   const activeOrder = useAppStore(selectors.activeOrder);
   const totals = useAppStore(selectors.cartTotals);
@@ -54,9 +56,22 @@ const Dashboard = () => {
   };
 
   const handleCheckoutConfirm = (payload: CheckoutPayload) => {
-    appActions.checkout(payload);
-    setIsCheckoutOpen(false);
-    setIsCartOpen(false);
+    const success = appActions.checkout(payload);
+
+    if (success) {
+      setIsCheckoutOpen(false);
+      setIsCartOpen(false);
+      toast({
+        title: "Order Placed Successfully",
+        description: "Your order has been confirmed and is being prepared.",
+      });
+    } else {
+      toast({
+        title: "Checkout Failed",
+        description: "Your cart is empty. Please add items before checking out.",
+        variant: "destructive",
+      });
+    }
   };
 
   const cartCount = useMemo(
@@ -65,7 +80,7 @@ const Dashboard = () => {
   );
 
   return (
-    <main className="relative min-h-screen text-white">
+    <main id="main-content" className="relative min-h-screen text-white">
       {/* Animated gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-slate-900 to-black" />
 
@@ -75,8 +90,8 @@ const Dashboard = () => {
       {/* Animated mesh gradient - subtler for dashboard */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-amber-500/15 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: 'var(--animation-delay-1)' }} />
+        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-amber-500/15 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: 'var(--animation-delay-2)' }} />
       </div>
 
       {/* Grid pattern overlay */}
@@ -87,7 +102,7 @@ const Dashboard = () => {
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               <div className="rounded-2xl border border-white/15 bg-white/10 p-3 shadow-inner">
-                <img src="/images/td-studios-logo.png" alt="TD Studios" className="h-16 w-auto" />
+                <img src="/images/td-studios-logo.png" alt="TD Studios logo" className="h-16 w-auto" loading="lazy" />
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.3em] text-white/60">TD Studios Delivery Cloud</p>
@@ -105,12 +120,14 @@ const Dashboard = () => {
         </header>
 
         <Tabs value={session.role} onValueChange={handleRoleChange}>
-          <TabsList className="flex w-full flex-col gap-3 rounded-3xl border border-white/15 bg-white/5 p-3 text-white shadow-glass md:flex-row">
+          <TabsList className="flex w-full flex-col gap-3 rounded-3xl border border-white/15 bg-white/5 p-3 text-white shadow-glass md:flex-row" role="tablist" aria-label="Role selection">
             {roleOptions.map((option) => (
               <TabsTrigger
                 key={option.id}
                 value={option.id}
                 className="group flex-1 rounded-2xl border border-transparent bg-transparent px-6 py-4 text-left text-sm font-semibold uppercase tracking-[0.2em] text-white/60 transition-all duration-300 data-[state=active]:border-white/20 data-[state=active]:bg-gradient-to-r data-[state=active]:from-sky-400/30 data-[state=active]:via-purple-400/20 data-[state=active]:to-amber-200/20 data-[state=active]:text-white"
+                role="tab"
+                aria-label={`Switch to ${option.label} view: ${option.description}`}
               >
                 <div className="space-y-1">
                   <span className="block text-xs text-white/50">{option.label}</span>

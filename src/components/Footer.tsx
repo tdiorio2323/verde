@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import GlassCard from "@/components/ui/GlassCard";
 
 export default function Footer() {
   return (
@@ -10,29 +11,21 @@ export default function Footer() {
       <div className="relative container mx-auto px-6 py-24">
         {/* Centered CTA Section with Premium Glass Card */}
         <div className="text-center mb-24 max-w-5xl mx-auto">
-          <div className="relative group">
-            {/* Outer Glow Layer */}
-            <div className="absolute -inset-1 rounded-[2rem] opacity-10 blur-3xl group-hover:opacity-20 transition-smooth" style={{
-              background: 'radial-gradient(ellipse, rgba(255, 255, 255, 0.2) 0%, transparent 70%)'
-            }} />
-
-            {/* Main Glass Container */}
-            <div className="relative liquid-glass rounded-[2rem] shadow-glass-xl border-2 border-white/[0.15] backdrop-blur-3xl overflow-hidden">
-              {/* Inner Shine */}
-              <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white/[0.12] via-transparent to-transparent pointer-events-none chrome-reflect" />
-
+          <GlassCard variant="premium" glow className="shadow-glass-xl overflow-hidden" aria-label="Call to action section">
+            <div>
               {/* Full-Width Image - Upper Half */}
               <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden">
                 <img
                   src="/images/twitter-image-short.jpg"
-                  alt="TD Studios Design Department"
+                  alt="TD Studios Design Department building"
                   className="w-full h-full object-cover"
                   style={{
                     filter: 'drop-shadow(0 4px 40px rgba(255, 255, 255, 0.2))'
                   }}
+                  loading="lazy"
                 />
                 {/* Gradient overlay for smooth transition */}
-                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true" />
               </div>
 
               {/* Content Section */}
@@ -92,7 +85,7 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-          </div>
+          </GlassCard>
         </div>
 
         <Separator className="mb-20 bg-border-glass/20" />

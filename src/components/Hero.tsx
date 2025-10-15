@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import GlassCard from "@/components/ui/GlassCard";
+import Img from "@/components/ui/Img";
 
 export default function Hero() {
   const [code, setCode] = useState("");
@@ -23,10 +25,11 @@ export default function Hero() {
       <div className="absolute inset-0">
         {/* Base Image Layer */}
         <div className="absolute inset-0 scale-105">
-          <img
+          <Img
             src="/images/twitter-image-short.jpg"
-            alt="TD Studios"
+            alt="TD Studios building exterior"
             className="w-full h-full object-cover"
+            loading="eager"
           />
         </div>
       </div>
@@ -35,20 +38,21 @@ export default function Hero() {
       <div className="relative z-10 flex items-center justify-center pt-[10vh] pb-[6vh]">
         <div className="relative">
           {/* Glow Background Layer */}
-          <div className="absolute inset-0 blur-3xl opacity-40">
+          <div className="absolute inset-0 blur-3xl opacity-40" aria-hidden="true">
             <div className="w-full h-full rounded-full" style={{
               background: 'radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)'
             }} />
           </div>
 
           {/* Logo with Enhanced Drop Shadow */}
-          <img
+          <Img
             src="/images/td-studios-logo.png"
-            alt="TD Studios"
+            alt="TD Studios logo"
             className="relative h-64 md:h-80 w-auto drop-shadow-2xl animate-breathe metallic-glow"
             style={{
-              filter: 'drop-shadow(0 8px 60px rgba(255, 255, 255, 0.25)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.15))'
+              filter: 'var(--drop-shadow-logo)'
             }}
+            loading="eager"
           />
         </div>
       </div>
@@ -60,98 +64,89 @@ export default function Hero() {
       <div className="relative z-10 container mx-auto px-6 pb-[10vh] w-full">
         <div className="max-w-xl mx-auto">
           {/* Layered Glass Card with Depth */}
-          <div className="relative group">
-            {/* Outer Glow Layer */}
-            <div className="absolute -inset-1 rounded-[2rem] opacity-20 blur-2xl group-hover:opacity-30 transition-smooth" style={{
-              background: 'radial-gradient(ellipse, rgba(255, 255, 255, 0.2) 0%, transparent 70%)'
-            }} />
-
-            {/* Main Glass Container */}
-            <div className="relative liquid-glass p-10 md:p-12 rounded-[2rem] shadow-glass-xl border-2 border-white/[0.15] backdrop-blur-3xl">
-              {/* Inner Shine Overlay */}
-              <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white/[0.15] via-transparent to-transparent pointer-events-none" />
-
-              <form onSubmit={handleSubmit} className="relative space-y-10">
-                <div className="text-center space-y-6">
-                  <div className="space-y-3">
-                    <h2 className="text-3xl md:text-5xl font-bold text-gradient-holographic leading-tight">
-                      Private Access
-                    </h2>
-                    <p className="text-base md:text-lg text-muted-foreground/90">
-                      Exclusive access for creators, partners, and operators.
-                    </p>
-                  </div>
-
-                  {/* Premium OTP Input with Enhanced Glass Styling */}
-                  <div className="flex justify-center py-6">
-                    <InputOTP
-                      maxLength={6}
-                      value={code}
-                      onChange={(value) => setCode(value)}
-                      className="gap-2"
-                    >
-                      <InputOTPGroup className="gap-3">
-                        {[0, 1, 2, 3, 4, 5].map((index) => (
-                          <InputOTPSlot
-                            key={index}
-                            index={index}
-                            className="
-                              w-14 h-16 md:w-16 md:h-20 rounded-2xl text-2xl font-bold
-                              bg-white/[0.08] backdrop-blur-3xl
-                              border-2 border-white/[0.15]
-                              focus:border-white/[0.4] focus:ring-4 focus:ring-white/30
-                              shadow-glass-xl
-                              text-foreground
-                              transition-all duration-500
-                              hover:bg-white/[0.12] hover:border-white/[0.25] hover:shadow-glow-sm
-                              hover:scale-105
-                              chrome-reflect
-                            "
-                          />
-                        ))}
-                      </InputOTPGroup>
-                    </InputOTP>
-                  </div>
+          <GlassCard variant="premium" glow className="shadow-glass-xl" aria-label="Private Access Form">
+            <form onSubmit={handleSubmit} className="p-10 md:p-12 space-y-10">
+              <div className="text-center space-y-6">
+                <div className="space-y-3">
+                  <h2 className="text-3xl md:text-5xl font-bold text-gradient-holographic leading-tight">
+                    Private Access
+                  </h2>
+                  <p className="text-base md:text-lg text-muted-foreground/90">
+                    Exclusive access for creators, partners, and operators.
+                  </p>
                 </div>
 
-                {/* Chrome Silver Metallic Button */}
-                <div className="relative">
-                  {/* Button Glow Background */}
-                  <div className="absolute inset-0 rounded-full blur-xl opacity-50 group-hover:opacity-70 transition-smooth" style={{
-                    background: 'radial-gradient(ellipse, rgba(255, 255, 255, 0.3) 0%, transparent 70%)'
-                  }} />
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={code.length !== 6}
-                    className="
-                      relative w-full rounded-full px-8 py-7 text-lg md:text-xl font-bold
-                      text-background
-                      border-2 border-white/30
-                      shadow-glow
-                      hover:shadow-glow hover:scale-[1.02] hover:border-white/40
-                      active:scale-[0.98]
-                      transition-all duration-500
-                      disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100
-                      before:content-[''] before:absolute before:inset-0 before:rounded-full
-                      before:bg-gradient-to-b before:from-white/30 before:via-white/15 before:to-transparent
-                      before:pointer-events-none
-                      overflow-hidden
-                      btn-holographic
-                    "
+                {/* Premium OTP Input with Enhanced Glass Styling */}
+                <div className="flex justify-center py-6">
+                  <InputOTP
+                    maxLength={6}
+                    value={code}
+                    onChange={(value) => setCode(value)}
+                    className="gap-2"
                   >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      Access Platform
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
-                  </Button>
+                    <InputOTPGroup className="gap-3">
+                      {[0, 1, 2, 3, 4, 5].map((index) => (
+                        <InputOTPSlot
+                          key={index}
+                          index={index}
+                          className="
+                            w-14 h-16 md:w-16 md:h-20 rounded-2xl text-2xl font-bold
+                            bg-white/[0.08] backdrop-blur-3xl
+                            border-2 border-white/[0.15]
+                            focus:border-white/[0.4] focus:ring-4 focus:ring-white/30
+                            shadow-glass-xl
+                            text-foreground
+                            transition-all duration-500
+                            hover:bg-white/[0.12] hover:border-white/[0.25] hover:shadow-glow-sm
+                            hover:scale-105
+                            chrome-reflect
+                          "
+                          aria-label={`Access code digit ${index + 1}`}
+                        />
+                      ))}
+                    </InputOTPGroup>
+                  </InputOTP>
                 </div>
-              </form>
-            </div>
-          </div>
+              </div>
+
+              {/* Chrome Silver Metallic Button */}
+              <div className="relative">
+                {/* Button Glow Background */}
+                <div className="absolute inset-0 rounded-full blur-xl opacity-50 group-hover:opacity-70 transition-smooth" style={{
+                  background: 'radial-gradient(ellipse, rgba(255, 255, 255, 0.3) 0%, transparent 70%)'
+                }} />
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={code.length !== 6}
+                  className="
+                    relative w-full rounded-full px-8 py-7 text-lg md:text-xl font-bold
+                    text-background
+                    border-2 border-white/30
+                    shadow-glow
+                    hover:shadow-glow hover:scale-[1.02] hover:border-white/40
+                    active:scale-[0.98]
+                    transition-all duration-500
+                    disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100
+                    before:content-[''] before:absolute before:inset-0 before:rounded-full
+                    before:bg-gradient-to-b before:from-white/30 before:via-white/15 before:to-transparent
+                    before:pointer-events-none
+                    overflow-hidden
+                    btn-holographic
+                  "
+                  aria-label="Submit access code and enter platform"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    Access Platform
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
+                </Button>
+              </div>
+            </form>
+          </GlassCard>
 
           {/* Subtle Branding */}
           <div className="mt-8 text-center">

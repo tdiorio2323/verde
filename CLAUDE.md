@@ -33,6 +33,9 @@ pnpm test  # or: npm test
 
 # Run tests once
 pnpm test:run  # or: npm run test:run
+
+# Type check without emitting files
+pnpm typecheck  # or: npm run typecheck
 ```
 
 ## Architecture
@@ -49,7 +52,7 @@ pnpm test:run  # or: npm run test:run
   - Custom store implementation using `useSyncExternalStore` (React 18)
   - Store defined in `src/data/store.ts` with `useAppStore` hook
   - Uses derived selectors with memoization to prevent unnecessary re-renders
-  - TanStack Query (React Query) for server state (when needed)
+  - All data is currently client-side (no server state management)
   - **IMPORTANT**: All selectors must return stable references (see Selector Stability section)
 - **UI Framework**: shadcn/ui components (~50 components in `src/components/ui/`)
 - **Styling**: Tailwind CSS with custom design system

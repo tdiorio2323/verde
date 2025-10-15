@@ -1,15 +1,31 @@
 import { motion } from 'framer-motion';
 import { fr } from '@/lib/motion';
+import { ReactNode } from 'react';
 
+/**
+ * FeatureCard component props interface
+ */
+export interface FeatureCardProps {
+  /** Icon element to display in the card header */
+  icon: ReactNode;
+  /** Title text for the feature */
+  title: string;
+  /** Array of bullet point descriptions */
+  bullets: string[];
+}
+
+/**
+ * FeatureCard component displays a feature with an icon, title, and bullet points.
+ * Includes hover animation effects and glass morphism styling.
+ *
+ * @param props - FeatureCard component props
+ * @returns Animated feature card component
+ */
 export default function FeatureCard({
   icon,
   title,
   bullets
-}: {
-  icon: React.ReactNode;
-  title: string;
-  bullets: string[];
-}) {
+}: FeatureCardProps) {
   return (
     <motion.div
       variants={fr.fadeUp()}

@@ -38,18 +38,40 @@ const ORDER_LABELS: Record<OrderStatus, string> = {
   delivered: "Delivered",
 };
 
+/**
+ * Formats a Date object to a localized time string (e.g., "2:30 PM").
+ *
+ * @param date - The date to format
+ * @returns Formatted time string in 12-hour format with AM/PM
+ */
 const formatTime = (date: Date) =>
   date.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
   });
 
+/**
+ * Adds a specified number of minutes to a Date object.
+ *
+ * @param date - The base date
+ * @param minutes - Number of minutes to add (can be negative)
+ * @returns New Date object with added minutes
+ */
 const addMinutes = (date: Date, minutes: number) => {
   const next = new Date(date);
   next.setMinutes(next.getMinutes() + minutes);
   return next;
 };
 
+/**
+ * Builds a complete order timeline with completion status for each step.
+ * Creates a timeline showing all order statuses from "placed" to "delivered",
+ * marking steps as complete up to and including the target status.
+ *
+ * @param targetStatus - The current order status (determines which steps are complete)
+ * @param baseTime - Base time for calculating step timestamps (defaults to now)
+ * @returns Array of timeline steps with completion status and timestamps
+ */
 const buildTimeline = (targetStatus: OrderStatus, baseTime = new Date()): OrderTimelineStep[] => {
   const targetIndex = ORDER_SEQUENCE.indexOf(targetStatus);
 
@@ -135,6 +157,16 @@ type EqualityFn<T> = (next: T, prev: T) => boolean;
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null;
 
+/**
+ * Performs shallow equality comparison for objects and arrays.
+ * Compares first-level properties/elements using Object.is.
+ * Used by selectors to prevent unnecessary re-renders when data hasn't changed.
+ *
+ * @template T - Object or array type to compare
+ * @param next - New value to compare
+ * @param prev - Previous value to compare
+ * @returns true if values are shallowly equal, false otherwise
+ */
 export const shallowEqual = <T extends Record<string, unknown> | unknown[]>(
   next: T,
   prev: T
@@ -170,6 +202,25 @@ export const shallowEqual = <T extends Record<string, unknown> | unknown[]>(
   return false;
 };
 
+/**
+ * Creates a memoized derived selector with custom equality checking.
+ * Caches the selector result and only recomputes when the state reference changes
+ * or when the computed value is not equal (according to the equality function).
+ * Critical for preventing infinite re-renders in useSyncExternalStore.
+ *
+ * @template T - The type of value returned by the selector
+ * @param selector - Function that derives a value from AppState
+ * @param equality - Optional equality function (defaults to Object.is)
+ * @returns Memoized selector function that returns stable references
+ *
+ * @example
+ * ```ts
+ * const selectCartItems = createDerivedSelector(
+ *   (state) => state.cart.items.map(item => ({ ...item })),
+ *   shallowEqual
+ * );
+ * ```
+ */
 const createDerivedSelector = <T,>(
   selector: (state: AppState) => T,
   equality: EqualityFn<T> = Object.is
@@ -327,6 +378,14 @@ const recalcAdminOrders = (orders: CustomerOrder[]) => {
   }));
 };
 
+/**
+ * Calculates all cart totals including subtotal, fees, taxes, and final total.
+ * Applies free delivery for orders over $150.
+ *
+ * @param cart - Current cart state with tax/service rates and delivery base fee
+ * @param items - Array of cart line items (productId and quantity)
+ * @returns Object containing subtotal, serviceFee, tax, deliveryFee, and total
+ */
 const calculateTotals = (cart: CartState, items: CartLineItem[]) => {
   const currentProducts = store.getState().products;
   const subtotal = items.reduce((sum, item) => {
@@ -486,72 +545,82 @@ export const appActions = {
       })
     );
   },
-  checkout(payload: CheckoutPayload) {
-    const state = store.getState();
-    if (state.cart.items.length === 0) {
-      return;
+  /**
+   * Processes checkout and creates a new order from the current cart.
+   * Clears the cart and sets the new order as active after creation.
+   *
+   * @param payload - Customer information including name, phone, address, and optional notes
+   * @returns boolean - true if checkout succeeded, false if cart was empty
+   */
+  checkout(payload: CheckoutPayload): boolean {
+    // Check if cart is empty before attempting state update
+    if (store.getState().cart.items.length === 0) {
+      return false;
     }
 
-    const selectedDispensary = state.dispensaries.find(
-      (disp) => disp.id === state.session.selectedDispensaryId
-    );
+    store.setState((state) => {
 
-    const { subtotal, serviceFee, tax, deliveryFee, total } = calculateTotals(
-      state.cart,
-      state.cart.items
-    );
+      const selectedDispensary = state.dispensaries.find(
+        (disp) => disp.id === state.session.selectedDispensaryId
+      );
 
-    const now = new Date();
-    const newOrder: CustomerOrder = {
-      id: generateOrderId(),
-      dispensaryId: selectedDispensary?.id ?? state.dispensaries[0]?.id ?? "",
-      status: "preparing",
-      placedAt: now.toISOString(),
-      etaMinutes: selectedDispensary
-        ? Math.round(
-            (selectedDispensary.etaRange[0] + selectedDispensary.etaRange[1]) / 2
-          )
-        : 35,
-      driverName: mockCustomerOrder.driverName,
-      driverAvatar: mockCustomerOrder.driverAvatar,
-      vehicle: mockCustomerOrder.vehicle,
-      address: payload.address,
-      timeline: buildTimeline("preparing", now),
-      items: state.cart.items
-        .map((item) => {
-          const product = resolveProduct(item.productId);
-          if (!product) return null;
-          return {
-            id: product.id,
-            name: product.name,
-            quantity: item.quantity,
-            price: product.price,
-          };
-        })
-        .filter((item): item is NonNullable<typeof item> => Boolean(item)),
-      total,
-    };
+      const { subtotal, serviceFee, tax, deliveryFee, total } = calculateTotals(
+        state.cart,
+        state.cart.items
+      );
 
-    store.setState((current) => {
-      const orders = [newOrder, ...current.orders.list];
+      const now = new Date();
+      const newOrder: CustomerOrder = {
+        id: generateOrderId(),
+        dispensaryId: selectedDispensary?.id ?? state.dispensaries[0]?.id ?? "",
+        status: "preparing",
+        placedAt: now.toISOString(),
+        etaMinutes: selectedDispensary
+          ? Math.round(
+              (selectedDispensary.etaRange[0] + selectedDispensary.etaRange[1]) / 2
+            )
+          : 35,
+        driverName: mockCustomerOrder.driverName,
+        driverAvatar: mockCustomerOrder.driverAvatar,
+        vehicle: mockCustomerOrder.vehicle,
+        address: payload.address,
+        timeline: buildTimeline("preparing", now),
+        items: state.cart.items
+          .map((item) => {
+            const product = state.products.find((prod) => prod.id === item.productId);
+            if (!product) return null;
+            return {
+              id: product.id,
+              name: product.name,
+              quantity: item.quantity,
+              price: product.price,
+            };
+          })
+          .filter((item): item is NonNullable<typeof item> => Boolean(item)),
+        total,
+      };
+
+      const orders = [newOrder, ...state.orders.list];
       const updatedAdminOrders = recalcAdminOrders(orders);
 
       return {
-        ...current,
+        ...state,
         orders: {
           list: orders,
           activeOrderId: newOrder.id,
         },
         cart: {
-          ...current.cart,
+          ...state.cart,
           items: [],
         },
         admin: {
-          ...current.admin,
+          ...state.admin,
           orders: updatedAdminOrders,
         },
       };
     });
+
+    return true;
   },
   advanceActiveOrderStatus() {
     store.setState((state) => {

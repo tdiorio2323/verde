@@ -1,19 +1,51 @@
-// Product interface with full cannabis product details
+/**
+ * Cannabis product interface with full product details.
+ * Represents all product types in the CABANA marketplace including flower, edibles, vapes, concentrates, and merchandise.
+ *
+ * @interface Product
+ */
 export interface Product {
+  /** Unique identifier for the product */
   id: number;
+
+  /** Display name of the product */
   name: string;
+
+  /** Detailed description of the product, including effects, flavors, and characteristics */
   description: string;
+
+  /** Path to the product image (relative to public directory) */
   image: string;
+
+  /** Price in USD */
   price: number;
+
+  /** Category identifier matching categories in categories.ts (e.g., "pre-packaged-flower", "edibles", "vapes") */
   category: string;
-  thc?: number; // THC percentage
-  cbd?: number; // CBD percentage
+
+  /** THC percentage or mg per serving (optional, primarily for cannabis products) */
+  thc?: number;
+
+  /** CBD percentage or mg per serving (optional, primarily for cannabis products) */
+  cbd?: number;
+
+  /** Array of effect descriptors (e.g., ["Relaxing", "Euphoric", "Creative"]) */
   effects?: string[];
+
+  /** Array of flavor profiles (e.g., ["Berry", "Citrus", "Earthy"]) */
   flavors?: string[];
+
+  /** Number of units available in inventory */
   stock: number;
+
+  /** Customer rating out of 5.0 */
   rating: number;
-  strain?: string; // Indica, Sativa, Hybrid
-  weight?: string; // For flower products
+
+  /** Strain type for flower products: "Indica", "Sativa", "Hybrid", or "Indica Hybrid" / "Sativa Hybrid" */
+  strain?: string;
+
+  /** Weight/size specification for flower products (e.g., "3.5g", "1oz") */
+  weight?: string;
 }
 
 const products: Product[] = [

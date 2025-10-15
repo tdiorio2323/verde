@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import SearchBar from "@/components/dashboard/SearchBar";
 import CategoryChips from "@/components/dashboard/CategoryChips";
+import Img from "@/components/ui/Img";
 import { useAppStore, selectors, appActions, type SortOption } from "@/data/store";
 
 const sortOptions: { label: string; value: SortOption }[] = [
@@ -37,9 +38,14 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
     return [{ id: "all", name: "All" }, ...categories];
   }, [categories]);
 
+  // Extract only featuredCategories to minimize useMemo dependencies
+  const featuredCategories = useMemo(
+    () => selectedDispensary?.featuredCategories ?? [],
+    [selectedDispensary?.featuredCategories]
+  );
+
   const filteredProducts = useMemo(() => {
     const normalizedSearch = filters.search.trim().toLowerCase();
-    const allowedCategories = selectedDispensary?.featuredCategories ?? [];
 
     const base = products.filter((product) => {
       const matchesCategory =
@@ -49,7 +55,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
         product.name.toLowerCase().includes(normalizedSearch) ||
         product.description.toLowerCase().includes(normalizedSearch);
       const matchesDispensary =
-        allowedCategories.length === 0 || allowedCategories.includes(product.category);
+        featuredCategories.length === 0 || featuredCategories.includes(product.category);
       return matchesCategory && matchesSearch && matchesDispensary;
     });
 
@@ -69,7 +75,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
     }
 
     return sorted;
-  }, [filters.categoryId, filters.search, filters.sort, products, selectedDispensary]);
+  }, [filters.categoryId, filters.search, filters.sort, products, featuredCategories]);
 
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
@@ -177,8 +183,8 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
                 <p className="text-sm text-white/60 line-clamp-3">{product.description}</p>
               </div>
               <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-glass">
-                <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" />
+                <Img src={product.image} alt={`${product.name} product image`} className="h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" aria-hidden="true" />
               </div>
             </div>
             <div className="flex items-center justify-between text-sm text-white/60">

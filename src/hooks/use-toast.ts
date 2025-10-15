@@ -5,7 +5,9 @@ import type {
   ToastProps,
 } from "@/components/ui/toast"
 
+/** Maximum number of toasts that can be displayed simultaneously */
 const TOAST_LIMIT = 1
+/** Delay in milliseconds before a dismissed toast is removed from DOM */
 const TOAST_REMOVE_DELAY = 1000000
 
 type ToasterToast = ToastProps & {
@@ -139,6 +141,21 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">
 
+/**
+ * Displays a toast notification with the given properties.
+ * Automatically generates a unique ID and handles lifecycle management.
+ *
+ * @param props - Toast properties including title, description, variant, etc.
+ * @returns Object with toast id, dismiss function, and update function
+ *
+ * @example
+ * ```tsx
+ * const { dismiss } = toast({
+ *   title: "Success",
+ *   description: "Your order has been placed"
+ * });
+ * ```
+ */
 function toast({ ...props }: Toast) {
   const id = genId()
 
@@ -168,6 +185,24 @@ function toast({ ...props }: Toast) {
   }
 }
 
+/**
+ * Custom hook for managing toast notifications.
+ * Provides access to the toast state and methods to show/dismiss toasts.
+ *
+ * @returns Object containing toasts array and toast/dismiss functions
+ *
+ * @example
+ * ```tsx
+ * const { toast, toasts } = useToast();
+ *
+ * const handleClick = () => {
+ *   toast({
+ *     title: "Notification",
+ *     description: "This is a toast message"
+ *   });
+ * };
+ * ```
+ */
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState)
 
