@@ -27,6 +27,12 @@ pnpm lint  # or: npm run lint
 
 # Preview production build
 pnpm preview  # or: npm run preview
+
+# Run tests (watch mode)
+pnpm test  # or: npm test
+
+# Run tests once
+pnpm test:run  # or: npm run test:run
 ```
 
 ## Architecture
@@ -34,11 +40,10 @@ pnpm preview  # or: npm run preview
 ### Application Structure
 
 - **Entry Point**: `src/main.tsx` → `src/App.tsx`
-- **Routing**: React Router v6 with `BrowserRouter`
-  - Routes are centrally defined in `src/routes.ts` as an array of `RouteItem` objects
-  - Each route has: `path`, `component`, `label`, and optional `private` flag
-  - App.tsx maps over the routes array to generate `<Route>` elements
-  - To add new routes: add entry to `routes` array in `src/routes.ts` ABOVE the catch-all "*" route
+- **Routing**: React Router v6 with `createBrowserRouter`
+  - Routes defined in `src/routing/router.tsx` using `createBrowserRouter`
+  - All route components are lazy-loaded for optimal performance
+  - To add new routes: add entry to the routes array in `src/routing/router.tsx` ABOVE the catch-all "*" route
   - NotFound page handles 404s
 - **State Management**:
   - Custom store implementation using `useSyncExternalStore` (React 18)
@@ -48,14 +53,21 @@ pnpm preview  # or: npm run preview
   - **IMPORTANT**: All selectors must return stable references (see Selector Stability section)
 - **UI Framework**: shadcn/ui components (~50 components in `src/components/ui/`)
 - **Styling**: Tailwind CSS with custom design system
+- **Testing**: Vitest with React Testing Library
+  - Test files use `.test.tsx` or `.test.ts` extension
+  - Setup file at `src/test/setup.ts` configures jsdom environment
+  - Run tests with `pnpm test` (watch mode) or `pnpm test:run` (single run)
 
 ### Directory Structure
 
 ```
 src/
-├── components/        # Feature components (Hero, Footer, etc.)
-│   └── ui/           # shadcn/ui components (auto-generated)
+├── components/        # Feature components (Hero, Footer, ErrorBoundary, etc.)
+│   └── ui/           # shadcn/ui components (auto-generated, GlassCard, Img, etc.)
 ├── pages/            # Route pages (LandingPage, Dashboard, NotFound, RoutesDebug)
+├── routing/          # Routing configuration
+│   └── router.tsx    # createBrowserRouter setup with lazy-loaded routes
+├── features/         # Feature-based modules (optional organization)
 ├── data/             # Data layer and state management
 │   ├── store.ts      # Custom state store with useSyncExternalStore
 │   ├── products.ts   # Product catalog data
@@ -63,7 +75,9 @@ src/
 │   ├── dispensaries.ts # Dispensary locations
 │   └── orders.ts     # Order management and mock data
 ├── hooks/            # Custom React hooks (use-mobile, use-toast)
-├── lib/              # Utilities (utils.ts for cn() helper)
+├── lib/              # Utilities (utils.ts for cn() helper, constants, type-guards)
+├── test/             # Test setup and utilities
+│   └── setup.ts      # Vitest configuration for jsdom
 └── assets/           # Static assets
 ```
 
@@ -114,22 +128,24 @@ Use these classes instead of creating custom glass effects.
 When adding routes to the application:
 
 1. Create page component in `src/pages/` (should be a default export)
-2. Import the component in `src/routes.ts`
-3. Add entry to the `routes` array ABOVE the catch-all "*" route
+2. Import the component with lazy loading in `src/routing/router.tsx`
+3. Add route object to the routes array ABOVE the catch-all "*" route
 
 Example:
 ```tsx
-// In src/routes.ts:
-import NewPage from "./pages/NewPage";
+// In src/routing/router.tsx:
+import { lazy } from "react";
 
-export const routes: RouteItem[] = [
-  { path: "/", component: Index, label: "Landing (OTP)" },
-  { path: "/new-page", component: NewPage, label: "New Page", private: false },
-  { path: "*", component: NotFound, label: "Not Found" }, // Keep this last
-];
+const NewPage = lazy(() => import("@/pages/NewPage"));
+
+export const router = createBrowserRouter([
+  { path: "/", element: <Landing /> },
+  { path: "/new-page", element: <NewPage /> }, // Add here
+  { path: "*", element: <NotFound /> },        // Keep this last
+]);
 ```
 
-Note: The `private` flag is for organizational purposes (e.g., routes requiring authentication).
+**Important**: All route components should be lazy-loaded using React's `lazy()` for optimal bundle splitting and performance.
 
 ### Working with shadcn/ui
 
@@ -195,4 +211,4 @@ Before merging changes to the store:
 2. Test in browser DevTools → Console for React's `getSnapshot` warnings
 3. Check that components don't re-render unnecessarily
 
-See `CONTRIBUTING.md` for deployment guidelines and `AGENTS.md` for commit conventions.
+See `CONTRIBUTING.md` for deployment guidelines.
