@@ -26,7 +26,7 @@ export default function CartPage() {
           Continue Shopping
         </Link>
         
-        <h1 className="bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-4xl font-bold text-transparent mb-8">
+        <h1 className="bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-3xl sm:text-4xl font-bold text-transparent mb-8">
           Cart
         </h1>
         
@@ -50,36 +50,43 @@ export default function CartPage() {
                 {items.map(i => (
                   <div
                     key={i.id}
-                    className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
+                    className="flex flex-col sm:flex-row sm:items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
                   >
-                    {i.image_url ? (
-                      <img
-                        src={i.image_url}
-                        alt={i.title}
-                        className="h-20 w-20 rounded-lg border border-white/10 object-cover"
-                      />
-                    ) : (
-                      <div className="h-20 w-20 rounded-lg border border-white/10 bg-white/5" />
-                    )}
-                    
-                    <div className="flex-1">
-                      <h3 className="font-semibold">{i.title}</h3>
-                      <p className="text-sm text-white/60">
-                        ${(i.price_cents / 100).toFixed(2)} each
-                      </p>
+                    {/* Image and Title Section - Mobile: Row, Desktop: Row */}
+                    <div className="flex items-center gap-4 flex-1">
+                      {i.image_url ? (
+                        <img
+                          src={i.image_url}
+                          alt={i.title}
+                          className="h-20 w-20 flex-shrink-0 rounded-lg border border-white/10 object-cover"
+                        />
+                      ) : (
+                        <div className="h-20 w-20 flex-shrink-0 rounded-lg border border-white/10 bg-white/5" />
+                      )}
+                      
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold truncate">{i.title}</h3>
+                        <p className="text-sm text-white/60">
+                          ${(i.price_cents / 100).toFixed(2)} each
+                        </p>
+                      </div>
                     </div>
                     
-                    <div className="flex items-center gap-3">
-                      <Input
-                        type="number"
-                        min={1}
-                        value={i.qty}
-                        onChange={e => setQty(i.id, parseInt(e.target.value || '1'))}
-                        className="w-20 border-white/20 bg-white/5 text-center"
-                      />
+                    {/* Controls Section - Mobile: Full width row, Desktop: Compact row */}
+                    <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-white/60 sm:hidden">Qty:</span>
+                        <Input
+                          type="number"
+                          min={1}
+                          value={i.qty}
+                          onChange={e => setQty(i.id, parseInt(e.target.value || '1'))}
+                          className="w-16 sm:w-20 border-white/20 bg-white/5 text-center min-h-[44px]"
+                        />
+                      </div>
                       
-                      <div className="w-24 text-right">
-                        <p className="font-semibold">
+                      <div className="w-20 sm:w-24 text-right">
+                        <p className="font-semibold text-sm sm:text-base">
                           ${((i.price_cents * i.qty) / 100).toFixed(2)}
                         </p>
                       </div>
@@ -88,7 +95,7 @@ export default function CartPage() {
                         onClick={() => remove(i.id)}
                         variant="ghost"
                         size="icon"
-                        className="text-red-400 hover:bg-red-500/20 hover:text-red-300"
+                        className="text-red-400 hover:bg-red-500/20 hover:text-red-300 min-h-[44px] min-w-[44px]"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -111,16 +118,16 @@ export default function CartPage() {
                   </span>
                 </div>
               </CardContent>
-              <CardFooter className="flex gap-4">
+              <CardFooter className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                 <Button
                   onClick={clear}
                   variant="outline"
-                  className="border-white/20 hover:bg-white/10"
+                  className="w-full sm:w-auto border-white/20 hover:bg-white/10 min-h-[48px]"
                 >
                   Clear Cart
                 </Button>
                 <Button
-                  className="flex-1 bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600"
+                  className="w-full sm:flex-1 bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600 min-h-[48px]"
                   disabled
                 >
                   Checkout (Coming Soon)

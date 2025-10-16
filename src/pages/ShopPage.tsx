@@ -51,26 +51,26 @@ export default function ShopPage() {
               </div>
             </div>
             
-            {/* Navigation and Cart */}
+            {/* Navigation and Cart - Mobile Optimized */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link to="/">
-                <Button variant="ghost" className="glass-md hover:bg-white/10 text-white/70 hover:text-white">
+              <Link to="/" className="w-full sm:w-auto">
+                <Button variant="ghost" className="w-full sm:w-auto glass-md hover:bg-white/10 text-white/70 hover:text-white min-h-[44px]">
                   <Home className="mr-2 h-4 w-4" />
                   Home
                 </Button>
               </Link>
               
               {user && (
-                <Link to="/dashboard">
-                  <Button variant="ghost" className="glass-md hover:bg-white/10 text-white/70 hover:text-white">
+                <Link to="/dashboard" className="w-full sm:w-auto">
+                  <Button variant="ghost" className="w-full sm:w-auto glass-md hover:bg-white/10 text-white/70 hover:text-white min-h-[44px]">
                     <User className="mr-2 h-4 w-4" />
                     Dashboard
                   </Button>
                 </Link>
               )}
               
-              <Link to="/cart">
-                <Button className="relative glass-md bg-white/10 hover:bg-white/20 border-white/20">
+              <Link to="/cart" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto relative glass-md bg-white/10 hover:bg-white/20 border-white/20 min-h-[44px]">
                   <ShoppingCart className="mr-2 h-5 w-5" />
                   Cart
                   {cartCount > 0 && (
@@ -84,17 +84,17 @@ export default function ShopPage() {
           </div>
         </header>
         
-        {/* Search */}
+        {/* Search - Mobile Optimized */}
         <div className="mb-8">
           <Input
             value={q}
             onChange={e => setQ(e.target.value)}
             placeholder="Search products and services..."
-            className="glass-md max-w-md border-white/15 bg-white/5 text-white placeholder:text-white/40"
+            className="glass-md w-full sm:max-w-md border-white/15 bg-white/5 text-white placeholder:text-white/40 text-base min-h-[44px]"
           />
         </div>
         
-        {/* Products Grid */}
+        {/* Products Grid - Mobile: 1 col, Tablet: 2 cols, Desktop: 3 cols */}
         {loading ? (
           <div className="flex min-h-[400px] items-center justify-center">
             <div className="text-center">
@@ -107,7 +107,7 @@ export default function ShopPage() {
             <p className="text-white/60">No items found.</p>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {items.map(it => (
               <ShopCard key={it.id} item={it} />
             ))}

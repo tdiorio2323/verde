@@ -79,7 +79,7 @@ export default function ShopDetail() {
         
         <Card className="glass-card border-white/15 bg-black/40 text-white overflow-hidden">
           {item.image_url && (
-            <div className="w-full h-96 bg-white/5 flex items-center justify-center">
+            <div className="w-full h-64 sm:h-80 md:h-96 bg-white/5 flex items-center justify-center">
               <img 
                 src={item.image_url} 
                 alt={item.title}
@@ -89,16 +89,17 @@ export default function ShopDetail() {
           )}
           
           <CardHeader>
-            <div className="flex items-start justify-between">
+            {/* Mobile: Stack vertically, Desktop: Side by side */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex-1">
-                <CardTitle className="text-3xl">{item.title}</CardTitle>
+                <CardTitle className="text-2xl sm:text-3xl">{item.title}</CardTitle>
                 <CardDescription className="mt-2 text-white/60">
                   <Badge variant="outline" className="text-xs">
                     {item.kind}
                   </Badge>
                 </CardDescription>
               </div>
-              <p className="text-4xl font-bold bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-transparent">
+              <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-transparent sm:text-right">
                 {price}
               </p>
             </div>
@@ -118,16 +119,16 @@ export default function ShopDetail() {
             )}
           </CardContent>
           
-          <CardFooter className="flex gap-4">
+          <CardFooter className="flex flex-col gap-3 sm:flex-row sm:gap-4">
             <Button
               onClick={handleAddToCart}
-              className="flex-1 bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600"
+              className="w-full sm:flex-1 bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600 min-h-[48px]"
             >
               <ShoppingCart className="mr-2 h-5 w-5" />
               Add to Cart
             </Button>
-            <Link to="/cart" className="flex-1">
-              <Button variant="outline" className="w-full border-white/20 hover:bg-white/10">
+            <Link to="/cart" className="w-full sm:flex-1">
+              <Button variant="outline" className="w-full border-white/20 hover:bg-white/10 min-h-[48px]">
                 Go to Cart
               </Button>
             </Link>
