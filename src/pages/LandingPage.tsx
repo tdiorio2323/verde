@@ -1,18 +1,68 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import BackgroundGrid from "@/components/ui/BackgroundGrid";
 import GlowButton from "@/components/ui/GlowButton";
 import Section from "@/components/layout/Section";
 import FeatureCard from "@/components/ui/FeatureCard";
 import Footer from "@/components/Footer";
+import { LoginModal } from '@/components/auth/LoginModal';
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { fr } from '@/lib/motion';
-import { ShoppingCart, ShieldCheck, CreditCard, Zap, Users, TrendingUp, Lock, Truck } from 'lucide-react';
+import { ShoppingCart, ShieldCheck, CreditCard, Zap, Users, TrendingUp, Lock, Truck, LogOut, Store } from 'lucide-react';
 
 const LandingPage = () => {
+  const { user, signOut } = useAuth();
+  const [showLoginModal, setShowLoginModal] = useState(false);
   return (
     <main className="relative min-h-screen bg-black text-white">
       {/* HERO */}
       <section className="relative isolate overflow-hidden py-28 sm:py-36">
         <BackgroundGrid />
+        
+        {/* Navigation - Top Right */}
+        <div className="absolute top-8 right-8 z-20">
+          <div className="flex items-center gap-4">
+            <Link to="/shop">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="glass-md hover:bg-white/10 text-white/90 hover:text-white rounded-full"
+              >
+                <Store className="h-4 w-4 mr-2" />
+                Shop
+              </Button>
+            </Link>
+            
+            {user ? (
+              <div className="flex items-center gap-4">
+                <div className="glass-md rounded-full px-6 py-2 border border-white/15">
+                  <p className="text-sm text-white/90">
+                    {user.phone}
+                  </p>
+                </div>
+                <Button
+                  onClick={() => signOut()}
+                  variant="ghost"
+                  size="sm"
+                  className="glass-md hover:bg-white/10 text-white/90 hover:text-white rounded-full"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => setShowLoginModal(true)}
+                className="btn-holographic"
+              >
+                Sign In
+              </Button>
+            )}
+          </div>
+        </div>
+
         <div className="mx-auto max-w-5xl px-4 relative">
           <motion.div
             variants={fr.fadeUp()}
@@ -71,7 +121,7 @@ const LandingPage = () => {
       </Section>
 
       {/* LOYALTY */}
-      <Section id="loyalty" title="TD Loyalty System" subtitle="Earn credits, unlock tiers, access member benefits.">
+      <Section id="loyalty" title="Verde Loyalty System" subtitle="Earn credits, unlock tiers, access member benefits.">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <FeatureCard
             icon={<CreditCard size={20} className="text-sky-300" />}
@@ -102,12 +152,21 @@ const LandingPage = () => {
           />
         </div>
         <div className="mt-8 flex justify-center">
-          <GlowButton href="/dashboard">Sign Up Free</GlowButton>
+          {user ? (
+            <GlowButton href="/dashboard">Go to Dashboard</GlowButton>
+          ) : (
+            <Button
+              onClick={() => setShowLoginModal(true)}
+              className="btn-holographic text-lg px-8 py-6"
+            >
+              Sign Up Free
+            </Button>
+          )}
         </div>
       </Section>
 
-      {/* WHY TD STUDIOS */}
-      <Section id="why" title="Why TD Studios" subtitle="Because presentation, quality, and trust matter.">
+      {/* WHY VERDE */}
+      <Section id="why" title="Why Verde" subtitle="Because presentation, quality, and trust matter.">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <FeatureCard
             icon={<ShieldCheck size={20} className="text-sky-300" />}
@@ -190,7 +249,10 @@ const LandingPage = () => {
         </div>
       </Section>
 
-      <Footer />
+      <Footer onOpenLogin={() => setShowLoginModal(true)} />
+      
+      {/* Login Modal */}
+      <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
     </main>
   );
 };

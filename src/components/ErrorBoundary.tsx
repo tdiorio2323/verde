@@ -206,7 +206,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             {/* Branding */}
             <div className="mt-8 text-center">
               <p className="text-xs text-muted-foreground/60 font-medium tracking-wide">
-                POWERED BY TD STUDIOS
+                POWERED BY VERDE
               </p>
             </div>
           </div>

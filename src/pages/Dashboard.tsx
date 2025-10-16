@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 import ShopView from "@/components/dashboard/ShopView";
 import CartDrawer from "@/components/dashboard/CartDrawer";
 import OrderTracking from "@/components/dashboard/OrderTracking";
@@ -20,6 +23,7 @@ const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
   const session = useAppStore(selectors.session);
   const activeOrder = useAppStore(selectors.activeOrder);
   const totals = useAppStore(selectors.cartTotals);
@@ -28,11 +32,18 @@ const Dashboard = () => {
   const cartItems = cart.items;
   const dispensaryName = useMemo(() => {
     const selected = dispensaries.find((item) => item.id === session.selectedDispensaryId);
-    return selected?.name ?? "TD Studios";
+    return selected?.name ?? "Verde";
   }, [dispensaries, session.selectedDispensaryId]);
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  // Sync user role from Supabase to store
+  useEffect(() => {
+    if (user && user.role !== session.role) {
+      appActions.setRole(user.role);
+    }
+  }, [user, session.role]);
 
   useEffect(() => {
     if (location.pathname.includes("/dashboard/driver") && session.role !== "driver") {
@@ -102,19 +113,36 @@ const Dashboard = () => {
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               <div className="rounded-2xl border border-white/15 bg-white/10 p-3 shadow-inner">
-                <img src="/images/td-studios-logo.png" alt="TD Studios logo" className="h-16 w-auto" loading="lazy" />
+                <img src="/images/verde-transparent-logo.png" alt="Verde logo" className="h-16 w-auto" loading="lazy" />
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">TD Studios Delivery Cloud</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">Verde Delivery Cloud</p>
                 <h1 className="bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-3xl font-semibold text-transparent md:text-4xl">
                   Multi-role experience hub
                 </h1>
               </div>
             </div>
-            <div className="text-sm text-white/70">
-              <p className="font-semibold text-white">Current lounge</p>
-              <p>{dispensaryName}</p>
-              <p>{cartCount} items in cart</p>
+            <div className="flex flex-col gap-3 md:flex-row md:items-center">
+              <div className="text-sm text-white/70">
+                <p className="font-semibold text-white">Current lounge</p>
+                <p>{dispensaryName}</p>
+                <p>{cartCount} items in cart</p>
+              </div>
+              <div className="flex items-center gap-2 border-l border-white/15 pl-4">
+                <div className="text-xs text-white/70">
+                  <p className="font-semibold text-white">{user?.fullName || 'Guest'}</p>
+                  <p>{user?.phone}</p>
+                </div>
+                <Button
+                  onClick={() => signOut().then(() => navigate('/'))}
+                  variant="ghost"
+                  size="sm"
+                  className="glass-md hover:bg-white/10 text-white/70 hover:text-white"
+                  title="Sign Out"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </header>

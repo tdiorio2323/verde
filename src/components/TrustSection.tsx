@@ -38,7 +38,7 @@ export default function TrustSection() {
         {/* Cinematic Header */}
         <div className="text-center mb-24 max-w-4xl mx-auto">
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 text-gradient-holographic leading-tight tracking-tight">
-            Why TD Studios
+            Why Verde
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground/90 max-w-3xl mx-auto leading-relaxed">
             Because presentation, quality, and trust still matter.

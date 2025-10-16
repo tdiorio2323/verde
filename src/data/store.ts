@@ -372,7 +372,7 @@ const recalcAdminOrders = (orders: CustomerOrder[]) => {
     dispensary:
       store
         .getState()
-        .dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "TD Studios",
+        .dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "Verde",
     eta: `${order.etaMinutes} min`,
     basket: order.total,
   }));
@@ -453,7 +453,7 @@ const generatorSeed = { current: 1285 };
 
 const generateOrderId = () => {
   generatorSeed.current += 1;
-  return `TD-${generatorSeed.current}`;
+  return `VD-${generatorSeed.current}`;
 };
 
 export const appActions = {

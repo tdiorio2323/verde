@@ -11,8 +11,8 @@ export type Dispensary = {
 
 export const dispensaries: Dispensary[] = [
   {
-    id: "td-studios-premier",
-    name: "TD Studios Premier Lounge",
+    id: "verde-premier",
+    name: "Verde Premier Lounge",
     region: "Downtown LA Arts District",
     distanceMinutes: 8,
     etaRange: [25, 35],

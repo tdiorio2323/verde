@@ -90,7 +90,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
             <div className="space-y-4">
               <p className="text-xs uppercase tracking-[0.28em] text-white/60">Preferred lounge</p>
               <h2 className="text-3xl font-semibold text-white">
-                {selectedDispensary?.name ?? "TD Studios partner"}
+                {selectedDispensary?.name ?? "Verde partner"}
               </h2>
               <p className="text-sm text-white/70">
                 {selectedDispensary?.vibe ?? "Concierge delivery experience across Los Angeles."}

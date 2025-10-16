@@ -1,8 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import GlassCard from "@/components/ui/GlassCard";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-export default function Footer() {
+type FooterProps = {
+  onOpenLogin?: () => void;
+};
+
+export default function Footer({ onOpenLogin }: FooterProps) {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (user) {
+      navigate('/dashboard');
+    } else if (onOpenLogin) {
+      onOpenLogin();
+    }
+  };
+
   return (
     <footer className="relative bg-gradient-to-b from-background via-background/98 to-background border-t border-border-glass/30">
       {/* Glass overlay */}
@@ -57,6 +74,7 @@ export default function Footer() {
 
                     <Button
                       size="lg"
+                      onClick={handleGetStarted}
                       className="
                         relative text-lg px-12 py-7 rounded-full font-bold
                         btn-holographic
@@ -71,7 +89,7 @@ export default function Footer() {
                       "
                     >
                       <span className="relative z-10 flex items-center gap-2">
-                        Get Started
+                        {user ? 'Go to Dashboard' : 'Get Started'}
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
@@ -212,7 +230,7 @@ export default function Footer() {
         {/* Elegant Copyright */}
         <div className="text-center space-y-4">
           <p className="text-base text-muted-foreground/80">
-            © 2025 TD Studios. All rights reserved.
+            © 2025 Verde. All rights reserved.
           </p>
           <p className="text-xs text-gradient-holographic font-medium tracking-wider">
             Power. Precision. Presentation.

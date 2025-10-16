@@ -63,7 +63,7 @@ export default function UserRoles() {
             Built for those who design, build, and scale.
           </p>
           <p className="text-lg text-muted-foreground/80 max-w-2xl mx-auto mt-4">
-            TD Studios delivers the digital infrastructure for modern dispensaries and creative brands.
+            Verde delivers the digital infrastructure for modern dispensaries and creative brands.
           </p>
         </div>
 

@@ -27,7 +27,7 @@ export default function Hero() {
         <div className="absolute inset-0 scale-105">
           <Img
             src="/images/twitter-image-short.jpg"
-            alt="TD Studios building exterior"
+            alt="Verde building exterior"
             className="w-full h-full object-cover"
             loading="eager"
           />
@@ -46,8 +46,8 @@ export default function Hero() {
 
           {/* Logo with Enhanced Drop Shadow */}
           <Img
-            src="/images/td-studios-logo.png"
-            alt="TD Studios logo"
+            src="/images/verde-transparent-logo.png"
+            alt="Verde logo"
             className="relative h-64 md:h-80 w-auto drop-shadow-2xl animate-breathe metallic-glow"
             style={{
               filter: 'var(--drop-shadow-logo)'
@@ -151,7 +151,7 @@ export default function Hero() {
           {/* Subtle Branding */}
           <div className="mt-8 text-center">
             <p className="text-xs text-muted-foreground/60 font-medium tracking-wide">
-              POWERED BY TD STUDIOS
+              POWERED BY VERDE
             </p>
           </div>
         </div>

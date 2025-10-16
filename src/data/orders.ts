@@ -62,8 +62,8 @@ export type AdminSnapshot = {
 };
 
 export const mockCustomerOrder: CustomerOrder = {
-  id: "TD-1284",
-  dispensaryId: "td-studios-premier",
+  id: "VD-1284",
+  dispensaryId: "verde-premier",
   status: "preparing",
   placedAt: "2025-02-08T18:34:00Z",
   etaMinutes: 32,
@@ -140,15 +140,15 @@ export const adminMetrics: AdminSnapshot[] = [
 
 export const adminOrders = [
   {
-    id: "TD-1284",
+    id: "VD-1284",
     customer: "A. Porter",
     status: "preparing",
-    dispensary: "TD Studios Premier Lounge",
+    dispensary: "Verde Premier Lounge",
     eta: "32 min",
     basket: 206,
   },
   {
-    id: "TD-1281",
+    id: "VD-1281",
     customer: "S. Lau",
     status: "enroute",
     dispensary: "Highland Botanica",
@@ -156,7 +156,7 @@ export const adminOrders = [
     basket: 164,
   },
   {
-    id: "TD-1279",
+    id: "VD-1279",
     customer: "B. Vaughn",
     status: "confirmed",
     dispensary: "Sunset Coastal Collective",
@@ -164,10 +164,10 @@ export const adminOrders = [
     basket: 118,
   },
   {
-    id: "TD-1278",
+    id: "VD-1278",
     customer: "L. Mendez",
     status: "placed",
-    dispensary: "TD Studios Premier Lounge",
+    dispensary: "Verde Premier Lounge",
     eta: "TBD",
     basket: 96,
   },

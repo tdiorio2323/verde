@@ -76,7 +76,7 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
         <DialogHeader className="space-y-2 px-6 pt-6 text-left">
           <DialogTitle className="text-2xl font-semibold">Finalize drop-off</DialogTitle>
           <DialogDescription className="text-sm text-white/70">
-            Enter contact info and delivery notes. TD Studios concierge will confirm before dispatch.
+            Enter contact info and delivery notes. Verde concierge will confirm before dispatch.
           </DialogDescription>
         </DialogHeader>
 
