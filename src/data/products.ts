@@ -55,7 +55,8 @@ const products: Product[] = [
   {
     id: 1,
     name: "Purple Sunset OG",
-    description: "Premium indica-dominant hybrid with deep purple hues and a sweet berry aroma. Perfect for evening relaxation and stress relief. Grown by award-winning cultivators.",
+    description:
+      "Premium indica-dominant hybrid with deep purple hues and a sweet berry aroma. Perfect for evening relaxation and stress relief. Grown by award-winning cultivators.",
     image: "/images/twitter-image-short.jpg",
     price: 52,
     category: "pre-packaged-flower",
@@ -66,12 +67,13 @@ const products: Product[] = [
     stock: 45,
     rating: 4.8,
     strain: "Indica Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 2,
     name: "Tropical Sunrise Sativa",
-    description: "Energizing sativa perfect for daytime use. Bursting with citrus and mango notes that invigorate the senses. Ideal for creative projects and social gatherings.",
+    description:
+      "Energizing sativa perfect for daytime use. Bursting with citrus and mango notes that invigorate the senses. Ideal for creative projects and social gatherings.",
     image: "/images/twitter-image-short.jpg",
     price: 48,
     category: "pre-packaged-flower",
@@ -82,12 +84,13 @@ const products: Product[] = [
     stock: 38,
     rating: 4.7,
     strain: "Sativa",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 3,
     name: "Gelato Mint #33",
-    description: "Legendary hybrid strain with a creamy, minty flavor profile. Balanced effects provide both mental clarity and physical relaxation. A true connoisseur's choice.",
+    description:
+      "Legendary hybrid strain with a creamy, minty flavor profile. Balanced effects provide both mental clarity and physical relaxation. A true connoisseur's choice.",
     image: "/images/twitter-image-short.jpg",
     price: 58,
     category: "pre-packaged-flower",
@@ -98,12 +101,13 @@ const products: Product[] = [
     stock: 32,
     rating: 4.9,
     strain: "Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 4,
     name: "Wedding Cake Premium",
-    description: "Dense, frosted buds with a vanilla and tangy flavor. This indica-dominant strain melts away tension while keeping your mind clear and engaged.",
+    description:
+      "Dense, frosted buds with a vanilla and tangy flavor. This indica-dominant strain melts away tension while keeping your mind clear and engaged.",
     image: "/images/twitter-image-short.jpg",
     price: 55,
     category: "pre-packaged-flower",
@@ -114,12 +118,13 @@ const products: Product[] = [
     stock: 41,
     rating: 4.8,
     strain: "Indica Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 5,
     name: "Blue Dream Classic",
-    description: "The timeless favorite. This sativa-dominant hybrid offers full-body relaxation with gentle cerebral invigoration. Sweet blueberry aroma with earthy undertones.",
+    description:
+      "The timeless favorite. This sativa-dominant hybrid offers full-body relaxation with gentle cerebral invigoration. Sweet blueberry aroma with earthy undertones.",
     image: "/images/twitter-image-short.jpg",
     price: 45,
     category: "pre-packaged-flower",
@@ -130,12 +135,13 @@ const products: Product[] = [
     stock: 52,
     rating: 4.6,
     strain: "Sativa Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 6,
     name: "MAC 1 (Miracle Alien Cookies)",
-    description: "Ultra-premium strain with stunning trichome coverage. Complex flavor profile with hints of citrus, spice, and fuel. Balanced high suitable for any time of day.",
+    description:
+      "Ultra-premium strain with stunning trichome coverage. Complex flavor profile with hints of citrus, spice, and fuel. Balanced high suitable for any time of day.",
     image: "/images/twitter-image-short.jpg",
     price: 62,
     category: "pre-packaged-flower",
@@ -146,12 +152,13 @@ const products: Product[] = [
     stock: 28,
     rating: 5.0,
     strain: "Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 7,
     name: "Zkittlez Candy",
-    description: "Taste the rainbow with this fruit-forward indica. Sweet, tropical candy flavors combine with powerful relaxation. Perfect for unwinding after a long day.",
+    description:
+      "Taste the rainbow with this fruit-forward indica. Sweet, tropical candy flavors combine with powerful relaxation. Perfect for unwinding after a long day.",
     image: "/images/twitter-image-short.jpg",
     price: 50,
     category: "pre-packaged-flower",
@@ -162,12 +169,13 @@ const products: Product[] = [
     stock: 35,
     rating: 4.7,
     strain: "Indica",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 8,
     name: "Durban Poison Pure",
-    description: "Pure landrace sativa from South Africa. Clean, energizing high with sweet pine and anise flavors. The ultimate wake-and-bake strain for productivity.",
+    description:
+      "Pure landrace sativa from South Africa. Clean, energizing high with sweet pine and anise flavors. The ultimate wake-and-bake strain for productivity.",
     image: "/images/twitter-image-short.jpg",
     price: 47,
     category: "pre-packaged-flower",
@@ -178,7 +186,7 @@ const products: Product[] = [
     stock: 44,
     rating: 4.6,
     strain: "Sativa",
-    weight: "3.5g"
+    weight: "3.5g",
   },
 
   // ========================================
@@ -187,7 +195,8 @@ const products: Product[] = [
   {
     id: 11,
     name: "Lemon Haze Select",
-    description: "Bright and zesty sativa-dominant strain. Delivers energetic, creative effects with a sharp lemon citrus flavor. Excellent daytime choice at an unbeatable price.",
+    description:
+      "Bright and zesty sativa-dominant strain. Delivers energetic, creative effects with a sharp lemon citrus flavor. Excellent daytime choice at an unbeatable price.",
     image: "/images/twitter-image-short.jpg",
     price: 38,
     category: "house-flower",
@@ -198,12 +207,13 @@ const products: Product[] = [
     stock: 68,
     rating: 4.4,
     strain: "Sativa Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 12,
     name: "Northern Lights Budget",
-    description: "Classic indica at an accessible price. Produces deep relaxation and stress relief with a sweet, spicy aroma. Perfect for evening use and sleep support.",
+    description:
+      "Classic indica at an accessible price. Produces deep relaxation and stress relief with a sweet, spicy aroma. Perfect for evening use and sleep support.",
     image: "/images/twitter-image-short.jpg",
     price: 35,
     category: "house-flower",
@@ -214,12 +224,13 @@ const products: Product[] = [
     stock: 72,
     rating: 4.3,
     strain: "Indica",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 13,
     name: "Green Crack Energy",
-    description: "High-energy sativa for those who need serious focus. Sharp, fruity flavor with long-lasting mental clarity. Your productivity strain at house prices.",
+    description:
+      "High-energy sativa for those who need serious focus. Sharp, fruity flavor with long-lasting mental clarity. Your productivity strain at house prices.",
     image: "/images/twitter-image-short.jpg",
     price: 40,
     category: "house-flower",
@@ -230,12 +241,13 @@ const products: Product[] = [
     stock: 55,
     rating: 4.5,
     strain: "Sativa",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 14,
     name: "Granddaddy Purple Value",
-    description: "Iconic purple indica that delivers powerful body effects. Grape and berry flavors combine with deep physical relaxation. Premium genetics at house prices.",
+    description:
+      "Iconic purple indica that delivers powerful body effects. Grape and berry flavors combine with deep physical relaxation. Premium genetics at house prices.",
     image: "/images/twitter-image-short.jpg",
     price: 42,
     category: "house-flower",
@@ -246,12 +258,13 @@ const products: Product[] = [
     stock: 61,
     rating: 4.6,
     strain: "Indica",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 15,
     name: "Sour Diesel House",
-    description: "Pungent, diesel-fueled sativa with fast-acting cerebral effects. Energizing and dreamy at the same time. A West Coast classic for less.",
+    description:
+      "Pungent, diesel-fueled sativa with fast-acting cerebral effects. Energizing and dreamy at the same time. A West Coast classic for less.",
     image: "/images/twitter-image-short.jpg",
     price: 39,
     category: "house-flower",
@@ -262,12 +275,13 @@ const products: Product[] = [
     stock: 58,
     rating: 4.4,
     strain: "Sativa",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 16,
     name: "OG Kush Standard",
-    description: "The legendary OG at an everyday price. Complex aroma with fuel, skunk, and spice. Balanced hybrid effects work any time of day.",
+    description:
+      "The legendary OG at an everyday price. Complex aroma with fuel, skunk, and spice. Balanced hybrid effects work any time of day.",
     image: "/images/twitter-image-short.jpg",
     price: 41,
     category: "house-flower",
@@ -278,12 +292,13 @@ const products: Product[] = [
     stock: 64,
     rating: 4.5,
     strain: "Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 17,
     name: "Strawberry Cough Select",
-    description: "Sweet strawberry flavor with uplifting sativa effects. Known for smooth smoke and social vibes. Perfect for afternoon hangouts.",
+    description:
+      "Sweet strawberry flavor with uplifting sativa effects. Known for smooth smoke and social vibes. Perfect for afternoon hangouts.",
     image: "/images/twitter-image-short.jpg",
     price: 37,
     category: "house-flower",
@@ -294,12 +309,13 @@ const products: Product[] = [
     stock: 70,
     rating: 4.3,
     strain: "Sativa",
-    weight: "3.5g"
+    weight: "3.5g",
   },
   {
     id: 18,
     name: "White Widow Budget",
-    description: "Balanced hybrid with powerful euphoric effects. Earthy, woody flavors with a white, frosty appearance. Classic Amsterdam genetics at house prices.",
+    description:
+      "Balanced hybrid with powerful euphoric effects. Earthy, woody flavors with a white, frosty appearance. Classic Amsterdam genetics at house prices.",
     image: "/images/twitter-image-short.jpg",
     price: 36,
     category: "house-flower",
@@ -310,7 +326,7 @@ const products: Product[] = [
     stock: 66,
     rating: 4.4,
     strain: "Hybrid",
-    weight: "3.5g"
+    weight: "3.5g",
   },
 
   // ========================================
@@ -319,7 +335,8 @@ const products: Product[] = [
   {
     id: 21,
     name: "Midnight Moon Chocolate Bar",
-    description: "Luxurious dark chocolate infused with 100mg THC. Each square contains 10mg for precise dosing. Rich, smooth flavor without any hemp taste. Indica-dominant for relaxation.",
+    description:
+      "Luxurious dark chocolate infused with 100mg THC. Each square contains 10mg for precise dosing. Rich, smooth flavor without any hemp taste. Indica-dominant for relaxation.",
     image: "/images/twitter-image-short.jpg",
     price: 28,
     category: "edibles",
@@ -333,7 +350,8 @@ const products: Product[] = [
   {
     id: 22,
     name: "Tropical Paradise Gummies",
-    description: "Bursting with flavor! 10-pack of mixed tropical fruit gummies, 10mg THC each. Sativa-blend for daytime energy and creativity. Vegan and gluten-free.",
+    description:
+      "Bursting with flavor! 10-pack of mixed tropical fruit gummies, 10mg THC each. Sativa-blend for daytime energy and creativity. Vegan and gluten-free.",
     image: "/images/twitter-image-short.jpg",
     price: 25,
     category: "edibles",
@@ -347,7 +365,8 @@ const products: Product[] = [
   {
     id: 23,
     name: "Chill Vibes CBD:THC Mints",
-    description: "Perfectly balanced 5mg CBD / 5mg THC per mint. Discreet, fast-acting, and refreshing. Ideal for microdosing throughout the day. 20 mints per tin.",
+    description:
+      "Perfectly balanced 5mg CBD / 5mg THC per mint. Discreet, fast-acting, and refreshing. Ideal for microdosing throughout the day. 20 mints per tin.",
     image: "/images/twitter-image-short.jpg",
     price: 32,
     category: "edibles",
@@ -361,7 +380,8 @@ const products: Product[] = [
   {
     id: 24,
     name: "Berry Blast Hard Candies",
-    description: "Long-lasting hard candies with 5mg THC each. Perfect for slow, controlled dosing. Mixed berry flavors that mask any cannabis taste. 20-piece pack.",
+    description:
+      "Long-lasting hard candies with 5mg THC each. Perfect for slow, controlled dosing. Mixed berry flavors that mask any cannabis taste. 20-piece pack.",
     image: "/images/twitter-image-short.jpg",
     price: 22,
     category: "edibles",
@@ -375,7 +395,8 @@ const products: Product[] = [
   {
     id: 25,
     name: "Cosmic Brownie Bites",
-    description: "Decadent fudge brownies with 50mg THC per bite. Made with premium ingredients and real chocolate. Indica-dominant for deep relaxation. 2-pack.",
+    description:
+      "Decadent fudge brownies with 50mg THC per bite. Made with premium ingredients and real chocolate. Indica-dominant for deep relaxation. 2-pack.",
     image: "/images/twitter-image-short.jpg",
     price: 30,
     category: "edibles",
@@ -389,7 +410,8 @@ const products: Product[] = [
   {
     id: 26,
     name: "Sunrise Citrus Honey Sticks",
-    description: "Natural honey infused with 10mg THC per stick. Squeeze into tea, coffee, or enjoy straight. Sativa-blend for morning energy. 10-pack of individual sticks.",
+    description:
+      "Natural honey infused with 10mg THC per stick. Squeeze into tea, coffee, or enjoy straight. Sativa-blend for morning energy. 10-pack of individual sticks.",
     image: "/images/twitter-image-short.jpg",
     price: 26,
     category: "edibles",
@@ -403,7 +425,8 @@ const products: Product[] = [
   {
     id: 27,
     name: "Watermelon Wave Taffy",
-    description: "Chewy, delicious taffy with 10mg THC per piece. Refreshing watermelon flavor perfect for summer vibes. Hybrid effects for balanced relaxation. 10-piece pack.",
+    description:
+      "Chewy, delicious taffy with 10mg THC per piece. Refreshing watermelon flavor perfect for summer vibes. Hybrid effects for balanced relaxation. 10-piece pack.",
     image: "/images/twitter-image-short.jpg",
     price: 24,
     category: "edibles",
@@ -417,7 +440,8 @@ const products: Product[] = [
   {
     id: 28,
     name: "Peanut Butter Cup Dreams",
-    description: "Premium peanut butter cups with 15mg THC each. Rich, creamy filling in smooth chocolate. Perfect for dessert lovers. Indica-leaning hybrid. 2-pack.",
+    description:
+      "Premium peanut butter cups with 15mg THC each. Rich, creamy filling in smooth chocolate. Perfect for dessert lovers. Indica-leaning hybrid. 2-pack.",
     image: "/images/twitter-image-short.jpg",
     price: 27,
     category: "edibles",
@@ -435,7 +459,8 @@ const products: Product[] = [
   {
     id: 31,
     name: "Blue Dream Live Resin Cart",
-    description: "Premium 1g live resin cartridge capturing the full flavor profile of fresh Blue Dream flower. Sweet blueberry and earthy notes. Sativa hybrid effects. 510-thread compatible.",
+    description:
+      "Premium 1g live resin cartridge capturing the full flavor profile of fresh Blue Dream flower. Sweet blueberry and earthy notes. Sativa hybrid effects. 510-thread compatible.",
     image: "/images/twitter-image-short.jpg",
     price: 45,
     category: "vapes",
@@ -449,7 +474,8 @@ const products: Product[] = [
   {
     id: 32,
     name: "Pineapple Express Distillate",
-    description: "Pure distillate cartridge with natural terpenes. 1g of uplifting sativa goodness. Clean, smooth hits with tropical pineapple flavor. Lab-tested and verified.",
+    description:
+      "Pure distillate cartridge with natural terpenes. 1g of uplifting sativa goodness. Clean, smooth hits with tropical pineapple flavor. Lab-tested and verified.",
     image: "/images/twitter-image-short.jpg",
     price: 38,
     category: "vapes",
@@ -463,7 +489,8 @@ const products: Product[] = [
   {
     id: 33,
     name: "Granddaddy Purple Sauce Cart",
-    description: "High-terpene sauce cartridge with 1g of GDP indica bliss. Rich grape and berry flavors. Heavy-hitting relaxation for night time use. Premium hardware.",
+    description:
+      "High-terpene sauce cartridge with 1g of GDP indica bliss. Rich grape and berry flavors. Heavy-hitting relaxation for night time use. Premium hardware.",
     image: "/images/twitter-image-short.jpg",
     price: 48,
     category: "vapes",
@@ -477,7 +504,8 @@ const products: Product[] = [
   {
     id: 34,
     name: "Sour Diesel CDT Cart",
-    description: "Cannabis-derived terpene cartridge preserving authentic Sour Diesel profile. Diesel and citrus punch. Fast-acting sativa effects. 0.5g precision pen.",
+    description:
+      "Cannabis-derived terpene cartridge preserving authentic Sour Diesel profile. Diesel and citrus punch. Fast-acting sativa effects. 0.5g precision pen.",
     image: "/images/twitter-image-short.jpg",
     price: 35,
     category: "vapes",
@@ -491,7 +519,8 @@ const products: Product[] = [
   {
     id: 35,
     name: "Gelato #33 All-in-One",
-    description: "Rechargeable all-in-one vape pen. 1g of premium Gelato live resin. No separate battery needed. Creamy, minty flavor with balanced hybrid effects. USB-C charging.",
+    description:
+      "Rechargeable all-in-one vape pen. 1g of premium Gelato live resin. No separate battery needed. Creamy, minty flavor with balanced hybrid effects. USB-C charging.",
     image: "/images/twitter-image-short.jpg",
     price: 52,
     category: "vapes",
@@ -505,7 +534,8 @@ const products: Product[] = [
   {
     id: 36,
     name: "Strawberry Cough Pen",
-    description: "Disposable vape pen with 0.5g of Strawberry Cough distillate. Sweet berry flavor with smooth sativa effects. Perfect for on-the-go. Draw-activated.",
+    description:
+      "Disposable vape pen with 0.5g of Strawberry Cough distillate. Sweet berry flavor with smooth sativa effects. Perfect for on-the-go. Draw-activated.",
     image: "/images/twitter-image-short.jpg",
     price: 32,
     category: "vapes",
@@ -519,7 +549,8 @@ const products: Product[] = [
   {
     id: 37,
     name: "OG Kush Full Spectrum Cart",
-    description: "Full-spectrum 1g cartridge preserving all cannabinoids and terpenes. Classic OG Kush fuel and pine flavor. Versatile hybrid effects. CCELL hardware.",
+    description:
+      "Full-spectrum 1g cartridge preserving all cannabinoids and terpenes. Classic OG Kush fuel and pine flavor. Versatile hybrid effects. CCELL hardware.",
     image: "/images/twitter-image-short.jpg",
     price: 42,
     category: "vapes",
@@ -533,7 +564,8 @@ const products: Product[] = [
   {
     id: 38,
     name: "Wedding Cake Liquid Diamonds",
-    description: "Ultra-premium liquid diamond cartridge. 1g of crystalline THC with Wedding Cake terps. Potent, flavorful, and smooth. For experienced users. Limited batch.",
+    description:
+      "Ultra-premium liquid diamond cartridge. 1g of crystalline THC with Wedding Cake terps. Potent, flavorful, and smooth. For experienced users. Limited batch.",
     image: "/images/twitter-image-short.jpg",
     price: 58,
     category: "vapes",
@@ -551,7 +583,8 @@ const products: Product[] = [
   {
     id: 41,
     name: "Golden Goat Live Rosin",
-    description: "Solventless live rosin extracted from fresh-frozen Golden Goat flower. 1g of pure, terpene-rich concentrate. Tropical and sweet flavor. Sativa-dominant dabs.",
+    description:
+      "Solventless live rosin extracted from fresh-frozen Golden Goat flower. 1g of pure, terpene-rich concentrate. Tropical and sweet flavor. Sativa-dominant dabs.",
     image: "/images/twitter-image-short.jpg",
     price: 65,
     category: "concentrate",
@@ -565,7 +598,8 @@ const products: Product[] = [
   {
     id: 42,
     name: "Purple Punch Budder",
-    description: "Creamy, whipped budder with 1g of indica-dominant Purple Punch. Rich grape and berry terpenes. Easy to work with and full of flavor. Perfect for evening dabs.",
+    description:
+      "Creamy, whipped budder with 1g of indica-dominant Purple Punch. Rich grape and berry terpenes. Easy to work with and full of flavor. Perfect for evening dabs.",
     image: "/images/twitter-image-short.jpg",
     price: 55,
     category: "concentrate",
@@ -579,7 +613,8 @@ const products: Product[] = [
   {
     id: 43,
     name: "Jack Herer Shatter",
-    description: "Glass-clear shatter made from Jack Herer sativa. 1g of stable, potent concentrate. Piney, earthy flavor with energizing effects. Classic dab experience.",
+    description:
+      "Glass-clear shatter made from Jack Herer sativa. 1g of stable, potent concentrate. Piney, earthy flavor with energizing effects. Classic dab experience.",
     image: "/images/twitter-image-short.jpg",
     price: 48,
     category: "concentrate",
@@ -593,7 +628,8 @@ const products: Product[] = [
   {
     id: 44,
     name: "Zkittlez Diamond Sauce",
-    description: "THC-A diamonds swimming in high-terpene sauce. 1g of Zkittlez indica magic. Fruity, candy-like flavor explosion. For seasoned concentrate users.",
+    description:
+      "THC-A diamonds swimming in high-terpene sauce. 1g of Zkittlez indica magic. Fruity, candy-like flavor explosion. For seasoned concentrate users.",
     image: "/images/twitter-image-short.jpg",
     price: 72,
     category: "concentrate",
@@ -607,7 +643,8 @@ const products: Product[] = [
   {
     id: 45,
     name: "Durban Poison Crumble",
-    description: "Dry, crumbly concentrate with 1g of pure Durban Poison sativa. Easy to dose and handle. Sweet, anise-like flavor. Clean, energizing effects.",
+    description:
+      "Dry, crumbly concentrate with 1g of pure Durban Poison sativa. Easy to dose and handle. Sweet, anise-like flavor. Clean, energizing effects.",
     image: "/images/twitter-image-short.jpg",
     price: 50,
     category: "concentrate",
@@ -621,7 +658,8 @@ const products: Product[] = [
   {
     id: 46,
     name: "Wedding Cake Live Resin",
-    description: "Premium live resin preserving fresh Wedding Cake terpenes. 1g of aromatic, flavorful concentrate. Vanilla and tangy notes. Balanced hybrid effects.",
+    description:
+      "Premium live resin preserving fresh Wedding Cake terpenes. 1g of aromatic, flavorful concentrate. Vanilla and tangy notes. Balanced hybrid effects.",
     image: "/images/twitter-image-short.jpg",
     price: 62,
     category: "concentrate",
@@ -635,7 +673,8 @@ const products: Product[] = [
   {
     id: 47,
     name: "MAC 1 Hash Rosin",
-    description: "Top-shelf solventless hash rosin. 1g of MAC 1 perfection. Complex citrus and spice profile. Small-batch, artisan-quality concentrate. Limited availability.",
+    description:
+      "Top-shelf solventless hash rosin. 1g of MAC 1 perfection. Complex citrus and spice profile. Small-batch, artisan-quality concentrate. Limited availability.",
     image: "/images/twitter-image-short.jpg",
     price: 78,
     category: "concentrate",
@@ -649,7 +688,8 @@ const products: Product[] = [
   {
     id: 48,
     name: "Blue Dream Wax",
-    description: "Smooth, stable wax made from Blue Dream hybrid. 1g of easy-to-work-with concentrate. Sweet blueberry flavor with balanced effects. Great for beginners.",
+    description:
+      "Smooth, stable wax made from Blue Dream hybrid. 1g of easy-to-work-with concentrate. Sweet blueberry flavor with balanced effects. Great for beginners.",
     image: "/images/twitter-image-short.jpg",
     price: 52,
     category: "concentrate",
@@ -667,7 +707,8 @@ const products: Product[] = [
   {
     id: 51,
     name: "CABANA Classic Tee",
-    description: "Premium cotton t-shirt with embroidered CABANA logo. Soft, breathable fabric in black. Represent the tropical holographic lifestyle. Unisex sizing available.",
+    description:
+      "Premium cotton t-shirt with embroidered CABANA logo. Soft, breathable fabric in black. Represent the tropical holographic lifestyle. Unisex sizing available.",
     image: "/images/twitter-image-short.jpg",
     price: 28,
     category: "merch",
@@ -679,7 +720,8 @@ const products: Product[] = [
   {
     id: 52,
     name: "Rolling Tray Set - Holographic",
-    description: "Durable metal rolling tray with holographic CABANA design. Includes matching storage jar and magnetic lid. Keeps your sessions organized and stylish.",
+    description:
+      "Durable metal rolling tray with holographic CABANA design. Includes matching storage jar and magnetic lid. Keeps your sessions organized and stylish.",
     image: "/images/twitter-image-short.jpg",
     price: 35,
     category: "merch",
@@ -691,7 +733,8 @@ const products: Product[] = [
   {
     id: 53,
     name: "Glass Water Pipe - Tropical",
-    description: "Hand-blown borosilicate glass water pipe with tropical gradient design. 12 inches tall with ice catcher. Smooth, filtered hits. Includes bowl piece.",
+    description:
+      "Hand-blown borosilicate glass water pipe with tropical gradient design. 12 inches tall with ice catcher. Smooth, filtered hits. Includes bowl piece.",
     image: "/images/twitter-image-short.jpg",
     price: 68,
     category: "merch",
@@ -703,7 +746,8 @@ const products: Product[] = [
   {
     id: 54,
     name: "Airtight Storage Jars (3-Pack)",
-    description: "UV-protected glass storage jars with airtight seals. Preserves freshness and potency. 1oz capacity each. Includes custom CABANA labels. Set of 3.",
+    description:
+      "UV-protected glass storage jars with airtight seals. Preserves freshness and potency. 1oz capacity each. Includes custom CABANA labels. Set of 3.",
     image: "/images/twitter-image-short.jpg",
     price: 24,
     category: "merch",
@@ -715,7 +759,8 @@ const products: Product[] = [
   {
     id: 55,
     name: "Premium Grinder - Golden",
-    description: "4-piece aluminum grinder with golden finish. Sharp, diamond-shaped teeth and pollen catcher. 2.5-inch diameter. Smooth threading and magnetic lid.",
+    description:
+      "4-piece aluminum grinder with golden finish. Sharp, diamond-shaped teeth and pollen catcher. 2.5-inch diameter. Smooth threading and magnetic lid.",
     image: "/images/twitter-image-short.jpg",
     price: 32,
     category: "merch",
@@ -727,7 +772,8 @@ const products: Product[] = [
   {
     id: 56,
     name: "CABANA Snapback Hat",
-    description: "Adjustable snapback with embroidered logo. Breathable mesh back panels. Classic black and teal colorway. Perfect for sunny dispensary runs.",
+    description:
+      "Adjustable snapback with embroidered logo. Breathable mesh back panels. Classic black and teal colorway. Perfect for sunny dispensary runs.",
     image: "/images/twitter-image-short.jpg",
     price: 30,
     category: "merch",
@@ -739,7 +785,8 @@ const products: Product[] = [
   {
     id: 57,
     name: "Silicone Dab Mat & Tool Set",
-    description: "Non-stick silicone mat with holographic CABANA print. Includes stainless steel dab tool. Easy to clean and heat-resistant. Essential for concentrate users.",
+    description:
+      "Non-stick silicone mat with holographic CABANA print. Includes stainless steel dab tool. Easy to clean and heat-resistant. Essential for concentrate users.",
     image: "/images/twitter-image-short.jpg",
     price: 22,
     category: "merch",
@@ -751,7 +798,8 @@ const products: Product[] = [
   {
     id: 58,
     name: "Smell-Proof Backpack",
-    description: "Discreet, smell-proof backpack with activated carbon lining. Multiple compartments for organization. CABANA embroidered patch. Perfect for travel and storage.",
+    description:
+      "Discreet, smell-proof backpack with activated carbon lining. Multiple compartments for organization. CABANA embroidered patch. Perfect for travel and storage.",
     image: "/images/twitter-image-short.jpg",
     price: 58,
     category: "merch",

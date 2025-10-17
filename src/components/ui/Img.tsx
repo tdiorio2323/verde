@@ -10,11 +10,5 @@ import React from "react";
  * - Accessibility improvements
  */
 export default function Img(props: React.ImgHTMLAttributes<HTMLImageElement>) {
-  return (
-    <img
-      loading="lazy"
-      decoding="async"
-      {...props}
-    />
-  );
+  return <img loading="lazy" decoding="async" {...props} />;
 }

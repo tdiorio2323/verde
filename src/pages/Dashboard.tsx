@@ -87,7 +87,7 @@ const Dashboard = () => {
 
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
-    [cartItems]
+    [cartItems],
   );
 
   return (
@@ -101,8 +101,14 @@ const Dashboard = () => {
       {/* Animated mesh gradient - subtler for dashboard */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float" />
-        <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: 'var(--animation-delay-1)' }} />
-        <div className="absolute bottom-0 left-1/2 w-96 h-96 bg-amber-500/15 rounded-full mix-blend-screen filter blur-3xl animate-float" style={{ animationDelay: 'var(--animation-delay-2)' }} />
+        <div
+          className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full mix-blend-screen filter blur-3xl animate-float"
+          style={{ animationDelay: "var(--animation-delay-1)" }}
+        />
+        <div
+          className="absolute bottom-0 left-1/2 w-96 h-96 bg-amber-500/15 rounded-full mix-blend-screen filter blur-3xl animate-float"
+          style={{ animationDelay: "var(--animation-delay-2)" }}
+        />
       </div>
 
       {/* Grid pattern overlay */}
@@ -113,10 +119,17 @@ const Dashboard = () => {
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               <div className="rounded-2xl border border-white/15 bg-white/10 p-3 shadow-inner">
-                <img src="/images/verde-transparent-logo.png" alt="Verde logo" className="h-16 w-auto" loading="lazy" />
+                <img
+                  src="/images/verde-transparent-logo.png"
+                  alt="Verde logo"
+                  className="h-16 w-auto"
+                  loading="lazy"
+                />
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-white/60">Verde Delivery Cloud</p>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+                  Verde Delivery Cloud
+                </p>
                 <h1 className="bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-3xl font-semibold text-transparent md:text-4xl">
                   Multi-role experience hub
                 </h1>
@@ -130,11 +143,11 @@ const Dashboard = () => {
               </div>
               <div className="flex items-center gap-2 border-l border-white/15 pl-4">
                 <div className="text-xs text-white/70">
-                  <p className="font-semibold text-white">{user?.fullName || 'Guest'}</p>
+                  <p className="font-semibold text-white">{user?.fullName || "Guest"}</p>
                   <p>{user?.phone}</p>
                 </div>
                 <Button
-                  onClick={() => signOut().then(() => navigate('/'))}
+                  onClick={() => signOut().then(() => navigate("/"))}
                   variant="ghost"
                   size="sm"
                   className="glass-md hover:bg-white/10 text-white/70 hover:text-white"
@@ -148,7 +161,11 @@ const Dashboard = () => {
         </header>
 
         <Tabs value={session.role} onValueChange={handleRoleChange}>
-          <TabsList className="flex w-full flex-col gap-3 rounded-3xl border border-white/15 bg-white/5 p-3 text-white shadow-glass md:flex-row" role="tablist" aria-label="Role selection">
+          <TabsList
+            className="flex w-full flex-col gap-3 rounded-3xl border border-white/15 bg-white/5 p-3 text-white shadow-glass md:flex-row"
+            role="tablist"
+            aria-label="Role selection"
+          >
             {roleOptions.map((option) => (
               <TabsTrigger
                 key={option.id}
@@ -171,7 +188,10 @@ const Dashboard = () => {
             <div className="space-y-10">
               <ShopView onOpenCart={() => setIsCartOpen(true)} />
               <div className="px-4 pb-16 sm:px-6">
-                <OrderTracking order={activeOrder} onAdvance={appActions.advanceActiveOrderStatus} />
+                <OrderTracking
+                  order={activeOrder}
+                  onAdvance={appActions.advanceActiveOrderStatus}
+                />
               </div>
             </div>
           </TabsContent>

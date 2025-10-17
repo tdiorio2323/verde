@@ -51,7 +51,7 @@ const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       "aria-label": ariaLabel,
       role,
     },
-    ref
+    ref,
   ) => {
     // Base classes for all variants
     const baseClasses = "relative rounded-[2rem] backdrop-blur-3xl transition-all duration-500";
@@ -69,16 +69,14 @@ const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       : "";
 
     // Clickable classes
-    const clickableClasses = onClick
-      ? "cursor-pointer active:scale-[0.99]"
-      : "";
+    const clickableClasses = onClick ? "cursor-pointer active:scale-[0.99]" : "";
 
     const cardClasses = cn(
       baseClasses,
       variantClasses[variant],
       hoverClasses,
       clickableClasses,
-      className
+      className,
     );
 
     return (
@@ -90,7 +88,8 @@ const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
               <div
                 className="absolute -inset-1 rounded-[2rem] opacity-20 blur-2xl group-hover:opacity-30 transition-smooth"
                 style={{
-                  background: "radial-gradient(ellipse, rgba(255, 255, 255, 0.2) 0%, transparent 70%)",
+                  background:
+                    "radial-gradient(ellipse, rgba(255, 255, 255, 0.2) 0%, transparent 70%)",
                 }}
                 aria-hidden="true"
               />
@@ -149,7 +148,7 @@ const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         )}
       </>
     );
-  }
+  },
 );
 
 GlassCard.displayName = "GlassCard";

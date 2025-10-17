@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 export default function GlowButton({
-  href = '#',
+  href = "#",
   children,
-  className
+  className,
 }: {
   href?: string;
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export default function GlowButton({
         "bg-white/5 backdrop-blur border border-white/10",
         "transition-transform duration-200 hover:scale-[1.02] active:scale-[.99]",
         "shadow-[0_0_0_0_rgba(123,92,243,0.0)] hover:shadow-[0_0_40px_4px_rgba(123,92,243,0.25)]",
-        className
+        className,
       )}
     >
       {children}

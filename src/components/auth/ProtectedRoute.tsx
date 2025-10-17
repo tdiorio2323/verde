@@ -1,7 +1,7 @@
-import { ReactNode, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import type { Role } from '@/shared/config/roles';
+import { ReactNode, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import type { Role } from "@/shared/config/roles";
 
 type ProtectedRouteProps = {
   children: ReactNode;
@@ -14,7 +14,7 @@ type ProtectedRouteProps = {
  * 1. User is authenticated
  * 2. User has required role (if specified)
  * 3. User has verified age (if required)
- * 
+ *
  * Redirects to landing page if not authenticated.
  */
 export const ProtectedRoute = ({
@@ -30,7 +30,7 @@ export const ProtectedRoute = ({
 
     // Not authenticated - redirect to home
     if (!user) {
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
       return;
     }
 
@@ -43,8 +43,8 @@ export const ProtectedRoute = ({
     // Check role requirement
     if (requireRole && user.role !== requireRole) {
       // Redirect based on user's actual role
-      if (user.role === 'customer') {
-        navigate('/dashboard', { replace: true });
+      if (user.role === "customer") {
+        navigate("/dashboard", { replace: true });
       } else {
         navigate(`/dashboard/${user.role}`, { replace: true });
       }
@@ -84,4 +84,3 @@ export const ProtectedRoute = ({
 };
 
 export default ProtectedRoute;
-

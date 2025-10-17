@@ -35,12 +35,7 @@ export type CustomerOrder = {
   address: string;
 };
 
-export type DriverAssignmentStatus =
-  | "assigned"
-  | "accepted"
-  | "enroute"
-  | "arrived"
-  | "delivered";
+export type DriverAssignmentStatus = "assigned" | "accepted" | "enroute" | "arrived" | "delivered";
 
 export type DriverAssignment = {
   id: string;

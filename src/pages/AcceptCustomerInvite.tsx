@@ -10,15 +10,15 @@ export default function AcceptCustomerInvite() {
 
   useEffect(() => {
     (async () => {
-      console.log('🔍 Attempting to redeem customer invite:', token);
+      console.log("🔍 Attempting to redeem customer invite:", token);
       const { data, error } = await supabase.rpc("redeem_customer_invite", { invite_token: token });
-      console.log('📊 Response:', { data, error });
-      if (error) { 
-        console.error('❌ Error:', error);
-        setErr(error.message); 
-        return; 
+      console.log("📊 Response:", { data, error });
+      if (error) {
+        console.error("❌ Error:", error);
+        setErr(error.message);
+        return;
       }
-      console.log('✅ Success! Customer created:', data);
+      console.log("✅ Success! Customer created:", data);
       setDone(true);
     })();
   }, [token]);
@@ -43,4 +43,3 @@ export default function AcceptCustomerInvite() {
     </main>
   );
 }
-

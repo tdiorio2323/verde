@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -12,23 +12,24 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Touch-friendly interactions */
   body {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
-  
+
   /* iOS safe area support */
   body {
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
   }
-  
+
   /* Prevent text size adjustment on iOS */
   html {
     -webkit-text-size-adjust: 100%;
   }
-  
+
   /* Better font rendering on mobile */
   * {
     -webkit-font-smoothing: antialiased;
@@ -91,36 +92,48 @@ All colors MUST be HSL.
     --radius: 1rem;
 
     /* Chrome Metallic Gradients */
-    --gradient-chrome-metallic: linear-gradient(135deg,
+    --gradient-chrome-metallic: linear-gradient(
+      135deg,
       hsl(0 0% 90% / 1) 0%,
       hsl(0 0% 70% / 1) 25%,
       hsl(0 0% 85% / 1) 50%,
       hsl(0 0% 65% / 1) 75%,
-      hsl(0 0% 90% / 1) 100%);
+      hsl(0 0% 90% / 1) 100%
+    );
 
-    --gradient-liquid-glass: linear-gradient(135deg,
+    --gradient-liquid-glass: linear-gradient(
+      135deg,
       hsl(0 0% 90% / 0.15) 0%,
       hsl(0 0% 80% / 0.12) 50%,
-      hsl(0 0% 70% / 0.15) 100%);
+      hsl(0 0% 70% / 0.15) 100%
+    );
 
-    --gradient-chrome: linear-gradient(180deg,
+    --gradient-chrome: linear-gradient(
+      180deg,
       hsl(0 0% 12%) 0%,
       hsl(0 0% 6%) 50%,
-      hsl(0 0% 4%) 100%);
+      hsl(0 0% 4%) 100%
+    );
 
-    --gradient-glass-shine: linear-gradient(to bottom right,
+    --gradient-glass-shine: linear-gradient(
+      to bottom right,
       rgba(255, 255, 255, 0.2) 0%,
       rgba(255, 255, 255, 0.08) 50%,
-      rgba(255, 255, 255, 0) 100%);
+      rgba(255, 255, 255, 0) 100%
+    );
 
-    --gradient-overlay: linear-gradient(135deg,
+    --gradient-overlay: linear-gradient(
+      135deg,
       rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.04) 100%);
+      rgba(255, 255, 255, 0.04) 100%
+    );
 
-    --gradient-frosted: linear-gradient(135deg,
+    --gradient-frosted: linear-gradient(
+      135deg,
       rgba(255, 255, 255, 0.1) 0%,
       rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.1) 100%);
+      rgba(255, 255, 255, 0.1) 100%
+    );
 
     /* Luxury Chrome Shadows & Glows */
     --shadow-glow: 0 0 60px rgba(255, 255, 255, 0.15);
@@ -146,7 +159,8 @@ All colors MUST be HSL.
     --blur-2xl: 40px;
 
     /* Drop Shadow Effects */
-    --drop-shadow-logo: drop-shadow(0 8px 60px rgba(255, 255, 255, 0.25)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.15));
+    --drop-shadow-logo: drop-shadow(0 8px 60px rgba(255, 255, 255, 0.25))
+      drop-shadow(0 0 40px rgba(255, 255, 255, 0.15));
 
     /* Animation Delays */
     --animation-delay-1: 2s;
@@ -170,24 +184,39 @@ All colors MUST be HSL.
 @layer base {
   * {
     @apply border-border;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      "Roboto",
+      "Oxygen",
+      "Ubuntu",
+      "Cantarell",
+      sans-serif;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
-    font-feature-settings: 'cv11', 'ss01';
+    font-family: "Inter", sans-serif;
+    font-feature-settings: "cv11", "ss01";
     font-optical-sizing: auto;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Inter", sans-serif;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
 
   @keyframes breathe {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px);
     }
     50% {
@@ -205,7 +234,8 @@ All colors MUST be HSL.
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px) translateX(0px);
     }
     25% {
@@ -220,7 +250,8 @@ All colors MUST be HSL.
   }
 
   @keyframes glow-pulse {
-    0%, 100% {
+    0%,
+    100% {
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
     }
     50% {
@@ -229,7 +260,8 @@ All colors MUST be HSL.
   }
 
   @keyframes liquid-morph {
-    0%, 100% {
+    0%,
+    100% {
       border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     }
     50% {
@@ -269,7 +301,7 @@ All colors MUST be HSL.
   }
 
   .glass-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
@@ -284,7 +316,7 @@ All colors MUST be HSL.
   }
 
   .glass-card::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: var(--gradient-frosted);
@@ -302,7 +334,7 @@ All colors MUST be HSL.
   }
 
   .btn-holographic::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: 9999px;
@@ -343,9 +375,11 @@ All colors MUST be HSL.
   /* Frosted Section Backgrounds */
   .section-glass {
     @apply relative;
-    background: linear-gradient(135deg,
+    background: linear-gradient(
+      135deg,
       rgba(255, 255, 255, 0.02) 0%,
-      rgba(255, 255, 255, 0.01) 100%);
+      rgba(255, 255, 255, 0.01) 100%
+    );
   }
 
   /* Liquid Glass Effect */
@@ -357,7 +391,7 @@ All colors MUST be HSL.
   }
 
   .liquid-glass::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: -2px;
     background: var(--gradient-liquid-glass);
@@ -382,12 +416,14 @@ All colors MUST be HSL.
 
   /* Chrome Reflection */
   .chrome-reflect {
-    background: linear-gradient(135deg,
+    background: linear-gradient(
+      135deg,
       rgba(255, 255, 255, 0.1) 0%,
       rgba(255, 255, 255, 0.05) 25%,
       rgba(255, 255, 255, 0.15) 50%,
       rgba(255, 255, 255, 0.05) 75%,
-      rgba(255, 255, 255, 0.1) 100%);
+      rgba(255, 255, 255, 0.1) 100%
+    );
   }
 
   /* Additional Premium Utility Classes */

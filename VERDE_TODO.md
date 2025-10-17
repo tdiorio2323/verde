@@ -9,6 +9,7 @@
 ## 🔴 Immediate Priority (This Week)
 
 ### Code Splitting & Architecture
+
 - [ ] **Audit code splitting behavior**
   - Create `DashboardDriver.tsx` and `DashboardAdmin.tsx`
   - Remove duplicate lazy imports in `src/routing/router.tsx`
@@ -16,6 +17,7 @@
   - **Priority**: HIGH | **Effort**: 4h | **ROI**: 8/10
 
 ### Reusable Components
+
 - [ ] **Extract StatusBadge component**
   - Create `src/components/ui/StatusBadge.tsx`
   - Replace 4 duplicate implementations (AdminView, DriverView, OrderTracking)
@@ -29,6 +31,7 @@
   - **Priority**: HIGH | **Effort**: 2h | **ROI**: 5/10
 
 ### Performance Optimization
+
 - [ ] **Add React.memo to high-frequency components**
   - `ProductCard` (renders 10-100+ times)
   - `CartItem` (re-renders on every cart change)
@@ -43,6 +46,7 @@
   - **Priority**: MEDIUM | **Effort**: 6h | **ROI**: 7/10
 
 ### Authentication Setup
+
 - [ ] **Configure Supabase project**
   - Create account + new project at supabase.com
   - Set up `users`, `sessions` tables
@@ -69,6 +73,7 @@
 ## 🟡 Short-Term Goals (Next 2-3 Weeks)
 
 ### Route Protection
+
 - [ ] **Create ProtectedRoute wrapper**
   - Build HOC for authenticated routes
   - Redirect to `/login` if unauthenticated
@@ -83,6 +88,7 @@
   - **Priority**: HIGH | **Effort**: 6h | **ROI**: 9/10
 
 ### Testing Infrastructure
+
 - [ ] **Unit tests for store actions**
   - Test `addToCart`, `removeFromCart`, `updateCartQuantity`
   - Test `checkout` flow and validation
@@ -109,6 +115,7 @@
   - **Priority**: HIGH | **Effort**: 8h | **ROI**: 10/10
 
 ### Documentation & Optimization
+
 - [ ] **Update CLAUDE.md**
   - Document Supabase integration
   - Add auth architecture section
@@ -129,6 +136,7 @@
 ## 🟢 Mid-Term Roadmap (Next Month)
 
 ### Backend Integration
+
 - [ ] **Design Supabase schema**
   - Tables: `users`, `orders`, `products`, `inventory`, `dispensaries`
   - Define relationships and indexes
@@ -149,6 +157,7 @@
   - **Priority**: HIGH | **Effort**: 24h | **ROI**: 10/10
 
 ### Real-Time Features
+
 - [ ] **WebSocket order tracking**
   - Set up Supabase Realtime subscriptions
   - Live order status updates
@@ -163,6 +172,7 @@
   - **Priority**: MEDIUM | **Effort**: 12h | **ROI**: 8/10
 
 ### Production Readiness
+
 - [ ] **Error tracking integration**
   - Set up Sentry or LogRocket
   - Implement error boundary reporting
@@ -182,6 +192,7 @@
 ## ⚙️ Success Metrics
 
 ### Current State (2025-10-15)
+
 ```
 Bundle Size:       734 KB (196 KB gzipped) ✅
 Test Coverage:     ~5% 🔴
@@ -192,6 +203,7 @@ Performance:       Baseline (no optimization) 🟡
 ```
 
 ### Target After Week 1
+
 ```
 Bundle Size:       ~700 KB (optimized code splitting) ✅
 Test Coverage:     ~5% (no change yet)
@@ -202,6 +214,7 @@ Performance:       +40% (React.memo, useCallback) ✅
 ```
 
 ### Target After Week 3
+
 ```
 Bundle Size:       ~700 KB ✅
 Test Coverage:     85%+ ✅
@@ -212,6 +225,7 @@ Performance:       +70% (all optimizations) ✅
 ```
 
 ### Target After Month
+
 ```
 Bundle Size:       ~700 KB ✅
 Test Coverage:     90%+ ✅
@@ -261,11 +275,13 @@ git push              # Auto-deploy via Lovable.dev
 ## 🚀 Getting Started
 
 **Recommended Path**:
+
 1. Complete all 🔴 Immediate tasks (Week 1)
 2. Move to 🟡 Short-term goals (Weeks 2-3)
 3. Tackle 🟢 Mid-term roadmap (Month)
 
 **Alternative (Production Urgency)**:
+
 1. Auth first (Supabase setup + OTP)
 2. Testing second (reach 85% coverage)
 3. Performance + Backend (parallel work)

@@ -2,7 +2,13 @@ import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import SearchBar from "@/components/dashboard/SearchBar";
 import CategoryChips from "@/components/dashboard/CategoryChips";
 import Img from "@/components/ui/Img";
@@ -31,7 +37,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
 
   const selectedDispensary = useMemo(
     () => dispensaries.find((disp) => disp.id === session.selectedDispensaryId) ?? dispensaries[0],
-    [dispensaries, session.selectedDispensaryId]
+    [dispensaries, session.selectedDispensaryId],
   );
 
   const chipOptions = useMemo(() => {
@@ -41,7 +47,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
   // Extract only featuredCategories to minimize useMemo dependencies
   const featuredCategories = useMemo(
     () => selectedDispensary?.featuredCategories ?? [],
-    [selectedDispensary?.featuredCategories]
+    [selectedDispensary?.featuredCategories],
   );
 
   const filteredProducts = useMemo(() => {
@@ -79,7 +85,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
 
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
-    [cartItems]
+    [cartItems],
   );
 
   return (
@@ -132,7 +138,10 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
                 onReset={() => appActions.setSearch("")}
                 placeholder="Search strains, gummies, or merch"
               />
-              <Select value={filters.sort} onValueChange={(value) => appActions.setSort(value as SortOption)}>
+              <Select
+                value={filters.sort}
+                onValueChange={(value) => appActions.setSort(value as SortOption)}
+              >
                 <SelectTrigger className="h-12 rounded-full border-white/20 bg-black/40 text-sm text-white shadow-glass focus-visible:ring-2 focus-visible:ring-white/40">
                   <SelectValue placeholder="Sort menu" />
                 </SelectTrigger>
@@ -183,8 +192,15 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
                 <p className="text-sm text-white/60 line-clamp-3">{product.description}</p>
               </div>
               <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-glass">
-                <Img src={product.image} alt={`${product.name} product image`} className="h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent" aria-hidden="true" />
+                <Img
+                  src={product.image}
+                  alt={`${product.name} product image`}
+                  className="h-full w-full object-cover"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent"
+                  aria-hidden="true"
+                />
               </div>
             </div>
             <div className="flex items-center justify-between text-sm text-white/60">
@@ -194,7 +210,9 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.25em] text-white/60">Starting at</p>
-                <p className="text-2xl font-semibold text-gradient-chrome">${product.price.toFixed(2)}</p>
+                <p className="text-2xl font-semibold text-gradient-chrome">
+                  ${product.price.toFixed(2)}
+                </p>
               </div>
               <Button
                 type="button"
@@ -213,7 +231,8 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
         <div className="rounded-3xl border border-white/15 bg-black/30 p-10 text-center text-white/70">
           <h3 className="text-xl font-semibold text-white">Menu refreshing</h3>
           <p className="mt-2 text-sm">
-            We are curating a new drop for this filter set. Adjust search or category to explore additional collections.
+            We are curating a new drop for this filter set. Adjust search or category to explore
+            additional collections.
           </p>
         </div>
       )}

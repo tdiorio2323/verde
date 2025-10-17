@@ -1,11 +1,17 @@
-import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { ShieldCheck } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { ShieldCheck } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 type AgeVerificationModalProps = {
   open: boolean;
@@ -21,9 +27,9 @@ export const AgeVerificationModal = ({ open, onOpenChange }: AgeVerificationModa
   const handleConfirm = async () => {
     if (!confirmed) {
       toast({
-        title: 'Confirmation Required',
-        description: 'Please confirm that you are 21 years or older.',
-        variant: 'destructive',
+        title: "Confirmation Required",
+        description: "Please confirm that you are 21 years or older.",
+        variant: "destructive",
       });
       return;
     }
@@ -34,17 +40,17 @@ export const AgeVerificationModal = ({ open, onOpenChange }: AgeVerificationModa
 
     if (error) {
       toast({
-        title: 'Verification Failed',
-        description: 'Failed to update age verification. Please try again.',
-        variant: 'destructive',
+        title: "Verification Failed",
+        description: "Failed to update age verification. Please try again.",
+        variant: "destructive",
       });
       setLoading(false);
       return;
     }
 
     toast({
-      title: 'Age Verified',
-      description: 'Welcome to Verde Cannabis Marketplace!',
+      title: "Age Verified",
+      description: "Welcome to Verde Cannabis Marketplace!",
     });
 
     setLoading(false);
@@ -53,13 +59,13 @@ export const AgeVerificationModal = ({ open, onOpenChange }: AgeVerificationModa
 
   const handleDecline = () => {
     toast({
-      title: 'Access Denied',
-      description: 'You must be 21 or older to access this marketplace.',
-      variant: 'destructive',
+      title: "Access Denied",
+      description: "You must be 21 or older to access this marketplace.",
+      variant: "destructive",
     });
-    
+
     // Optionally redirect or show alternative content
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (
@@ -116,7 +122,7 @@ export const AgeVerificationModal = ({ open, onOpenChange }: AgeVerificationModa
               disabled={!confirmed || loading}
               className="btn-holographic w-full"
             >
-              {loading ? 'Verifying...' : 'Confirm & Continue'}
+              {loading ? "Verifying..." : "Confirm & Continue"}
             </Button>
             <Button
               onClick={handleDecline}
@@ -129,11 +135,11 @@ export const AgeVerificationModal = ({ open, onOpenChange }: AgeVerificationModa
           </div>
 
           <p className="text-xs text-white/60 text-center">
-            By continuing, you acknowledge that you have read and agree to Verde's{' '}
+            By continuing, you acknowledge that you have read and agree to Verde's{" "}
             <a href="#" className="text-amber-300 hover:text-amber-200 underline">
               Terms of Service
-            </a>{' '}
-            and{' '}
+            </a>{" "}
+            and{" "}
             <a href="#" className="text-amber-300 hover:text-amber-200 underline">
               Privacy Policy
             </a>
@@ -144,4 +150,3 @@ export const AgeVerificationModal = ({ open, onOpenChange }: AgeVerificationModa
     </Dialog>
   );
 };
-

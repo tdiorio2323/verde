@@ -13,7 +13,7 @@ const brands = [
     deliveryTime: "30-45 min",
     distance: "2.1 mi",
     specialty: "Premium Edibles",
-    badge: "Top Rated"
+    badge: "Top Rated",
   },
   {
     name: "Green Valley Farms",
@@ -23,7 +23,7 @@ const brands = [
     deliveryTime: "25-40 min",
     distance: "1.8 mi",
     specialty: "Organic Flower",
-    badge: "Certified"
+    badge: "Certified",
   },
   {
     name: "Pacific Coast Collective",
@@ -33,7 +33,7 @@ const brands = [
     deliveryTime: "35-50 min",
     distance: "3.2 mi",
     specialty: "Concentrates",
-    badge: "Popular"
+    badge: "Popular",
   },
   {
     name: "Sunset Wellness",
@@ -43,8 +43,8 @@ const brands = [
     deliveryTime: "20-35 min",
     distance: "1.2 mi",
     specialty: "Wellness Products",
-    badge: "New"
-  }
+    badge: "New",
+  },
 ];
 
 export default function ExploreMenus() {
@@ -59,8 +59,8 @@ export default function ExploreMenus() {
             Featured Drops & Local Favorites
           </h2>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Browse top-rated dispensaries near you. Each menu features lab-tested products,
-            real customer reviews, and fast delivery times.
+            Browse top-rated dispensaries near you. Each menu features lab-tested products, real
+            customer reviews, and fast delivery times.
           </p>
         </div>
 
@@ -82,9 +82,7 @@ export default function ExploreMenus() {
                 </div>
 
                 <CardHeader className="space-y-3 pb-4">
-                  <CardTitle className="text-2xl text-foreground font-bold">
-                    {brand.name}
-                  </CardTitle>
+                  <CardTitle className="text-2xl text-foreground font-bold">{brand.name}</CardTitle>
                   <CardDescription className="text-base text-gradient-holographic font-semibold">
                     {brand.specialty}
                   </CardDescription>

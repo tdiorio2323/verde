@@ -76,7 +76,9 @@ const CartDrawer = ({ open, onOpenChange, onCheckout }: CartDrawerProps) => {
                       </Button>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <span className="text-sm font-semibold text-white">${lineTotal.toFixed(2)}</span>
+                      <span className="text-sm font-semibold text-white">
+                        ${lineTotal.toFixed(2)}
+                      </span>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -109,7 +111,9 @@ const CartDrawer = ({ open, onOpenChange, onCheckout }: CartDrawerProps) => {
           </div>
           <div className="flex items-center justify-between">
             <span>Delivery</span>
-            <span>{totals.deliveryFee === 0 ? "Complimentary" : `$${totals.deliveryFee.toFixed(2)}`}</span>
+            <span>
+              {totals.deliveryFee === 0 ? "Complimentary" : `$${totals.deliveryFee.toFixed(2)}`}
+            </span>
           </div>
           <Separator className="border-white/20 bg-white/20" />
           <div className="flex items-center justify-between text-lg font-semibold text-white">

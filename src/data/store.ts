@@ -169,7 +169,7 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
  */
 export const shallowEqual = <T extends Record<string, unknown> | unknown[]>(
   next: T,
-  prev: T
+  prev: T,
 ): boolean => {
   if (Object.is(next, prev)) return true;
 
@@ -221,9 +221,9 @@ export const shallowEqual = <T extends Record<string, unknown> | unknown[]>(
  * );
  * ```
  */
-const createDerivedSelector = <T,>(
+const createDerivedSelector = <T>(
   selector: (state: AppState) => T,
-  equality: EqualityFn<T> = Object.is
+  equality: EqualityFn<T> = Object.is,
 ) => {
   let cacheState: AppState | null = null;
   let cacheValue: T;
@@ -299,9 +299,9 @@ const store: StoreImpl = (() => {
   };
 })();
 
-export const useAppStore = <T,>(
+export const useAppStore = <T>(
   selector: (state: AppState) => T,
-  equality: EqualityFn<T> = Object.is
+  equality: EqualityFn<T> = Object.is,
 ) => {
   const cacheRef = useRef<{ state: AppState; value: T }>();
 
@@ -350,11 +350,7 @@ const nextState = (partial: Partial<AppState>, state: AppState): AppState => ({
   ...partial,
 });
 
-const updateNested = <T extends keyof AppState>(
-  state: AppState,
-  key: T,
-  value: AppState[T]
-) => ({
+const updateNested = <T extends keyof AppState>(state: AppState, key: T, value: AppState[T]) => ({
   ...state,
   [key]: value,
 });
@@ -370,9 +366,7 @@ const recalcAdminOrders = (orders: CustomerOrder[]) => {
     customer: order.items[0]?.name.split(" ")[0] ?? "Guest",
     status: order.status,
     dispensary:
-      store
-        .getState()
-        .dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "Verde",
+      store.getState().dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "Verde",
     eta: `${order.etaMinutes} min`,
     basket: order.total,
   }));
@@ -462,7 +456,7 @@ export const appActions = {
       updateNested(state, "session", {
         ...state.session,
         role,
-      })
+      }),
     );
   },
   setSelectedDispensary(dispensaryId: string) {
@@ -470,7 +464,7 @@ export const appActions = {
       updateNested(state, "session", {
         ...state.session,
         selectedDispensaryId: dispensaryId,
-      })
+      }),
     );
   },
   setCategory(categoryId: string) {
@@ -478,7 +472,7 @@ export const appActions = {
       updateNested(state, "filters", {
         ...state.filters,
         categoryId,
-      })
+      }),
     );
   },
   setSearch(search: string) {
@@ -486,7 +480,7 @@ export const appActions = {
       updateNested(state, "filters", {
         ...state.filters,
         search,
-      })
+      }),
     );
   },
   setSort(sort: SortOption) {
@@ -494,7 +488,7 @@ export const appActions = {
       updateNested(state, "filters", {
         ...state.filters,
         sort,
-      })
+      }),
     );
   },
   addToCart(productId: number) {
@@ -504,7 +498,7 @@ export const appActions = {
         ? state.cart.items.map((item) =>
             item.productId === productId
               ? { ...item, quantity: ensureQuantity(item.quantity + 1) }
-              : item
+              : item,
           )
         : [...state.cart.items, { productId, quantity: 1 }];
 
@@ -518,9 +512,7 @@ export const appActions = {
     store.setState((state) => {
       const normalized = ensureQuantity(quantity);
       const updatedItems = state.cart.items
-        .map((item) =>
-          item.productId === productId ? { ...item, quantity: normalized } : item
-        )
+        .map((item) => (item.productId === productId ? { ...item, quantity: normalized } : item))
         .filter((item) => item.quantity > 0);
 
       return updateNested(state, "cart", {
@@ -534,7 +526,7 @@ export const appActions = {
       updateNested(state, "cart", {
         ...state.cart,
         items: state.cart.items.filter((item) => item.productId !== productId),
-      })
+      }),
     );
   },
   clearCart() {
@@ -542,7 +534,7 @@ export const appActions = {
       updateNested(state, "cart", {
         ...state.cart,
         items: [],
-      })
+      }),
     );
   },
   /**
@@ -559,14 +551,13 @@ export const appActions = {
     }
 
     store.setState((state) => {
-
       const selectedDispensary = state.dispensaries.find(
-        (disp) => disp.id === state.session.selectedDispensaryId
+        (disp) => disp.id === state.session.selectedDispensaryId,
       );
 
       const { subtotal, serviceFee, tax, deliveryFee, total } = calculateTotals(
         state.cart,
-        state.cart.items
+        state.cart.items,
       );
 
       const now = new Date();
@@ -576,9 +567,7 @@ export const appActions = {
         status: "preparing",
         placedAt: now.toISOString(),
         etaMinutes: selectedDispensary
-          ? Math.round(
-              (selectedDispensary.etaRange[0] + selectedDispensary.etaRange[1]) / 2
-            )
+          ? Math.round((selectedDispensary.etaRange[0] + selectedDispensary.etaRange[1]) / 2)
           : 35,
         driverName: mockCustomerOrder.driverName,
         driverAvatar: mockCustomerOrder.driverAvatar,
@@ -703,12 +692,12 @@ const selectCartItemsDetailed = createDerivedSelector<CartItemDetailed[]>(
         } satisfies CartItemDetailed;
       })
       .filter((entry): entry is NonNullable<typeof entry> => Boolean(entry)),
-  areCartItemsDetailedEqual
+  areCartItemsDetailedEqual,
 );
 
 const selectCartTotals = createDerivedSelector<CartTotals>(
   (state) => calculateTotals(state.cart, state.cart.items),
-  areCartTotalsEqual
+  areCartTotalsEqual,
 );
 
 export const selectors = {

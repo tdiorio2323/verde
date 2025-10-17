@@ -63,6 +63,7 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 7. Click **Run** (or press Cmd/Ctrl + Enter)
 
 This will create:
+
 - ✅ `profiles` table with user data
 - ✅ Row Level Security (RLS) policies
 - ✅ Automatic profile creation trigger
@@ -118,6 +119,7 @@ WHERE id = 'your-user-id-here';
 ## 🔒 Security Features Implemented
 
 ### Row Level Security (RLS)
+
 - ✅ Users can only view/edit their own profile
 - ✅ Admins can view/edit all profiles
 - ✅ Automatic profile creation on signup
@@ -125,6 +127,7 @@ WHERE id = 'your-user-id-here';
 - ✅ Role-based route protection
 
 ### Authentication Flow
+
 - ✅ Phone OTP authentication (SMS)
 - ✅ Session persistence (localStorage)
 - ✅ Auto token refresh
@@ -144,25 +147,30 @@ WHERE id = 'your-user-id-here';
 ## 🔧 Troubleshooting
 
 ### "Missing Supabase environment variables"
+
 - Make sure you created `.env.local` file
 - Restart dev server after creating `.env.local`
 
 ### "Error sending OTP" / "Verification Failed"
+
 - Check that Phone authentication is enabled in Supabase
 - Verify Twilio credentials are correct
 - For testing, use Test Phone Provider with test numbers
 
 ### "Profile not created automatically"
+
 - Check if the trigger `on_auth_user_created` exists in Supabase
 - Re-run the migration SQL if needed
 - Check Supabase logs for errors
 
 ### "Age verification modal won't close"
+
 - The modal is intentionally persistent until verified
 - Check that `age_verified` is being updated in database
 - Check browser console for errors
 
 ### "Can't access driver/admin routes"
+
 - Check your user's `role` in the `profiles` table
 - Update role with SQL query shown in Step 6
 - Refresh the page after changing role
@@ -207,6 +215,7 @@ public.profiles (Custom table)
 **Setup Complete! 🎉**
 
 Your Verde Cannabis Marketplace now has:
+
 - ✅ Phone OTP authentication
 - ✅ Age verification (21+ compliance)
 - ✅ Role-based access control
@@ -215,4 +224,3 @@ Your Verde Cannabis Marketplace now has:
 - ✅ User profiles
 
 Ready to test? Run `npm run dev` and sign in!
-

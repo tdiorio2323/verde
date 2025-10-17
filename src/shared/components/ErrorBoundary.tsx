@@ -78,7 +78,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
               <div
                 className="absolute -inset-1 rounded-[2rem] opacity-20 blur-2xl group-hover:opacity-30 transition-smooth"
                 style={{
-                  background: "radial-gradient(ellipse, rgba(255, 255, 255, 0.2) 0%, transparent 70%)",
+                  background:
+                    "radial-gradient(ellipse, rgba(255, 255, 255, 0.2) 0%, transparent 70%)",
                 }}
               />
 
@@ -94,7 +95,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                       <div
                         className="absolute inset-0 blur-2xl opacity-40"
                         style={{
-                          background: "radial-gradient(circle, rgba(239, 68, 68, 0.4) 0%, transparent 70%)",
+                          background:
+                            "radial-gradient(circle, rgba(239, 68, 68, 0.4) 0%, transparent 70%)",
                         }}
                       />
                       <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-red-500/20 border-2 border-red-500/30">
@@ -122,7 +124,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                       Something Went Wrong
                     </h1>
                     <p className="text-base md:text-lg text-muted-foreground/90">
-                      We encountered an unexpected error. Our team has been notified and is working to fix the issue.
+                      We encountered an unexpected error. Our team has been notified and is working
+                      to fix the issue.
                     </p>
                   </div>
 

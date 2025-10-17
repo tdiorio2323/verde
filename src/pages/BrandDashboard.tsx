@@ -14,7 +14,8 @@ export default function BrandDashboard() {
       <main className="p-6">
         <h1 className="text-xl font-semibold">Select a Brand</h1>
         <p className="text-sm text-neutral-500 mt-2">
-          Your account is not linked to a brand yet or you have multiple brands. Add one or choose active brand.
+          Your account is not linked to a brand yet or you have multiple brands. Add one or choose
+          active brand.
         </p>
       </main>
     );

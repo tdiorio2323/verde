@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { supabase } from '@/shared/lib/supabaseClient';
-import type { User, Session } from '@supabase/supabase-js';
-import type { Role } from '@/data/store';
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { supabase } from "@/shared/lib/supabaseClient";
+import type { User, Session } from "@supabase/supabase-js";
+import type { Role } from "@/data/store";
 
 export type AuthUser = {
   id: string;
@@ -27,7 +27,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -48,20 +48,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const fetchUserProfile = async (userId: string, phone: string): Promise<AuthUser | null> => {
     try {
       const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
         .single();
 
-      if (error && error.code === 'PGRST116') {
+      if (error && error.code === "PGRST116") {
         // Profile doesn't exist, create it
         const { data: newProfile, error: insertError } = await supabase
-          .from('profiles')
+          .from("profiles")
           .insert({
             id: userId,
             phone,
             age_verified: false,
-            role: 'customer',
+            role: "customer",
           })
           .select()
           .single();
@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         role: profile.role as Role,
       };
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error("Error fetching user profile:", error);
       return null;
     }
   };
@@ -98,10 +98,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const refreshUser = async () => {
     if (!session?.user) return;
 
-    const profile = await fetchUserProfile(
-      session.user.id,
-      session.user.phone || ''
-    );
+    const profile = await fetchUserProfile(session.user.id, session.user.phone || "");
 
     if (profile) {
       setUser(profile);
@@ -117,7 +114,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setSession(session);
 
       if (session?.user) {
-        fetchUserProfile(session.user.id, session.user.phone || '').then((profile) => {
+        fetchUserProfile(session.user.id, session.user.phone || "").then((profile) => {
           setUser(profile);
           setLoading(false);
         });
@@ -133,7 +130,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setSession(session);
 
       if (session?.user) {
-        const profile = await fetchUserProfile(session.user.id, session.user.phone || '');
+        const profile = await fetchUserProfile(session.user.id, session.user.phone || "");
         setUser(profile);
       } else {
         setUser(null);
@@ -156,7 +153,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const { error } = await supabase.auth.signInWithOtp({
         phone,
         options: {
-          channel: 'sms',
+          channel: "sms",
         },
       });
 
@@ -164,7 +161,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       return { error: null };
     } catch (error) {
-      console.error('Error sending OTP:', error);
+      console.error("Error sending OTP:", error);
       return { error: error as Error };
     }
   };
@@ -179,14 +176,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const { error } = await supabase.auth.verifyOtp({
         phone,
         token,
-        type: 'sms',
+        type: "sms",
       });
 
       if (error) throw error;
 
       return { error: null };
     } catch (error) {
-      console.error('Error verifying OTP:', error);
+      console.error("Error verifying OTP:", error);
       return { error: error as Error };
     }
   };
@@ -205,19 +202,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
    */
   const updateProfile = async (updates: Partial<AuthUser>) => {
     if (!user) {
-      return { error: new Error('No user logged in') };
+      return { error: new Error("No user logged in") };
     }
 
     try {
       const { error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
           full_name: updates.fullName,
           age_verified: updates.ageVerified,
           role: updates.role,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', user.id);
+        .eq("id", user.id);
 
       if (error) throw error;
 
@@ -226,7 +223,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       return { error: null };
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
       return { error: error as Error };
     }
   };
@@ -244,4 +241,3 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-

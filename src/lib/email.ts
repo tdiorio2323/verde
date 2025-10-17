@@ -1,6 +1,6 @@
 /**
  * Email service integration for Verde invite system
- * 
+ *
  * Setup:
  * 1. Install: npm install resend
  * 2. Set VITE_RESEND_API_KEY in your .env file
@@ -33,7 +33,7 @@ export async function sendBrandInvite({
   expiresAt,
 }: BrandInviteParams): Promise<{ success: boolean; error?: string }> {
   const inviteUrl = `${PUBLIC_HOST}/accept-brand-invite?token=${token}`;
-  
+
   // TODO: Replace with your email service
   // Example using Resend:
   /*
@@ -46,17 +46,17 @@ export async function sendBrandInvite({
     html: getBrandInviteTemplate({ email, brandName, inviteUrl, expiresAt }),
   });
   */
-  
+
   // Development fallback: log to console
   if (import.meta.env.DEV) {
-    console.log('📧 Brand Invite Email:', {
+    console.log("📧 Brand Invite Email:", {
       to: email,
       subject: `You've been invited to manage ${brandName}`,
       inviteUrl,
       expiresAt,
     });
   }
-  
+
   return { success: true };
 }
 
@@ -70,7 +70,7 @@ export async function sendCustomerInvite({
   expiresAt,
 }: CustomerInviteParams): Promise<{ success: boolean; error?: string }> {
   const inviteUrl = `${PUBLIC_HOST}/accept-invite?token=${token}`;
-  
+
   // TODO: Replace with your email service
   // Example using Resend:
   /*
@@ -83,17 +83,17 @@ export async function sendCustomerInvite({
     html: getCustomerInviteTemplate({ email, brandName, inviteUrl, expiresAt }),
   });
   */
-  
+
   // Development fallback: log to console
   if (import.meta.env.DEV) {
-    console.log('📧 Customer Invite Email:', {
+    console.log("📧 Customer Invite Email:", {
       to: email,
       subject: `Welcome to ${brandName} on Verde`,
       inviteUrl,
       expiresAt,
     });
   }
-  
+
   return { success: true };
 }
 
@@ -227,4 +227,3 @@ function getCustomerInviteTemplate({
 </html>
   `.trim();
 }
-

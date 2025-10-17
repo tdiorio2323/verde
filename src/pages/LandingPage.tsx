@@ -1,16 +1,27 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import BackgroundGrid from "@/components/ui/BackgroundGrid";
 import GlowButton from "@/components/ui/GlowButton";
 import Section from "@/components/layout/Section";
 import FeatureCard from "@/components/ui/FeatureCard";
 import Footer from "@/components/Footer";
-import { LoginModal } from '@/components/auth/LoginModal';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
-import { fr } from '@/lib/motion';
-import { ShoppingCart, ShieldCheck, CreditCard, Zap, Users, TrendingUp, Lock, Truck, LogOut, Store } from 'lucide-react';
+import { LoginModal } from "@/components/auth/LoginModal";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { fr } from "@/lib/motion";
+import {
+  ShoppingCart,
+  ShieldCheck,
+  CreditCard,
+  Zap,
+  Users,
+  TrendingUp,
+  Lock,
+  Truck,
+  LogOut,
+  Store,
+} from "lucide-react";
 
 const LandingPage = () => {
   const { user, signOut } = useAuth();
@@ -20,7 +31,7 @@ const LandingPage = () => {
       {/* HERO */}
       <section className="relative isolate overflow-hidden py-28 sm:py-36">
         <BackgroundGrid />
-        
+
         {/* Navigation - Top Right */}
         <div className="absolute top-8 right-8 z-20">
           <div className="flex items-center gap-4">
@@ -34,13 +45,11 @@ const LandingPage = () => {
                 Shop
               </Button>
             </Link>
-            
+
             {user ? (
               <div className="flex items-center gap-4">
                 <div className="glass-md rounded-full px-6 py-2 border border-white/15">
-                  <p className="text-sm text-white/90">
-                    {user.phone}
-                  </p>
+                  <p className="text-sm text-white/90">{user.phone}</p>
                 </div>
                 <Button
                   onClick={() => signOut()}
@@ -53,10 +62,7 @@ const LandingPage = () => {
                 </Button>
               </div>
             ) : (
-              <Button
-                onClick={() => setShowLoginModal(true)}
-                className="btn-holographic"
-              >
+              <Button onClick={() => setShowLoginModal(true)} className="btn-holographic">
                 Sign In
               </Button>
             )}
@@ -88,7 +94,11 @@ const LandingPage = () => {
       </section>
 
       {/* PLATFORM */}
-      <Section id="platform" title="A Platform Built for Everyone" subtitle="For shoppers, creators, and operators.">
+      <Section
+        id="platform"
+        title="A Platform Built for Everyone"
+        subtitle="For shoppers, creators, and operators."
+      >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <FeatureCard
             icon={<ShoppingCart size={20} className="text-sky-300" />}
@@ -96,7 +106,7 @@ const LandingPage = () => {
             bullets={[
               "Licensed inventory only",
               "Real-time delivery tracking",
-              "Loyalty rewards on every order"
+              "Loyalty rewards on every order",
             ]}
           />
           <FeatureCard
@@ -105,7 +115,7 @@ const LandingPage = () => {
             bullets={[
               "Audience tools & analytics",
               "Insights & monthly payouts",
-              "Partner storefronts"
+              "Partner storefronts",
             ]}
           />
           <FeatureCard
@@ -114,23 +124,23 @@ const LandingPage = () => {
             bullets={[
               "Age/ID verified checkout",
               "Menu sync & inventory",
-              "Admin dashboard & reports"
+              "Admin dashboard & reports",
             ]}
           />
         </div>
       </Section>
 
       {/* LOYALTY */}
-      <Section id="loyalty" title="Verde Loyalty System" subtitle="Earn credits, unlock tiers, access member benefits.">
+      <Section
+        id="loyalty"
+        title="Verde Loyalty System"
+        subtitle="Earn credits, unlock tiers, access member benefits."
+      >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <FeatureCard
             icon={<CreditCard size={20} className="text-sky-300" />}
             title="Earn Credits"
-            bullets={[
-              "Every purchase adds value",
-              "Auto accrual & tracking",
-              "Redeem at checkout"
-            ]}
+            bullets={["Every purchase adds value", "Auto accrual & tracking", "Redeem at checkout"]}
           />
           <FeatureCard
             icon={<TrendingUp size={20} className="text-purple-300" />}
@@ -138,7 +148,7 @@ const LandingPage = () => {
             bullets={[
               "Silver • Gold • Platinum",
               "Exclusive drops & products",
-              "VIP support access"
+              "VIP support access",
             ]}
           />
           <FeatureCard
@@ -147,7 +157,7 @@ const LandingPage = () => {
             bullets={[
               "Priority delivery slots",
               "Verified sellers only",
-              "Early access to launches"
+              "Early access to launches",
             ]}
           />
         </div>
@@ -166,91 +176,67 @@ const LandingPage = () => {
       </Section>
 
       {/* WHY VERDE */}
-      <Section id="why" title="Why Verde" subtitle="Because presentation, quality, and trust matter.">
+      <Section
+        id="why"
+        title="Why Verde"
+        subtitle="Because presentation, quality, and trust matter."
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <FeatureCard
             icon={<ShieldCheck size={20} className="text-sky-300" />}
             title="Premium Quality"
-            bullets={[
-              "Curated brands only",
-              "Strict quality standards",
-              "No gray-market products"
-            ]}
+            bullets={["Curated brands only", "Strict quality standards", "No gray-market products"]}
           />
           <FeatureCard
             icon={<ShieldCheck size={20} className="text-purple-300" />}
             title="Verified Brands"
-            bullets={[
-              "Licenses on file",
-              "Audit trails maintained",
-              "Public verification badges"
-            ]}
+            bullets={["Licenses on file", "Audit trails maintained", "Public verification badges"]}
           />
           <FeatureCard
             icon={<Lock size={20} className="text-amber-300" />}
             title="Secure Payments"
-            bullets={[
-              "PCI-compliant processing",
-              "End-to-end encrypted",
-              "Dispute-ready system"
-            ]}
+            bullets={["PCI-compliant processing", "End-to-end encrypted", "Dispute-ready system"]}
           />
           <FeatureCard
             icon={<Truck size={20} className="text-sky-300" />}
             title="Fast Delivery"
-            bullets={[
-              "Optimized routing",
-              "Live ETA tracking",
-              "Full LA coverage"
-            ]}
+            bullets={["Optimized routing", "Live ETA tracking", "Full LA coverage"]}
           />
         </div>
       </Section>
 
       {/* COMPLIANCE */}
-      <Section id="compliance" title="Compliance & Transparency" subtitle="Every transaction verified. Every brand licensed. No exceptions.">
+      <Section
+        id="compliance"
+        title="Compliance & Transparency"
+        subtitle="Every transaction verified. Every brand licensed. No exceptions."
+      >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <FeatureCard
             icon={<ShieldCheck size={20} className="text-sky-300" />}
             title="Age/ID Verification"
-            bullets={[
-              "KYC at signup",
-              "ID re-checks enabled",
-              "Complete audit logs"
-            ]}
+            bullets={["KYC at signup", "ID re-checks enabled", "Complete audit logs"]}
           />
           <FeatureCard
             icon={<ShieldCheck size={20} className="text-purple-300" />}
             title="License Management"
-            bullets={[
-              "Brand uploads required",
-              "Auto expiry alerts",
-              "Reviewer workflow"
-            ]}
+            bullets={["Brand uploads required", "Auto expiry alerts", "Reviewer workflow"]}
           />
           <FeatureCard
             icon={<Lock size={20} className="text-amber-300" />}
             title="Security First"
-            bullets={[
-              "TLS everywhere",
-              "HSTS enforced",
-              "Abuse monitoring 24/7"
-            ]}
+            bullets={["TLS everywhere", "HSTS enforced", "Abuse monitoring 24/7"]}
           />
           <FeatureCard
             icon={<ShieldCheck size={20} className="text-sky-300" />}
             title="Privacy Focused"
-            bullets={[
-              "Data minimization",
-              "Strict access controls",
-              "Auto redaction tools"
-            ]}
+            bullets={["Data minimization", "Strict access controls", "Auto redaction tools"]}
           />
         </div>
       </Section>
 
       <Footer onOpenLogin={() => setShowLoginModal(true)} />
-      
+
       {/* Login Modal */}
       <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
     </main>

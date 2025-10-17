@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-import { env } from '@/shared/config/env';
+import { createClient } from "@supabase/supabase-js";
+import { env } from "@/shared/config/env";
 
 /**
  * Centralized Supabase client instance for Verde Cannabis Marketplace.
@@ -11,14 +11,14 @@ export const supabase = createClient(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_AN
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    storageKey: 'verde-auth-token',
+    storageKey: "verde-auth-token",
   },
 });
 
 /**
  * Type definitions for Supabase database tables.
  * Extend this as you add more tables to your schema.
- * 
+ *
  * @todo Generate types automatically using:
  * `supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/shared/types/supabase.ts`
  */
@@ -31,7 +31,7 @@ export type Database = {
           phone: string;
           full_name: string | null;
           age_verified: boolean;
-          role: 'customer' | 'driver' | 'admin' | 'brand';
+          role: "customer" | "driver" | "admin" | "brand";
           created_at: string;
           updated_at: string;
         };
@@ -40,7 +40,7 @@ export type Database = {
           phone: string;
           full_name?: string | null;
           age_verified?: boolean;
-          role?: 'customer' | 'driver' | 'admin' | 'brand';
+          role?: "customer" | "driver" | "admin" | "brand";
           created_at?: string;
           updated_at?: string;
         };
@@ -49,7 +49,7 @@ export type Database = {
           phone?: string;
           full_name?: string | null;
           age_verified?: boolean;
-          role?: 'customer' | 'driver' | 'admin' | 'brand';
+          role?: "customer" | "driver" | "admin" | "brand";
           created_at?: string;
           updated_at?: string;
         };
@@ -57,4 +57,3 @@ export type Database = {
     };
   };
 };
-

@@ -1,7 +1,7 @@
-import * as React from "react"
+import * as React from "react";
 
 /** Breakpoint in pixels for mobile/tablet distinction */
-const MOBILE_BREAKPOINT = 768
+const MOBILE_BREAKPOINT = 768;
 
 /**
  * Custom hook to detect if the current viewport is mobile-sized.
@@ -17,37 +17,37 @@ const MOBILE_BREAKPOINT = 768
  * ```
  */
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
 
   React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
     // Use mql.matches for initial state (more reliable and works in older browsers)
     const onChange = () => {
-      setIsMobile(mql.matches)
-    }
+      setIsMobile(mql.matches);
+    };
 
     // Check for addEventListener support (fallback for older browsers)
     if (mql.addEventListener) {
-      mql.addEventListener("change", onChange)
+      mql.addEventListener("change", onChange);
     } else {
       // Fallback for older browsers that don't support addEventListener
-      mql.addListener(onChange)
+      mql.addListener(onChange);
     }
 
     // Set initial state using mql.matches instead of window.innerWidth
-    setIsMobile(mql.matches)
+    setIsMobile(mql.matches);
 
     // Return cleanup function that handles both modern and legacy browsers
     return () => {
       if (mql.removeEventListener) {
-        mql.removeEventListener("change", onChange)
+        mql.removeEventListener("change", onChange);
       } else {
         // Fallback for older browsers
-        mql.removeListener(onChange)
+        mql.removeListener(onChange);
       }
-    }
-  }, [])
+    };
+  }, []);
 
-  return !!isMobile
+  return !!isMobile;
 }

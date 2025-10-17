@@ -1,35 +1,35 @@
-import { Link } from 'react-router-dom';
-import { useCart } from '@/features/cart/store';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { ArrowLeft, Trash2 } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { useCart } from "@/features/cart/store";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, Trash2 } from "lucide-react";
 
 export default function CartPage() {
   const { items, setQty, remove, totalCents, clear } = useCart();
   const total = (totalCents() / 100).toLocaleString(undefined, {
-    style: 'currency',
-    currency: 'USD'
+    style: "currency",
+    currency: "USD",
   });
-  
+
   return (
     <main className="relative min-h-screen text-white">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-slate-900 to-black" />
       <div className="absolute inset-0 bg-gradient-to-tr from-sky-950/20 via-purple-950/30 to-amber-950/20" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]" />
-      
+
       <div className="relative z-10 mx-auto max-w-4xl px-4 py-12 sm:px-6">
         {/* Back button */}
         <Link to="/shop" className="inline-flex items-center text-white/60 hover:text-white mb-8">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Continue Shopping
         </Link>
-        
+
         <h1 className="bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-3xl sm:text-4xl font-bold text-transparent mb-8">
           Cart
         </h1>
-        
+
         {items.length === 0 ? (
           <Card className="glass-card border-white/15 bg-black/40 text-white">
             <CardContent className="flex flex-col items-center justify-center py-12">
@@ -47,7 +47,7 @@ export default function CartPage() {
                 <CardTitle>Items ({items.length})</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {items.map(i => (
+                {items.map((i) => (
                   <div
                     key={i.id}
                     className="flex flex-col sm:flex-row sm:items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4"
@@ -63,7 +63,7 @@ export default function CartPage() {
                       ) : (
                         <div className="h-20 w-20 flex-shrink-0 rounded-lg border border-white/10 bg-white/5" />
                       )}
-                      
+
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold truncate">{i.title}</h3>
                         <p className="text-sm text-white/60">
@@ -71,7 +71,7 @@ export default function CartPage() {
                         </p>
                       </div>
                     </div>
-                    
+
                     {/* Controls Section - Mobile: Full width row, Desktop: Compact row */}
                     <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
                       <div className="flex items-center gap-2">
@@ -80,17 +80,17 @@ export default function CartPage() {
                           type="number"
                           min={1}
                           value={i.qty}
-                          onChange={e => setQty(i.id, parseInt(e.target.value || '1'))}
+                          onChange={(e) => setQty(i.id, parseInt(e.target.value || "1"))}
                           className="w-16 sm:w-20 border-white/20 bg-white/5 text-center min-h-[44px]"
                         />
                       </div>
-                      
+
                       <div className="w-20 sm:w-24 text-right">
                         <p className="font-semibold text-sm sm:text-base">
                           ${((i.price_cents * i.qty) / 100).toFixed(2)}
                         </p>
                       </div>
-                      
+
                       <Button
                         onClick={() => remove(i.id)}
                         variant="ghost"
@@ -104,7 +104,7 @@ export default function CartPage() {
                 ))}
               </CardContent>
             </Card>
-            
+
             {/* Summary */}
             <Card className="glass-card border-white/15 bg-black/40 text-white">
               <CardHeader>
@@ -140,4 +140,3 @@ export default function CartPage() {
     </main>
   );
 }
-

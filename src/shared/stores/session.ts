@@ -34,4 +34,3 @@ export const useSession = create<SessionState>((set, get) => ({
     set({ isAdmin, brandIds, role, brandId, loading: false });
   },
 }));
-

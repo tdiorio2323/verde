@@ -164,7 +164,7 @@ export function isCartLineItemArray(value: unknown): value is CartLineItem[] {
  * @returns true if value is a valid order status
  */
 export function isOrderStatus(
-  value: unknown
+  value: unknown,
 ): value is "placed" | "confirmed" | "preparing" | "enroute" | "arriving" | "delivered" {
   return (
     typeof value === "string" &&

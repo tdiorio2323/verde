@@ -9,6 +9,7 @@ Complete end-to-end invite redemption system for brand members and customers.
 ### 1. Database Migrations ✅
 
 **File: `supabase/migrations/20251016_invite_redeem.sql`**
+
 - Secure `redeem_brand_invite()` function with SECURITY DEFINER
 - Validates invite token, checks expiration
 - Creates brand membership on acceptance
@@ -16,6 +17,7 @@ Complete end-to-end invite redemption system for brand members and customers.
 - Grants execute to authenticated users only
 
 **File: `supabase/migrations/20251016_customer_invites.sql`**
+
 - Customer invites table with RLS policies
 - `redeem_customer_invite()` function
 - Creates customer CRM records
@@ -25,12 +27,14 @@ Complete end-to-end invite redemption system for brand members and customers.
 ### 2. React Pages ✅
 
 **File: `src/pages/AcceptBrandInvite.tsx`**
+
 - Public route for accepting brand admin/manager invites
 - Requires authentication before redemption
 - Shows "signin_required" prompt if not authenticated
 - Redirects to `/dashboard/brand` on success
 
 **File: `src/pages/AcceptCustomerInvite.tsx`**
+
 - Public route for accepting customer invites
 - Works both authenticated and anonymous
 - Creates CRM record with optional user linkage
@@ -39,6 +43,7 @@ Complete end-to-end invite redemption system for brand members and customers.
 ### 3. Router Updates ✅
 
 **File: `src/router.tsx`**
+
 - Added `/accept-brand-invite` route (public)
 - Added `/accept-invite` route (public)
 - Both routes use lazy loading with Suspense
@@ -47,12 +52,14 @@ Complete end-to-end invite redemption system for brand members and customers.
 ### 4. Documentation ✅
 
 **File: `docs/EMAIL_TEMPLATES.md`**
+
 - HTML and plain text email templates
 - Integration examples (Resend, SendGrid, Edge Functions)
 - Variable substitution guide
 - Security notes and testing strategies
 
 **File: `docs/QA_CHECKLIST.md`**
+
 - 17 comprehensive test cases
 - Step-by-step testing instructions
 - Expected vs actual result tracking
@@ -111,27 +118,31 @@ Complete end-to-end invite redemption system for brand members and customers.
 ## Security Features
 
 ### Token Generation
+
 ```typescript
 // Client-side (simple)
 const token = crypto.randomUUID();
 
 // Server-side (PostgreSQL)
-encode(gen_random_bytes(32), 'base64')
+encode(gen_random_bytes(32), "base64");
 ```
 
 ### Expiration
+
 - Brand invites: 14 days
 - Customer invites: 30 days
 - Checked at redemption time
 - Expired tokens rejected with error
 
 ### RLS Protection
+
 - Invites readable only by admins or brand members
 - Invites writable only by admins or brand members
 - Redemption functions use SECURITY DEFINER to bypass RLS
 - Validation logic prevents unauthorized redemption
 
 ### Prevents
+
 - ✅ Token reuse (accepted_at check)
 - ✅ Expired token use (expires_at check)
 - ✅ Invalid token attempts (existence check)
@@ -147,6 +158,7 @@ encode(gen_random_bytes(32), 'base64')
 **Purpose:** Redeems a brand admin/manager invite and adds user to brand_members
 
 **Parameters:**
+
 - `invite_token` - UUID token from invite email
 - `member_role` - One of: 'owner', 'manager', 'staff' (default: 'owner')
 
@@ -155,14 +167,16 @@ encode(gen_random_bytes(32), 'base64')
 **Requires:** Authenticated user (auth.uid() must exist)
 
 **Errors:**
+
 - `"invalid role"` - member_role not in allowed values
 - `"invalid_or_expired_invite"` - Token invalid, already used, or expired
 
 **Example:**
+
 ```typescript
 const { data, error } = await supabase.rpc("redeem_brand_invite", {
   invite_token: "abc-123-def-456",
-  member_role: "manager"
+  member_role: "manager",
 });
 
 if (data) {
@@ -177,6 +191,7 @@ if (data) {
 **Purpose:** Redeems a customer invite and creates CRM record
 
 **Parameters:**
+
 - `invite_token` - UUID token from invite email
 
 **Returns:** `table(brand_id uuid, customer_id uuid, linked boolean)`
@@ -184,12 +199,14 @@ if (data) {
 **Requires:** None (works for both anon and authenticated users)
 
 **Errors:**
+
 - `"invalid_or_expired_invite"` - Token invalid, already used, or expired
 
 **Example:**
+
 ```typescript
 const { data, error } = await supabase.rpc("redeem_customer_invite", {
-  invite_token: "xyz-789-uvw-012"
+  invite_token: "xyz-789-uvw-012",
 });
 
 if (data) {
@@ -210,21 +227,21 @@ import { supabase } from "@/lib/supabase";
 async function createBrandInvite(brandId: string, email: string) {
   const token = crypto.randomUUID();
   const { data: user } = await supabase.auth.getUser();
-  
+
   const { error } = await supabase.from("brand_invites").insert({
     brand_id: brandId,
     email: email,
     token: token,
     created_by: user?.user?.id,
   });
-  
+
   if (!error) {
     // Send email with: /accept-brand-invite?token={token}
     const inviteLink = `${window.location.origin}/accept-brand-invite?token=${token}`;
     console.log("Invite link:", inviteLink);
     // TODO: Send email via your email service
   }
-  
+
   return { token, error };
 }
 ```
@@ -235,21 +252,21 @@ async function createBrandInvite(brandId: string, email: string) {
 async function createCustomerInvite(brandId: string, email: string) {
   const token = crypto.randomUUID();
   const { data: user } = await supabase.auth.getUser();
-  
+
   const { error } = await supabase.from("customer_invites").insert({
     brand_id: brandId,
     email: email,
     token: token,
     created_by: user?.user?.id,
   });
-  
+
   if (!error) {
     // Send email with: /accept-invite?token={token}
     const inviteLink = `${window.location.origin}/accept-invite?token=${token}`;
     console.log("Invite link:", inviteLink);
     // TODO: Send email via your email service
   }
-  
+
   return { token, error };
 }
 ```
@@ -310,6 +327,7 @@ Before deploying to production:
 ## File Manifest
 
 ### Database
+
 - ✅ `supabase/migrations/20251016_brand_role.sql` (core schema)
 - ✅ `supabase/migrations/20251016_brand_invites.sql` (brand invites table)
 - ✅ `supabase/migrations/20251016_invite_redeem.sql` (brand redemption function)
@@ -317,6 +335,7 @@ Before deploying to production:
 - ✅ `supabase/seed_brand_demo.sql` (demo data)
 
 ### Frontend
+
 - ✅ `src/pages/AcceptBrandInvite.tsx` (brand invite acceptance page)
 - ✅ `src/pages/AcceptCustomerInvite.tsx` (customer invite acceptance page)
 - ✅ `src/pages/BrandDashboard.tsx` (brand management dashboard)
@@ -326,6 +345,7 @@ Before deploying to production:
 - ✅ `src/state/session.ts` (Zustand session store)
 
 ### Documentation
+
 - ✅ `docs/BRAND_ROLE_SETUP.md` (setup guide)
 - ✅ `docs/EMAIL_TEMPLATES.md` (email templates)
 - ✅ `docs/QA_CHECKLIST.md` (testing checklist)
@@ -363,4 +383,3 @@ Before deploying to production:
 **Status:** ✅ Complete and ready for testing  
 **Last Updated:** 2025-10-16  
 **Version:** 1.0.0
-

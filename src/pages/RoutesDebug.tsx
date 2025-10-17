@@ -2,34 +2,35 @@ import { router } from "@/app/router";
 import { ROLES } from "@/shared/config/roles";
 
 export default function RoutesDebug() {
-    const routes = router.routes.map((route) => ({
-        path: route.path || "*",
-        label: route.path === "/" ? "Landing" : route.path === "*" ? "Not Found" : route.path,
-        private: route.path?.includes("/dashboard") || false,
-    }));
+  const routes = router.routes.map((route) => ({
+    path: route.path || "*",
+    label: route.path === "/" ? "Landing" : route.path === "*" ? "Not Found" : route.path,
+    private: route.path?.includes("/dashboard") || false,
+  }));
 
-    return (
-        <main
-            className="min-h-screen text-foreground p-6 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: 'url(/candy-shop.png)' }}
-        >
-            <h1 className="text-2xl font-bold mb-4 bg-gradient-holographic bg-clip-text text-transparent">
-                Route Map
-            </h1>
-            <ul className="space-y-2">
-                {routes.map(r => (
-                    <li key={r.path} className="rounded-md border border-border p-3 bg-card/50">
-                        <div className="font-mono text-sm text-primary">{r.path}</div>
-                        <div className="text-muted-foreground text-sm">
-                            {r.label}{r.private ? " • private" : ""}
-                        </div>
-                    </li>
-                ))}
-            </ul>
-            <div className="mt-6">
-                <h2 className="text-lg font-semibold mb-3 text-golden">Application Flow</h2>
-                <pre className="text-sm overflow-auto rounded-md border border-border p-4 bg-card/30 text-foreground">
-                    {`Flow:
+  return (
+    <main
+      className="min-h-screen text-foreground p-6 bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url(/candy-shop.png)" }}
+    >
+      <h1 className="text-2xl font-bold mb-4 bg-gradient-holographic bg-clip-text text-transparent">
+        Route Map
+      </h1>
+      <ul className="space-y-2">
+        {routes.map((r) => (
+          <li key={r.path} className="rounded-md border border-border p-3 bg-card/50">
+            <div className="font-mono text-sm text-primary">{r.path}</div>
+            <div className="text-muted-foreground text-sm">
+              {r.label}
+              {r.private ? " • private" : ""}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-6">
+        <h2 className="text-lg font-semibold mb-3 text-golden">Application Flow</h2>
+        <pre className="text-sm overflow-auto rounded-md border border-border p-4 bg-card/30 text-foreground">
+          {`Flow:
 1) "/" → OTP Entry (Index) → on 6 digits → "/dashboard"
 2) "/dashboard" → category filter → add to cart → checkout button (future: /checkout)
 3) "*" → NotFound
@@ -49,8 +50,8 @@ Future Routes to Consider:
 • /orders → Order history and tracking
 • /brand/[id] → Individual brand storefronts
 • /admin → Administrative interface`}
-                </pre>
-            </div>
-        </main>
-    );
+        </pre>
+      </div>
+    </main>
+  );
 }

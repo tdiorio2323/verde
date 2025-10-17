@@ -9,7 +9,7 @@ export const ROLES = {
   BRAND: "brand",
 } as const;
 
-export type Role = typeof ROLES[keyof typeof ROLES];
+export type Role = (typeof ROLES)[keyof typeof ROLES];
 
 /**
  * Derives the user role based on their profile data.
@@ -21,4 +21,3 @@ export function deriveRole(me: { isAdmin?: boolean; brandIds?: string[] }): Role
   // Note: Driver role should be set in the database profile
   return ROLES.CUSTOMER;
 }
-

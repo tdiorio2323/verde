@@ -1,7 +1,20 @@
 import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import DataTable from "@/components/dashboard/DataTable";
 import KpiCard from "@/components/dashboard/KpiCard";
 import { selectors, useAppStore } from "@/data/store";
@@ -33,7 +46,9 @@ const AdminView = () => {
     return adminState.orders.filter((order) => order.status === statusFilter);
   }, [adminState.orders, statusFilter]);
 
-  const onlineDrivers = adminState.users.filter((user) => user.role === "Driver" && user.status === "Active").length;
+  const onlineDrivers = adminState.users.filter(
+    (user) => user.role === "Driver" && user.status === "Active",
+  ).length;
   const totalDrivers = adminState.users.filter((user) => user.role === "Driver").length;
 
   return (
@@ -85,7 +100,9 @@ const AdminView = () => {
                 <TableRow key={order.id} className="border-white/10">
                   <TableCell className="text-white">
                     <div className="flex items-center gap-3">
-                      <Badge className={`rounded-full border border-white/20 px-3 py-1 text-xs ${statusTone[order.status] ?? "bg-white/15 text-white"}`}>
+                      <Badge
+                        className={`rounded-full border border-white/20 px-3 py-1 text-xs ${statusTone[order.status] ?? "bg-white/15 text-white"}`}
+                      >
                         {order.status}
                       </Badge>
                       <span className="font-semibold">{order.id}</span>

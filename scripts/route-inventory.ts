@@ -1,8 +1,12 @@
-import { readdirSync, statSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { readdirSync, statSync, writeFileSync } from "fs";
+import { join } from "path";
 
-const roots = ['src/pages', 'src/routing'].filter(p => {
-  try { return statSync(p).isDirectory(); } catch { return false; }
+const roots = ["src/pages", "src/routing"].filter((p) => {
+  try {
+    return statSync(p).isDirectory();
+  } catch {
+    return false;
+  }
 });
 
 const files: string[] = [];
@@ -19,10 +23,9 @@ function walk(d: string) {
 roots.forEach(walk);
 
 const routes = files
-  .filter(f => /router|pages/i.test(f) && /\.(tsx|ts)$/.test(f))
-  .map(f => `- ${f}`)
-  .join('\n');
+  .filter((f) => /router|pages/i.test(f) && /\.(tsx|ts)$/.test(f))
+  .map((f) => `- ${f}`)
+  .join("\n");
 
-writeFileSync('docs/ROUTES.md', `# Routes\n\n${routes}\n`);
-console.log('Wrote docs/ROUTES.md');
-
+writeFileSync("docs/ROUTES.md", `# Routes\n\n${routes}\n`);
+console.log("Wrote docs/ROUTES.md");

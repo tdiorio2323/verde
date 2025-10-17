@@ -25,7 +25,8 @@ export const OrderTracking = ({ order, onAdvance }: OrderTrackingProps) => {
         <div className="space-y-3 text-center text-white/70">
           <h3 className="text-xl font-semibold text-white">Track orders in real time</h3>
           <p className="text-sm">
-            Place an order to unlock timeline updates, driver positioning, and curated delivery status.
+            Place an order to unlock timeline updates, driver positioning, and curated delivery
+            status.
           </p>
         </div>
       </Card>
@@ -68,7 +69,14 @@ export const OrderTracking = ({ order, onAdvance }: OrderTrackingProps) => {
             )}
             <div className="relative h-48 overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-[#0f172a] via-[#0b1220] to-[#030712]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.35),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(192,132,252,0.25),transparent_50%),radial-gradient(circle_at_60%_85%,rgba(250,204,21,0.2),transparent_55%)]" />
-              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.18) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+              <div
+                className="absolute inset-0 opacity-20"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.18) 1px, transparent 1px)",
+                  backgroundSize: "40px 40px",
+                }}
+              />
               <div className="relative z-10 flex h-full flex-col justify-between p-5 text-sm text-white/70">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-white/50">Driver</p>
@@ -105,7 +113,9 @@ export const OrderTracking = ({ order, onAdvance }: OrderTrackingProps) => {
                 <div
                   key={step.id}
                   className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-sm ${
-                    step.complete ? "border-white/25 bg-white/10 text-white" : "border-white/10 bg-black/30 text-white/60"
+                    step.complete
+                      ? "border-white/25 bg-white/10 text-white"
+                      : "border-white/10 bg-black/30 text-white/60"
                   }`}
                 >
                   <div>
@@ -123,7 +133,9 @@ export const OrderTracking = ({ order, onAdvance }: OrderTrackingProps) => {
               <ul className="mt-2 space-y-2">
                 {order.items.map((item) => (
                   <li key={item.id} className="flex items-center justify-between">
-                    <span>{item.quantity}× {item.name}</span>
+                    <span>
+                      {item.quantity}× {item.name}
+                    </span>
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                   </li>
                 ))}

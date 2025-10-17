@@ -25,10 +25,12 @@ Before merging changes to the store, run `pnpm exec tsc --noEmit` and `pnpm buil
 - Optionally test cart flow, driver console, and admin KPIs for stability.
 
 **Expected output:**
+
 - ✅ Commit hash, branch name, and deployment URL.
 - ⚙️ If a build fails, include the first 10 lines of the error log and abort deployment automatically.
 
 > Note: I cannot deploy or access hosting from this environment. To finish deployment:
+>
 > 1. Commit local changes.
 > 2. Run your provider’s CLI (`vercel --prod`, `netlify deploy --prod`, or trigger CI).
 > 3. After deployment, share the commit hash, branch, and live URL for verification.

@@ -9,6 +9,7 @@
 ## 📦 What's Been Built
 
 ### Backend (Supabase)
+
 - ✅ **4 migrations** - Complete schema with RLS
 - ✅ **Brand management** - Multi-tenant isolation
 - ✅ **Invite system** - Brand & customer invites
@@ -16,6 +17,7 @@
 - ✅ **Demo seed data** - Ready for testing
 
 ### Frontend (React)
+
 - ✅ **BrandDashboard** - Complete management UI
 - ✅ **Invite acceptance pages** - Brand & customer flows
 - ✅ **Email templates** - HTML & integration code
@@ -23,12 +25,14 @@
 - ✅ **Protected routes** - Role-based access control
 
 ### Documentation
+
 - ✅ **Setup guide** - Complete installation steps
 - ✅ **QA checklist** - 17 test cases
 - ✅ **Email templates** - Ready-to-use HTML
 - ✅ **Launch checklist** - Pre-deployment verification
 
 ### Automation Scripts
+
 - ✅ **deploy-migrations.sh** - Automated deployment
 - ✅ **smoke-test.sh** - Quick verification
 - ✅ **Production configs** - Environment files
@@ -48,11 +52,14 @@ Get this from: Supabase Dashboard → Settings → Database → Connection Strin
 ### 2. Deploy Everything
 
 \`\`\`bash
+
 # Run automated deployment
+
 ./scripts/deploy-migrations.sh
 \`\`\`
 
 This will:
+
 - ✅ Push all 4 migrations
 - ✅ Optionally seed demo data
 - ✅ Verify RPCs and tables
@@ -61,15 +68,20 @@ This will:
 ### 3. Configure Admin Access
 
 \`\`\`bash
+
 # Get your UUID from Supabase Dashboard → Authentication → Users
+
 # Then run:
+
 psql "\$SUPABASE_DB_URL" -c "INSERT INTO public.admins(user_id) VALUES ('YOUR-UUID');"
 \`\`\`
 
 ### 4. Run Smoke Tests
 
 \`\`\`bash
+
 # Replace YOUR-UUID with your actual UUID
+
 ./scripts/smoke-test.sh YOUR-UUID
 \`\`\`
 
@@ -79,7 +91,9 @@ psql "\$SUPABASE_DB_URL" -c "INSERT INTO public.admins(user_id) VALUES ('YOUR-UU
 npm run dev
 
 # Visit the test URLs shown in smoke test output
+
 # Example: http://localhost:8080/accept-brand-invite?token=test-brand-123
+
 \`\`\`
 
 ---
@@ -87,6 +101,7 @@ npm run dev
 ## 📋 Pre-Production Checklist
 
 ### Database
+
 - [ ] Migrations applied: \`supabase db push\`
 - [ ] RLS policies active (all brand tables)
 - [ ] RPCs exist: \`redeem_brand_invite\`, \`redeem_customer_invite\`, \`me_roles\`
@@ -94,6 +109,7 @@ npm run dev
 - [ ] Demo data seeded (optional)
 
 ### Email Service
+
 - [ ] Service chosen (Resend/SendGrid)
 - [ ] API key configured in \`.env.production\`
 - [ ] Sender domain verified
@@ -101,12 +117,14 @@ npm run dev
 - [ ] Test email sent successfully
 
 ### Environment
+
 - [ ] \`.env.production\` created
 - [ ] \`VITE_ENABLE_ROUTES_DEBUG=false\`
 - [ ] \`VITE_PUBLIC_HOST\` set to production URL
 - [ ] Email API key set
 
 ### Testing
+
 - [ ] Brand invite flow works (authenticated)
 - [ ] Customer invite flow works (anon + auth)
 - [ ] RLS blocks cross-brand queries
@@ -115,6 +133,7 @@ npm run dev
 - [ ] Duplicate redemptions prevented
 
 ### Build
+
 - [ ] \`npm run build\` succeeds
 - [ ] No TypeScript errors
 - [ ] No console warnings
@@ -127,13 +146,19 @@ npm run dev
 ### 1. Final Environment Check
 
 \`\`\`bash
+
 # Verify production settings
+
 cat .env.production
 
 # Should contain:
+
 # VITE_ENABLE_ROUTES_DEBUG=false
+
 # VITE_PUBLIC_HOST=https://verde.tdstudiosdigital.com
+
 # VITE_RESEND_API_KEY=re_your_key
+
 \`\`\`
 
 ### 2. Build for Production
@@ -142,25 +167,32 @@ cat .env.production
 npm run build
 
 # Verify output
+
 ls -lh dist/assets/
 \`\`\`
 
 ### 3. Deploy to Vercel (or your platform)
 
 \`\`\`bash
+
 # Vercel
+
 vercel --prod
 
 # Or upload dist/ to your hosting
+
 \`\`\`
 
 ### 4. Post-Deploy Verification
 
 \`\`\`bash
+
 # Test production URLs
+
 curl https://verde.tdstudiosdigital.com/accept-brand-invite?token=test
 
 # Should return HTML (not 404)
+
 \`\`\`
 
 ---
@@ -168,18 +200,21 @@ curl https://verde.tdstudiosdigital.com/accept-brand-invite?token=test
 ## 🔒 Security Verification
 
 ### RLS Policies
+
 - ✅ All brand tables have RLS enabled
 - ✅ Admins can override (via \`public.admins\` table)
 - ✅ Brand members isolated per brand
 - ✅ Public menus accessible without auth
 
 ### Token Security
+
 - ✅ Cryptographically random (UUID v4)
 - ✅ One-time use (marked accepted)
 - ✅ Time-limited (14/30 days)
 - ✅ SECURITY DEFINER functions
 
 ### Authentication
+
 - ✅ Brand invites require auth
 - ✅ Customer invites work anon + auth
 - ✅ Protected routes enforce roles
@@ -190,12 +225,14 @@ curl https://verde.tdstudiosdigital.com/accept-brand-invite?token=test
 ## 📊 Performance Metrics
 
 **Build Size:**
+
 - BrandDashboard: 3.87 kB (1.44 kB gzipped)
 - AcceptBrandInvite: 1.01 kB (0.58 kB gzipped)
 - AcceptCustomerInvite: 0.74 kB (0.47 kB gzipped)
 - Total bundle: ~912 kB raw / 197 kB gzipped
 
 **Target Metrics:**
+
 - Invite redemption: <500ms
 - Dashboard load: <1s
 - Database queries: <100ms
@@ -205,6 +242,7 @@ curl https://verde.tdstudiosdigital.com/accept-brand-invite?token=test
 ## 🆘 Support & Documentation
 
 ### Key Files
+
 - \`LAUNCH_CHECKLIST.md\` - Complete launch guide
 - \`docs/BRAND_ROLE_SETUP.md\` - Setup instructions
 - \`docs/QA_CHECKLIST.md\` - 17 test cases
@@ -212,10 +250,12 @@ curl https://verde.tdstudiosdigital.com/accept-brand-invite?token=test
 - \`docs/INVITE_SYSTEM_SUMMARY.md\` - System overview
 
 ### Scripts
+
 - \`./scripts/deploy-migrations.sh\` - Deploy database
 - \`./scripts/smoke-test.sh\` - Quick verification
 
 ### Database
+
 - \`supabase/migrations/\` - All schema migrations
 - \`supabase/seed_brand_demo.sql\` - Demo data
 

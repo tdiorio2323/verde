@@ -8,7 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 /**
  * Application-wide providers wrapper.
  * Wraps the app with all necessary context providers and UI utilities.
- * 
+ *
  * Providers included:
  * - ErrorBoundary: Catches and displays React errors
  * - AuthProvider: Manages authentication state
@@ -28,4 +28,3 @@ export function AppProviders({ children }: PropsWithChildren) {
     </ErrorBoundary>
   );
 }
-

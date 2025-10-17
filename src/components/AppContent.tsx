@@ -30,10 +30,7 @@ export function AppContent() {
         Skip to main content
       </a>
       <RouterProvider router={router} />
-      <AgeVerificationModal
-        open={showAgeVerification}
-        onOpenChange={setShowAgeVerification}
-      />
+      <AgeVerificationModal open={showAgeVerification} onOpenChange={setShowAgeVerification} />
     </>
   );
 }

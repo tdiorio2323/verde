@@ -7,44 +7,47 @@ const roles = [
     icon: ShoppingCart,
     title: "Shoppers",
     subtitle: "Browse. Order. Delivered.",
-    description: "Discover verified products from licensed dispensaries. Real-time inventory, transparent pricing, and secure delivery to your door.",
+    description:
+      "Discover verified products from licensed dispensaries. Real-time inventory, transparent pricing, and secure delivery to your door.",
     features: [
       "Live inventory and pricing",
       "Verified product reviews",
       "Loyalty rewards automatically applied",
-      "Same-day discreet delivery"
+      "Same-day discreet delivery",
     ],
     cta: "Start Shopping",
-    gradient: "from-white/10 to-white/5"
+    gradient: "from-white/10 to-white/5",
   },
   {
     icon: Store,
     title: "Brand Owners",
     subtitle: "Build. Engage. Scale.",
-    description: "Your brand, your storefront, your audience. Manage menus, track performance, and grow with built-in tools designed for modern brands.",
+    description:
+      "Your brand, your storefront, your audience. Manage menus, track performance, and grow with built-in tools designed for modern brands.",
     features: [
       "Custom branded storefront",
       "Real-time menu control",
       "Customer insights and analytics",
-      "Integrated marketing suite"
+      "Integrated marketing suite",
     ],
     cta: "List Your Brand",
-    gradient: "from-white/12 to-white/6"
+    gradient: "from-white/12 to-white/6",
   },
   {
     icon: Shield,
     title: "Operators",
     subtitle: "Monitor. Verify. Scale.",
-    description: "Oversee platform operations with precision. Maintain compliance, verify licenses, and manage transactions with enterprise-grade tools.",
+    description:
+      "Oversee platform operations with precision. Maintain compliance, verify licenses, and manage transactions with enterprise-grade tools.",
     features: [
       "License and compliance verification",
       "Full transaction monitoring",
       "Dispute resolution workflows",
-      "Platform-wide analytics dashboard"
+      "Platform-wide analytics dashboard",
     ],
     cta: "Admin Dashboard",
-    gradient: "from-white/8 to-white/4"
-  }
+    gradient: "from-white/8 to-white/4",
+  },
 ];
 
 export default function UserRoles() {
@@ -72,12 +75,16 @@ export default function UserRoles() {
           {roles.map((role, index) => (
             <div key={index} className="group relative">
               {/* Outer Glow Layer */}
-              <div className={`absolute -inset-0.5 bg-gradient-to-br ${role.gradient} rounded-[2rem] opacity-0 blur-xl group-hover:opacity-40 transition-all duration-700`} />
+              <div
+                className={`absolute -inset-0.5 bg-gradient-to-br ${role.gradient} rounded-[2rem] opacity-0 blur-xl group-hover:opacity-40 transition-all duration-700`}
+              />
 
               {/* Main Card */}
               <div className="relative liquid-glass rounded-[2rem] shadow-glass-xl hover:shadow-glow-sm transition-all duration-700 h-full border-2 border-white/[0.15] group-hover:border-white/[0.25] backdrop-blur-3xl overflow-hidden">
                 {/* Top Gradient Accent */}
-                <div className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r ${role.gradient} opacity-70`} />
+                <div
+                  className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r ${role.gradient} opacity-70`}
+                />
 
                 {/* Inner Shine Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.12] via-transparent to-transparent pointer-events-none chrome-reflect" />
@@ -86,9 +93,13 @@ export default function UserRoles() {
                   {/* Icon Container with Premium Glass Effect */}
                   <div className="mx-auto mb-8 relative">
                     {/* Icon Glow Background */}
-                    <div className="absolute inset-0 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition-all duration-700 scale-150" style={{
-                      background: 'radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%)'
-                    }} />
+                    <div
+                      className="absolute inset-0 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition-all duration-700 scale-150"
+                      style={{
+                        background:
+                          "radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%)",
+                      }}
+                    />
 
                     {/* Icon Glass Container */}
                     <div className="relative p-6 rounded-2xl glass-lg w-fit mx-auto border border-white/[0.15] group-hover:border-white/[0.25] group-hover:shadow-glow-sm transition-all duration-700 group-hover:scale-110 metallic-glow">
@@ -112,7 +123,10 @@ export default function UserRoles() {
                   {/* Feature List with Premium Bullets */}
                   <ul className="space-y-4">
                     {role.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-start text-sm text-foreground/90">
+                      <li
+                        key={featureIndex}
+                        className="flex items-start text-sm text-foreground/90"
+                      >
                         <div className="relative w-2 h-2 mt-2 mr-4 flex-shrink-0">
                           <div className="absolute inset-0 bg-white rounded-full blur-sm" />
                           <div className="relative w-2 h-2 bg-gradient-to-br from-white to-white/60 rounded-full" />
@@ -139,8 +153,18 @@ export default function UserRoles() {
                   >
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       {role.cta}
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2.5}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </span>
                   </Button>

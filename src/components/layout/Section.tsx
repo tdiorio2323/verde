@@ -1,12 +1,12 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { fr } from '@/lib/motion';
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { fr } from "@/lib/motion";
 
 export default function Section({
   id,
   title,
   subtitle,
-  children
+  children,
 }: {
   id?: string;
   title?: string;
@@ -14,7 +14,7 @@ export default function Section({
   children: React.ReactNode;
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section id={id} ref={ref} className="relative py-20 sm:py-24">
@@ -23,18 +23,16 @@ export default function Section({
           <motion.div
             variants={fr.fadeUp()}
             initial="hidden"
-            animate={inView ? 'show' : 'hidden'}
+            animate={inView ? "show" : "hidden"}
             className="mb-10"
           >
-            {title && <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">{title}</h2>}
+            {title && (
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">{title}</h2>
+            )}
             {subtitle && <p className="mt-2 text-sm text-white/60 max-w-2xl">{subtitle}</p>}
           </motion.div>
         )}
-        <motion.div
-          variants={fr.stagger()}
-          initial="hidden"
-          animate={inView ? 'show' : 'hidden'}
-        >
+        <motion.div variants={fr.stagger()} initial="hidden" animate={inView ? "show" : "hidden"}>
           {children}
         </motion.div>
       </div>

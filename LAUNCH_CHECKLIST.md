@@ -40,10 +40,11 @@ psql "$SUPABASE_DB_URL" -f supabase/seed_brand_demo.sql
 ```
 
 **Verify:**
+
 ```sql
 -- Check tables exist
-SELECT tablename FROM pg_tables 
-WHERE schemaname = 'public' 
+SELECT tablename FROM pg_tables
+WHERE schemaname = 'public'
   AND tablename IN ('brands', 'brand_members', 'brand_invites', 'customer_invites', 'admins');
 
 -- Check RPCs exist
@@ -57,6 +58,7 @@ WHERE schemaname = 'public' AND tablename = 'brands';
 ```
 
 **Expected Output:**
+
 - ✅ 5+ tables created
 - ✅ 3+ RPC functions created
 - ✅ RLS enabled on all brand tables
@@ -75,8 +77,8 @@ WHERE schemaname = 'public' AND tablename = 'brands';
 
 ```sql
 -- Replace YOUR-UUID with your actual user UUID
-INSERT INTO public.admins(user_id) 
-VALUES ('YOUR-UUID') 
+INSERT INTO public.admins(user_id)
+VALUES ('YOUR-UUID')
 ON CONFLICT DO NOTHING;
 
 -- Verify
@@ -84,8 +86,9 @@ SELECT * FROM public.admins WHERE user_id = 'YOUR-UUID';
 ```
 
 **Expected Output:**
+
 ```
-          user_id          
+          user_id
 --------------------------
  YOUR-UUID
 ```
@@ -105,14 +108,15 @@ echo "VITE_RESEND_API_KEY=re_your_api_key" >> .env.local
 ```
 
 Update `src/lib/email.ts`:
+
 ```typescript
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
 const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
 
 export async function sendBrandInvite({ email, brandName, token, expiresAt }) {
   await resend.emails.send({
-    from: 'Verde <noreply@verde.com>',
+    from: "Verde <noreply@verde.com>",
     to: email,
     subject: `You've been invited to manage ${brandName}`,
     html: getBrandInviteTemplate({ email, brandName, token, expiresAt }),
@@ -127,12 +131,12 @@ npm install @sendgrid/mail
 ```
 
 ```typescript
-import sgMail from '@sendgrid/mail';
+import sgMail from "@sendgrid/mail";
 sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
 
 await sgMail.send({
   to: email,
-  from: 'noreply@verde.com',
+  from: "noreply@verde.com",
   subject: `You've been invited to manage ${brandName}`,
   html: getBrandInviteTemplate({ email, brandName, token, expiresAt }),
 });
@@ -141,6 +145,7 @@ await sgMail.send({
 ### Configure URLs
 
 Update `.env.production`:
+
 ```bash
 VITE_ENABLE_ROUTES_DEBUG=false
 VITE_PUBLIC_HOST=https://verde.tdstudiosdigital.com
@@ -178,7 +183,7 @@ VALUES (
 3. **Expected:** Redirects to `/dashboard/brand`
 4. **Verify:**
    ```sql
-   SELECT * FROM public.brand_members 
+   SELECT * FROM public.brand_members
    WHERE user_id = 'YOUR-UUID' AND brand_id = (SELECT id FROM brands WHERE slug = 'verde-demo-brand');
    ```
 
@@ -200,7 +205,7 @@ VALUES (
 2. **Expected:** Redirects to `/dashboard`
 3. **Verify:**
    ```sql
-   SELECT * FROM public.customers 
+   SELECT * FROM public.customers
    WHERE brand_id = (SELECT id FROM brands WHERE slug = 'verde-demo-brand')
      AND email = 'test-customer@example.com';
    ```
@@ -222,9 +227,7 @@ console.log(data); // []
 
 ```typescript
 // As admin user
-const { data } = await supabase
-  .from("brands")
-  .select("*");
+const { data } = await supabase.from("brands").select("*");
 
 // Expected: All brands visible (admin override)
 console.log(data); // [{ id: ..., name: ... }, ...]
@@ -237,6 +240,7 @@ console.log(data); // [{ id: ..., name: ... }, ...]
 ### Environment Variables
 
 Create `.env.production`:
+
 ```bash
 VITE_ENABLE_ROUTES_DEBUG=false
 VITE_PUBLIC_HOST=https://verde.tdstudiosdigital.com
@@ -290,6 +294,7 @@ npm run build
 ### Monitoring
 
 Set up alerts for:
+
 - Failed invite redemptions
 - RLS policy violations
 - Expired invite attempts
@@ -302,6 +307,7 @@ Set up alerts for:
 ### Issue: Migrations fail to apply
 
 **Solution:**
+
 ```bash
 # Check Supabase connection
 psql "$SUPABASE_DB_URL" -c "SELECT version();"
@@ -316,6 +322,7 @@ supabase db push
 ### Issue: "invalid_or_expired_invite"
 
 **Debug:**
+
 ```sql
 -- Check invite exists and is valid
 SELECT * FROM public.brand_invites WHERE token = 'YOUR-TOKEN';
@@ -326,6 +333,7 @@ SELECT * FROM public.brand_invites WHERE token = 'YOUR-TOKEN';
 ### Issue: RLS blocking admin access
 
 **Solution:**
+
 ```sql
 -- Verify admin status
 SELECT * FROM public.admins WHERE user_id = auth.uid();
@@ -337,6 +345,7 @@ INSERT INTO public.admins(user_id) VALUES ('YOUR-UUID');
 ### Issue: Email not sending
 
 **Debug:**
+
 ```typescript
 // Check environment variable
 console.log(import.meta.env.VITE_RESEND_API_KEY);
@@ -352,11 +361,11 @@ console.log(import.meta.env.VITE_RESEND_API_KEY);
 
 Record these metrics after launch:
 
-- [ ] Time to accept brand invite: _____ms
-- [ ] Time to accept customer invite: _____ms
-- [ ] Time to load /dashboard/brand: _____ms
-- [ ] Time to query brand products: _____ms
-- [ ] Email delivery time: _____s
+- [ ] Time to accept brand invite: **\_**ms
+- [ ] Time to accept customer invite: **\_**ms
+- [ ] Time to load /dashboard/brand: **\_**ms
+- [ ] Time to query brand products: **\_**ms
+- [ ] Email delivery time: **\_**s
 
 ---
 
@@ -411,11 +420,10 @@ vercel --prod
 
 ## Sign-Off
 
-- [ ] Database migrations deployed _________________ (Name/Date)
-- [ ] Admin configured _________________ (Name/Date)
-- [ ] Email service tested _________________ (Name/Date)
-- [ ] Smoke tests passed _________________ (Name/Date)
-- [ ] Production deployed _________________ (Name/Date)
+- [ ] Database migrations deployed ********\_******** (Name/Date)
+- [ ] Admin configured ********\_******** (Name/Date)
+- [ ] Email service tested ********\_******** (Name/Date)
+- [ ] Smoke tests passed ********\_******** (Name/Date)
+- [ ] Production deployed ********\_******** (Name/Date)
 
-**Launch approved by:** _________________ **Date:** _________________
-
+**Launch approved by:** ********\_******** **Date:** ********\_********

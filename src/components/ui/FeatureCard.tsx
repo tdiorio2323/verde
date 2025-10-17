@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
-import { fr } from '@/lib/motion';
-import { ReactNode } from 'react';
+import { motion } from "framer-motion";
+import { fr } from "@/lib/motion";
+import { ReactNode } from "react";
 
 /**
  * FeatureCard component props interface
@@ -21,11 +21,7 @@ export interface FeatureCardProps {
  * @param props - FeatureCard component props
  * @returns Animated feature card component
  */
-export default function FeatureCard({
-  icon,
-  title,
-  bullets
-}: FeatureCardProps) {
+export default function FeatureCard({ icon, title, bullets }: FeatureCardProps) {
   return (
     <motion.div
       variants={fr.fadeUp()}

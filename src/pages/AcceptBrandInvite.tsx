@@ -15,8 +15,15 @@ export default function AcceptBrandInvite() {
         setErr("signin_required");
         return;
       }
-      const { data, error } = await supabase.rpc("redeem_brand_invite", { invite_token: token, member_role: "owner" });
-      if (error) { setErr(error.message); setOk(false); return; }
+      const { data, error } = await supabase.rpc("redeem_brand_invite", {
+        invite_token: token,
+        member_role: "owner",
+      });
+      if (error) {
+        setErr(error.message);
+        setOk(false);
+        return;
+      }
       setOk(true);
     })();
   }, [token]);
@@ -26,9 +33,12 @@ export default function AcceptBrandInvite() {
     <main className="p-8">
       <h1 className="text-2xl font-semibold">Accept Brand Invite</h1>
       {!ok && !err && <p className="mt-2 text-sm text-neutral-500">Validating…</p>}
-      {err === "signin_required" && <p className="mt-2 text-sm">Sign in to continue, then revisit this link.</p>}
-      {err && err !== "signin_required" && <p className="mt-2 text-sm text-red-600">Error: {err}</p>}
+      {err === "signin_required" && (
+        <p className="mt-2 text-sm">Sign in to continue, then revisit this link.</p>
+      )}
+      {err && err !== "signin_required" && (
+        <p className="mt-2 text-sm text-red-600">Error: {err}</p>
+      )}
     </main>
   );
 }
-

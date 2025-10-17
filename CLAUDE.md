@@ -58,7 +58,7 @@ pnpm audit:quick  # or: npm run audit:quick
 - **Routing**: React Router v6 with `createBrowserRouter`
   - Routes defined in `src/app/router.tsx` using `createBrowserRouter`
   - All route components are lazy-loaded for optimal performance
-  - To add new routes: add entry to the routes array in `src/app/router.tsx` ABOVE the catch-all "*" route
+  - To add new routes: add entry to the routes array in `src/app/router.tsx` ABOVE the catch-all "\*" route
   - NotFound page handles 404s
 - **Authentication**: Supabase Auth with phone/OTP
   - AuthContext in `src/contexts/AuthContext.tsx` provides auth state
@@ -174,9 +174,10 @@ When adding routes to the application:
 
 1. Create page component in `src/pages/` (should be a default export)
 2. Import the component with lazy loading in `src/app/router.tsx`
-3. Add route object to the routes array ABOVE the catch-all "*" route
+3. Add route object to the routes array ABOVE the catch-all "\*" route
 
 Example:
+
 ```tsx
 // In src/app/router.tsx:
 import { lazy, Suspense } from "react";
@@ -195,11 +196,12 @@ export const router = createBrowserRouter([
     ),
     errorElement: <RouteErrorBoundary />,
   },
-  { path: "*", element: <NotFound /> },  // Keep this last
+  { path: "*", element: <NotFound /> }, // Keep this last
 ]);
 ```
 
 **Important**:
+
 - All route components should be lazy-loaded using React's `lazy()` for optimal bundle splitting
 - Wrap lazy components in `<Suspense>` with `<LoadingFallback />`
 - Include `errorElement: <RouteErrorBoundary />` for error handling
@@ -240,6 +242,7 @@ The codebase uses a layered architecture with specific import conventions:
 - `@/lib/*` - Utilities and shop queries
 
 **Always import**:
+
 - Supabase client from `@/shared/lib/supabaseClient`
 - Roles from `@/shared/config/roles`
 - Hooks from `@/shared/hooks/*`
@@ -281,14 +284,14 @@ The custom store relies on `useSyncExternalStore` (React 18), requiring every se
 
 ```tsx
 // ❌ BAD: Creates new object on every render
-const data = useAppStore(state => ({
+const data = useAppStore((state) => ({
   items: state.cart.items,
-  total: state.cart.total
+  total: state.cart.total,
 }));
 
 // ✅ GOOD: Use separate selectors
-const items = useAppStore(state => state.cart.items);
-const total = useAppStore(state => state.cart.total);
+const items = useAppStore((state) => state.cart.items);
+const total = useAppStore((state) => state.cart.total);
 
 // ✅ BETTER: Use pre-defined derived selector
 const cartTotals = useAppStore(selectors.cartTotals);
@@ -297,6 +300,7 @@ const cartTotals = useAppStore(selectors.cartTotals);
 ### Testing
 
 Before merging changes to the store:
+
 1. Run `pnpm build` (or `npm run build`) to confirm no TypeScript errors
 2. Test in browser DevTools → Console for React's `getSnapshot` warnings
 3. Check that components don't re-render unnecessarily

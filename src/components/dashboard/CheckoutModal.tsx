@@ -82,7 +82,10 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
 
         <form onSubmit={handleSubmit} className="space-y-5 px-6 py-6">
           <div className="space-y-1">
-            <Label htmlFor="checkout-name" className="text-xs uppercase tracking-[0.28em] text-white/60">
+            <Label
+              htmlFor="checkout-name"
+              className="text-xs uppercase tracking-[0.28em] text-white/60"
+            >
               Contact name
             </Label>
             <Input
@@ -99,7 +102,10 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="checkout-phone" className="text-xs uppercase tracking-[0.28em] text-white/60">
+            <Label
+              htmlFor="checkout-phone"
+              className="text-xs uppercase tracking-[0.28em] text-white/60"
+            >
               Mobile number
             </Label>
             <Input
@@ -117,7 +123,10 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="checkout-address" className="text-xs uppercase tracking-[0.28em] text-white/60">
+            <Label
+              htmlFor="checkout-address"
+              className="text-xs uppercase tracking-[0.28em] text-white/60"
+            >
               Delivery address
             </Label>
             <Textarea
@@ -134,7 +143,10 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="checkout-notes" className="text-xs uppercase tracking-[0.28em] text-white/60">
+            <Label
+              htmlFor="checkout-notes"
+              className="text-xs uppercase tracking-[0.28em] text-white/60"
+            >
               Concierge notes (optional)
             </Label>
             <Textarea

@@ -14,7 +14,7 @@ export default function Footer({ onOpenLogin }: FooterProps) {
 
   const handleGetStarted = () => {
     if (user) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     } else if (onOpenLogin) {
       onOpenLogin();
     }
@@ -28,7 +28,12 @@ export default function Footer({ onOpenLogin }: FooterProps) {
       <div className="relative container mx-auto px-6 py-24">
         {/* Centered CTA Section with Premium Glass Card */}
         <div className="text-center mb-24 max-w-5xl mx-auto">
-          <GlassCard variant="premium" glow className="shadow-glass-xl overflow-hidden" aria-label="Call to action section">
+          <GlassCard
+            variant="premium"
+            glow
+            className="shadow-glass-xl overflow-hidden"
+            aria-label="Call to action section"
+          >
             <div>
               {/* Full-Width Image - Upper Half */}
               <div className="relative w-full h-[300px] md:h-[400px] overflow-hidden">
@@ -46,13 +51,17 @@ export default function Footer({ onOpenLogin }: FooterProps) {
                     alt="Verde Logo"
                     className="w-64 md:w-96 h-auto"
                     style={{
-                      filter: 'drop-shadow(0 8px 60px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.2))'
+                      filter:
+                        "drop-shadow(0 8px 60px rgba(255, 255, 255, 0.3)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.2))",
                     }}
                     loading="lazy"
                   />
                 </div>
                 {/* Gradient overlay for smooth transition */}
-                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent" aria-hidden="true" />
+                <div
+                  className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/60 to-transparent"
+                  aria-hidden="true"
+                />
               </div>
 
               {/* Content Section */}
@@ -68,9 +77,13 @@ export default function Footer({ onOpenLogin }: FooterProps) {
                 <div className="flex flex-col sm:flex-row gap-5 justify-center">
                   <div className="relative inline-block">
                     {/* Button Glow Background */}
-                    <div className="absolute inset-0 rounded-full blur-xl opacity-40 group-hover:opacity-60 transition-smooth" style={{
-                      background: 'radial-gradient(ellipse, rgba(255, 255, 255, 0.3) 0%, transparent 70%)'
-                    }} />
+                    <div
+                      className="absolute inset-0 rounded-full blur-xl opacity-40 group-hover:opacity-60 transition-smooth"
+                      style={{
+                        background:
+                          "radial-gradient(ellipse, rgba(255, 255, 255, 0.3) 0%, transparent 70%)",
+                      }}
+                    />
 
                     <Button
                       size="lg"
@@ -89,9 +102,19 @@ export default function Footer({ onOpenLogin }: FooterProps) {
                       "
                     >
                       <span className="relative z-10 flex items-center gap-2">
-                        {user ? 'Go to Dashboard' : 'Get Started'}
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        {user ? "Go to Dashboard" : "Get Started"}
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"
+                          />
                         </svg>
                       </span>
                     </Button>
@@ -121,25 +144,39 @@ export default function Footer({ onOpenLogin }: FooterProps) {
         {/* Simplified Footer Links - Elegant Grid */}
         <div className="grid md:grid-cols-4 gap-10 md:gap-12 mb-20 max-w-5xl mx-auto">
           <div className="text-center md:text-left">
-            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">Shop</h3>
+            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">
+              Shop
+            </h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Browse Brands
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Featured Products
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Deals
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   New Arrivals
                 </a>
               </li>
@@ -147,25 +184,39 @@ export default function Footer({ onOpenLogin }: FooterProps) {
           </div>
 
           <div className="text-center md:text-left">
-            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">For Brands</h3>
+            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">
+              For Brands
+            </h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Join Platform
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Brand Portal
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Resources
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Support
                 </a>
               </li>
@@ -173,25 +224,39 @@ export default function Footer({ onOpenLogin }: FooterProps) {
           </div>
 
           <div className="text-center md:text-left">
-            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">Support</h3>
+            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">
+              Support
+            </h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Help Center
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Delivery Info
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Returns
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Contact Us
                 </a>
               </li>
@@ -199,25 +264,39 @@ export default function Footer({ onOpenLogin }: FooterProps) {
           </div>
 
           <div className="text-center md:text-left">
-            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">Legal</h3>
+            <h3 className="font-bold text-foreground mb-6 text-base tracking-wide uppercase text-sm opacity-90">
+              Legal
+            </h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Compliance
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block">
+                <a
+                  href="#"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-300 inline-block"
+                >
                   Accessibility
                 </a>
               </li>
@@ -229,9 +308,7 @@ export default function Footer({ onOpenLogin }: FooterProps) {
 
         {/* Elegant Copyright */}
         <div className="text-center space-y-4">
-          <p className="text-base text-muted-foreground/80">
-            © 2025 Verde. All rights reserved.
-          </p>
+          <p className="text-base text-muted-foreground/80">© 2025 Verde. All rights reserved.</p>
           <p className="text-xs text-gradient-holographic font-medium tracking-wider">
             Power. Precision. Presentation.
           </p>
