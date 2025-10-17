@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import type { CheckoutPayload } from "@/data/store";
+import type { CheckoutPayload } from "@/shared/types/app";
 
 export type CheckoutModalProps = {
   open: boolean;

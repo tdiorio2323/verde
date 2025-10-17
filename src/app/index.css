@@ -43,29 +43,28 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Chrome Silver Metallic Base */
-    --background: 0 0% 4%;
+    --background: 220 10% 8%; /* Slightly warmer dark gray */
     --foreground: 0 0% 98%;
 
     /* Frosted Glass Cards */
-    --card: 0 0% 10%;
+    --card: 220 10% 12%; /* Slightly warmer dark gray */
     --card-foreground: 0 0% 98%;
-    --glass-base: 0 0% 8%;
-    --glass-light: 0 0% 14%;
+    --glass-base: 220 10% 10%;
+    --glass-light: 220 10% 16%;
 
-    --popover: 0 0% 9%;
+    --popover: 220 10% 11%;
     --popover-foreground: 0 0% 98%;
 
     /* Chrome Silver Primary */
-    --primary: 0 0% 75%;
+    --primary: 0 0% 70%; /* Slightly less bright */
     --primary-foreground: 0 0% 10%;
-    --primary-glow: 0 0% 85%;
-    --primary-light: 0 0% 90%;
+    --primary-glow: 0 0% 80%;
+    --primary-light: 0 0% 85%;
 
     /* Platinum Secondary */
-    --secondary: 0 0% 60%;
+    --secondary: 0 0% 55%; /* Slightly less bright */
     --secondary-foreground: 0 0% 98%;
-    --secondary-glow: 0 0% 70%;
+    --secondary-glow: 0 0% 65%;
 
     /* Steel Accent */
     --accent: 0 0% 50%;
@@ -204,14 +203,19 @@ All colors MUST be HSL.
   }
 
   h1,
-  h2,
+  h2 {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
   h3,
   h4,
   h5,
   h6 {
     font-family: "Inter", sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-weight: 600; /* Slightly lighter for subheadings */
+    letter-spacing: -0.01em; /* Slightly less tight for subheadings */
   }
 
   @keyframes breathe {

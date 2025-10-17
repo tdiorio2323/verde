@@ -7,7 +7,7 @@
 import type { Product } from "@/data/products";
 import type { CustomerOrder, DriverAssignment } from "@/data/orders";
 import type { Dispensary } from "@/data/dispensaries";
-import type { CartLineItem } from "@/data/store";
+import type { CartLineItem } from "@/shared/types/app";
 
 /**
  * Type guard to check if a value is a valid Product.

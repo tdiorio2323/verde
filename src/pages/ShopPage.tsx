@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Home, User } from "lucide-react";
 import { useCart } from "@/features/cart/store";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth/hook";
 import type { Database } from "@/shared/types/supabase";
 
 type ShopItem = Database["public"]["Tables"]["shop_items"]["Row"] & {

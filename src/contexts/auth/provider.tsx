@@ -1,36 +1,8 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/shared/lib/supabaseClient";
-import type { User, Session } from "@supabase/supabase-js";
-import type { Role } from "@/data/store";
-
-export type AuthUser = {
-  id: string;
-  phone: string;
-  fullName: string | null;
-  ageVerified: boolean;
-  role: Role;
-};
-
-type AuthContextType = {
-  user: AuthUser | null;
-  session: Session | null;
-  loading: boolean;
-  signInWithOtp: (phone: string) => Promise<{ error: Error | null }>;
-  verifyOtp: (phone: string, token: string) => Promise<{ error: Error | null }>;
-  signOut: () => Promise<void>;
-  updateProfile: (updates: Partial<AuthUser>) => Promise<{ error: Error | null }>;
-  refreshUser: () => Promise<void>;
-};
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+import type { Session } from "@supabase/supabase-js";
+import { AuthContext } from "./context";
+import type { AuthUser, AuthContextType, Role } from "@/shared/types/app";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -41,10 +13,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
-  /**
-   * Fetches user profile from Supabase profiles table.
-   * Creates profile if it doesn't exist (first-time login).
-   */
   const fetchUserProfile = async (userId: string, phone: string): Promise<AuthUser | null> => {
     try {
       const { data: profile, error } = await supabase
@@ -54,7 +22,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .single();
 
       if (error && error.code === "PGRST116") {
-        // Profile doesn't exist, create it
         const { data: newProfile, error: insertError } = await supabase
           .from("profiles")
           .insert({
@@ -92,9 +59,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  /**
-   * Refreshes user profile from database.
-   */
   const refreshUser = async () => {
     if (!session?.user) return;
 
@@ -105,11 +69,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  /**
-   * Initializes auth state and sets up listener for auth changes.
-   */
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
 
@@ -123,7 +83,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     });
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -144,10 +103,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
   }, []);
 
-  /**
-   * Sends OTP to user's phone number.
-   * @param phone - Phone number in E.164 format (e.g., +1234567890)
-   */
   const signInWithOtp = async (phone: string) => {
     try {
       const { error } = await supabase.auth.signInWithOtp({
@@ -166,11 +121,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  /**
-   * Verifies OTP code and signs in user.
-   * @param phone - Phone number in E.164 format
-   * @param token - 6-digit OTP code
-   */
   const verifyOtp = async (phone: string, token: string) => {
     try {
       const { error } = await supabase.auth.verifyOtp({
@@ -188,18 +138,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  /**
-   * Signs out current user.
-   */
   const signOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
     setSession(null);
   };
 
-  /**
-   * Updates user profile in database.
-   */
   const updateProfile = async (updates: Partial<AuthUser>) => {
     if (!user) {
       return { error: new Error("No user logged in") };
@@ -218,7 +162,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       if (error) throw error;
 
-      // Update local state
       setUser({ ...user, ...updates });
 
       return { error: null };

@@ -1,12 +1,13 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { appActions } from "@/data/store";
+import { useAppStore } from "@/stores/appStore";
 
 describe("Cart functionality", () => {
   it("should add items to cart", () => {
     // Test cart store functionality
     const initialState = { items: [] };
-    appActions.addToCart(1); // Add product with ID 1
+    const addToCart = useAppStore.getState().addToCart;
+    addToCart(1); // Add product with ID 1
 
     // This is a smoke test - we're just verifying the function doesn't throw
     expect(true).toBe(true);

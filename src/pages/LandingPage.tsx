@@ -6,7 +6,7 @@ import Section from "@/components/layout/Section";
 import FeatureCard from "@/components/ui/FeatureCard";
 import Footer from "@/components/Footer";
 import { LoginModal } from "@/components/auth/LoginModal";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth/hook";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { fr } from "@/lib/motion";

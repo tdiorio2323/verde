@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import GlassCard from "@/components/ui/GlassCard";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth/hook";
 import { useNavigate } from "react-router-dom";
 
 type FooterProps = {

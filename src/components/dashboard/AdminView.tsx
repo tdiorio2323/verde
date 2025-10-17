@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import DataTable from "@/components/dashboard/DataTable";
 import KpiCard from "@/components/dashboard/KpiCard";
-import { selectors, useAppStore } from "@/data/store";
+import { useAppStore } from "@/stores/appStore";
 
 const statusTone: Record<string, string> = {
   preparing: "bg-amber-300/30 text-amber-100",
@@ -38,7 +38,7 @@ const orderStatuses = [
 ];
 
 const AdminView = () => {
-  const adminState = useAppStore(selectors.admin);
+  const adminState = useAppStore((state) => state.admin);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const filteredOrders = useMemo(() => {

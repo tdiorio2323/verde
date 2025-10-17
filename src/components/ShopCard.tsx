@@ -21,7 +21,7 @@ export default function ShopCard({ item }: { item: ShopItem }) {
   return (
     <Link
       to={`/shop/${item.slug}`}
-      className="block transition-transform active:scale-95 sm:hover:scale-105 touch-manipulation"
+      className="block transition-transform active:scale-95 sm:hover:scale-105 touch-manipulation animate-fade-in-up"
     >
       <Card className="glass-card border-white/15 bg-black/40 text-white h-full overflow-hidden">
         {item.image_url && (
@@ -34,15 +34,15 @@ export default function ShopCard({ item }: { item: ShopItem }) {
             />
           </div>
         )}
-        <CardHeader className="p-4 sm:p-6">
-          <div className="flex items-start justify-between gap-2">
+        <CardHeader className="p-5 sm:p-7">
+          <div className="flex items-start justify-between gap-3">
             <CardTitle className="text-lg sm:text-xl">{item.title}</CardTitle>
-            <Badge variant="outline" className="ml-2 text-xs flex-shrink-0">
+            <Badge variant="outline" className="ml-3 text-xs flex-shrink-0">
               {item.kind}
             </Badge>
           </div>
         </CardHeader>
-        <CardFooter className="p-4 sm:p-6 pt-0">
+        <CardFooter className="p-5 sm:p-7 pt-0">
           <p className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-sky-300 via-purple-300 to-amber-200 bg-clip-text text-transparent">
             {price}
           </p>

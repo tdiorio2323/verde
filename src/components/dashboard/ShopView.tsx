@@ -12,7 +12,9 @@ import {
 import SearchBar from "@/components/dashboard/SearchBar";
 import CategoryChips from "@/components/dashboard/CategoryChips";
 import Img from "@/components/ui/Img";
-import { useAppStore, selectors, appActions, type SortOption } from "@/data/store";
+import { useAppStore } from "@/stores/appStore";
+import { calculateTotals } from "@/stores/appStore";
+import type { SortOption } from "@/shared/types/app";
 
 const sortOptions: { label: string; value: SortOption }[] = [
   { label: "Featured", value: "featured" },
@@ -26,13 +28,19 @@ export type ShopViewProps = {
 };
 
 const ShopView = ({ onOpenCart }: ShopViewProps) => {
-  const products = useAppStore(selectors.products);
-  const categories = useAppStore(selectors.categories);
-  const filters = useAppStore(selectors.filters);
-  const dispensaries = useAppStore(selectors.dispensaries);
-  const session = useAppStore(selectors.session);
-  const cart = useAppStore(selectors.cart);
-  const totals = useAppStore(selectors.cartTotals);
+  const products = useAppStore((state) => state.products);
+  const categories = useAppStore((state) => state.categories);
+  const filters = useAppStore((state) => state.filters);
+  const dispensaries = useAppStore((state) => state.dispensaries);
+  const session = useAppStore((state) => state.session);
+  const cart = useAppStore((state) => state.cart);
+  const setSelectedDispensary = useAppStore((state) => state.setSelectedDispensary);
+  const setSearch = useAppStore((state) => state.setSearch);
+  const setSort = useAppStore((state) => state.setSort);
+  const setCategory = useAppStore((state) => state.setCategory);
+  const addToCart = useAppStore((state) => state.addToCart);
+
+  const totals = calculateTotals(cart, cart.items, products);
   const cartItems = cart.items;
 
   const selectedDispensary = useMemo(
@@ -116,7 +124,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
             <div className="w-full max-w-sm space-y-3 rounded-3xl border border-white/15 bg-white/5 p-4 shadow-inner">
               <Select
                 value={session.selectedDispensaryId}
-                onValueChange={appActions.setSelectedDispensary}
+                onValueChange={setSelectedDispensary}
               >
                 <SelectTrigger className="h-12 rounded-full border-white/20 bg-black/40 text-sm text-white shadow-glass focus-visible:ring-2 focus-visible:ring-white/40">
                   <SelectValue placeholder="Choose lounge" />
@@ -134,13 +142,13 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
               </Select>
               <SearchBar
                 value={filters.search}
-                onChange={appActions.setSearch}
-                onReset={() => appActions.setSearch("")}
+                onChange={setSearch}
+                onReset={() => setSearch("")}
                 placeholder="Search strains, gummies, or merch"
               />
               <Select
                 value={filters.sort}
-                onValueChange={(value) => appActions.setSort(value as SortOption)}
+                onValueChange={(value) => setSort(value as SortOption)}
               >
                 <SelectTrigger className="h-12 rounded-full border-white/20 bg-black/40 text-sm text-white shadow-glass focus-visible:ring-2 focus-visible:ring-white/40">
                   <SelectValue placeholder="Sort menu" />
@@ -161,7 +169,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
           <CategoryChips
             categories={chipOptions}
             activeId={filters.categoryId}
-            onSelect={appActions.setCategory}
+            onSelect={setCategory}
           />
           <div className="flex flex-wrap gap-2 text-xs">
             {(selectedDispensary?.featuredCategories ?? []).map((categoryId) => {
@@ -216,7 +224,7 @@ const ShopView = ({ onOpenCart }: ShopViewProps) => {
               </div>
               <Button
                 type="button"
-                onClick={() => appActions.addToCart(product.id)}
+                onClick={() => addToCart(product.id)}
                 className="rounded-full border border-white/30 bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400 px-6 py-2 text-sm font-semibold text-background shadow-glow transition-transform hover:scale-105"
                 aria-label={`Add ${product.name} to cart`}
               >

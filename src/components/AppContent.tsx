@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "@/app/router";
 import { AgeVerificationModal } from "@/components/auth/AgeVerificationModal";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth/hook";
 import { useState, useEffect } from "react";
 
 /**

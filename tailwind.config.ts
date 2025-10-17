@@ -166,12 +166,14 @@ export default {
             boxShadow: "0 0 40px rgba(255, 255, 255, 0.3)",
           },
         },
-        breathe: {
-          "0%, 100%": {
-            transform: "translateY(0px)",
+        "fade-in-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
           },
-          "50%": {
-            transform: "translateY(-10px)",
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
           },
         },
       },
@@ -182,6 +184,7 @@ export default {
         float: "float 6s ease-in-out infinite",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
         breathe: "breathe 3s ease-in-out infinite",
+        "fade-in-up": "fade-in-up 0.6s ease-out forwards",
       },
     },
   },

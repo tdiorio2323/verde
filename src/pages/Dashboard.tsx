@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth/hook";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import ShopView from "@/components/dashboard/ShopView";
@@ -11,7 +11,9 @@ import OrderTracking from "@/components/dashboard/OrderTracking";
 import DriverView from "@/components/dashboard/DriverView";
 import AdminView from "@/components/dashboard/AdminView";
 import CheckoutModal from "@/components/dashboard/CheckoutModal";
-import { appActions, selectors, useAppStore, type CheckoutPayload, type Role } from "@/data/store";
+import { useAppStore } from "@/stores/appStore";
+import { calculateTotals } from "@/stores/appStore";
+import type { CheckoutPayload, Role } from "@/shared/types/app";
 
 const roleOptions = [
   { id: "customer" as const, label: "Customer", description: "Browse, curate, track orders" },
@@ -24,11 +26,18 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, signOut } = useAuth();
-  const session = useAppStore(selectors.session);
-  const activeOrder = useAppStore(selectors.activeOrder);
-  const totals = useAppStore(selectors.cartTotals);
-  const cart = useAppStore(selectors.cart);
-  const dispensaries = useAppStore(selectors.dispensaries);
+  const session = useAppStore((state) => state.session);
+  const activeOrder = useAppStore((state) =>
+    state.orders.list.find((order) => order.id === state.orders.activeOrderId) ?? null,
+  );
+  const totals = useAppStore((state) =>
+    calculateTotals(state.cart, state.cart.items, state.products),
+  );
+  const cart = useAppStore((state) => state.cart);
+  const dispensaries = useAppStore((state) => state.dispensaries);
+  const setRole = useAppStore((state) => state.setRole);
+  const checkout = useAppStore((state) => state.checkout);
+  const advanceActiveOrderStatus = useAppStore((state) => state.advanceActiveOrderStatus);
   const cartItems = cart.items;
   const dispensaryName = useMemo(() => {
     const selected = dispensaries.find((item) => item.id === session.selectedDispensaryId);
@@ -41,24 +50,24 @@ const Dashboard = () => {
   // Sync user role from Supabase to store
   useEffect(() => {
     if (user && user.role !== session.role) {
-      appActions.setRole(user.role);
+      setRole(user.role);
     }
-  }, [user, session.role]);
+  }, [user, session.role, setRole]);
 
   useEffect(() => {
     if (location.pathname.includes("/dashboard/driver") && session.role !== "driver") {
-      appActions.setRole("driver");
+      setRole("driver");
     } else if (location.pathname.includes("/dashboard/admin") && session.role !== "admin") {
-      appActions.setRole("admin");
+      setRole("admin");
     } else if (location.pathname === "/dashboard" && session.role !== "customer") {
-      appActions.setRole("customer");
+      setRole("customer");
     }
-  }, [location.pathname, session.role]);
+  }, [location.pathname, session.role, setRole]);
 
   const handleRoleChange = (value: string) => {
     const role = value as Role;
     if (role === session.role) return;
-    appActions.setRole(role);
+    setRole(role);
     if (role === "customer") {
       navigate("/dashboard", { replace: true });
     } else {
@@ -67,7 +76,7 @@ const Dashboard = () => {
   };
 
   const handleCheckoutConfirm = (payload: CheckoutPayload) => {
-    const success = appActions.checkout(payload);
+    const success = checkout(payload);
 
     if (success) {
       setIsCheckoutOpen(false);
@@ -190,7 +199,7 @@ const Dashboard = () => {
               <div className="px-4 pb-16 sm:px-6">
                 <OrderTracking
                   order={activeOrder}
-                  onAdvance={appActions.advanceActiveOrderStatus}
+                  onAdvance={advanceActiveOrderStatus}
                 />
               </div>
             </div>

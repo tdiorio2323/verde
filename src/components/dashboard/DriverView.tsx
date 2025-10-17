@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useAppStore, selectors, appActions } from "@/data/store";
+import { useAppStore } from "@/stores/appStore";
 import type { DriverAssignmentStatus } from "@/data/orders";
 
 const statusColor: Record<DriverAssignmentStatus, string> = {
@@ -30,7 +30,8 @@ const nextAction: Record<DriverAssignmentStatus, { label: string; disabled: bool
 };
 
 export const DriverView = () => {
-  const assignments = useAppStore(selectors.driverAssignments);
+  const assignments = useAppStore((state) => state.driver.assignments);
+  const updateDriverAssignment = useAppStore((state) => state.updateDriverAssignment);
 
   return (
     <Card className="liquid-glass border border-white/15 bg-white/5 p-0 text-white shadow-glass-xl">
@@ -106,7 +107,7 @@ export const DriverView = () => {
               <div className="mt-5 flex flex-wrap gap-3">
                 <Button
                   className="rounded-full border border-white/20 bg-gradient-to-r from-sky-400/90 via-purple-400/80 to-emerald-300/80 px-6 py-2 text-sm font-semibold text-background shadow-glow disabled:opacity-50"
-                  onClick={() => appActions.updateDriverAssignment(assignment.id)}
+                  onClick={() => updateDriverAssignment(assignment.id)}
                   disabled={nextAction[assignment.status].disabled}
                 >
                   {nextAction[assignment.status].label}
