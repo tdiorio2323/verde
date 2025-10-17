@@ -36,57 +36,99 @@ pnpm test:run  # or: npm run test:run
 
 # Type check without emitting files
 pnpm typecheck  # or: npm run typecheck
+
+# Format code with Prettier
+pnpm format  # or: npm run format
+
+# Generate Supabase types (requires SUPABASE_PROJECT_ID env var)
+pnpm generate:types  # or: npm run generate:types
+
+# Run full audit (typecheck + lint + tests + build)
+pnpm audit:full  # or: npm run audit:full
+
+# Run quick audit (typecheck + lint)
+pnpm audit:quick  # or: npm run audit:quick
 ```
 
 ## Architecture
 
 ### Application Structure
 
-- **Entry Point**: `src/main.tsx` → `src/App.tsx`
+- **Entry Point**: `src/app/main.tsx` (application initialization and providers)
 - **Routing**: React Router v6 with `createBrowserRouter`
-  - Routes defined in `src/routing/router.tsx` using `createBrowserRouter`
+  - Routes defined in `src/app/router.tsx` using `createBrowserRouter`
   - All route components are lazy-loaded for optimal performance
-  - To add new routes: add entry to the routes array in `src/routing/router.tsx` ABOVE the catch-all "*" route
+  - To add new routes: add entry to the routes array in `src/app/router.tsx` ABOVE the catch-all "*" route
   - NotFound page handles 404s
+- **Authentication**: Supabase Auth with phone/OTP
+  - AuthContext in `src/contexts/AuthContext.tsx` provides auth state
+  - ProtectedRoute component enforces authentication and role-based access
+  - User profiles stored in Supabase `profiles` table
+  - Roles: customer, driver, admin, brand (see `src/shared/config/roles.ts`)
 - **State Management**:
   - Custom store implementation using `useSyncExternalStore` (React 18)
   - Store defined in `src/data/store.ts` with `useAppStore` hook
+  - Feature-specific stores in `src/features/*/store.ts` (e.g., cart store)
+  - Session state in `src/shared/stores/session.ts`
   - Uses derived selectors with memoization to prevent unnecessary re-renders
-  - All data is currently client-side (no server state management)
   - **IMPORTANT**: All selectors must return stable references (see Selector Stability section)
 - **UI Framework**: shadcn/ui components (~50 components in `src/components/ui/`)
-- **Styling**: Tailwind CSS with custom design system
+- **Styling**: Tailwind CSS with custom chrome silver glass morphism design system
 - **Testing**: Vitest with React Testing Library
   - Test files use `.test.tsx` or `.test.ts` extension
-  - Setup file at `src/test/setup.ts` configures jsdom environment
+  - Setup file at `tests/setup.ts` configures jsdom environment
   - Run tests with `pnpm test` (watch mode) or `pnpm test:run` (single run)
 
 ### Directory Structure
 
 ```
 src/
-├── components/        # Feature components (Hero, Footer, ErrorBoundary, etc.)
-│   └── ui/           # shadcn/ui components (auto-generated, GlassCard, Img, etc.)
-├── pages/            # Route pages (LandingPage, Dashboard, NotFound, RoutesDebug)
-├── routing/          # Routing configuration
-│   └── router.tsx    # createBrowserRouter setup with lazy-loaded routes
-├── features/         # Feature-based modules (optional organization)
-├── data/             # Data layer and state management
-│   ├── store.ts      # Custom state store with useSyncExternalStore
-│   ├── products.ts   # Product catalog data
-│   ├── categories.ts # Product categories
-│   ├── dispensaries.ts # Dispensary locations
-│   └── orders.ts     # Order management and mock data
-├── hooks/            # Custom React hooks (use-mobile, use-toast)
-├── lib/              # Utilities (utils.ts for cn() helper, constants, type-guards)
-├── test/             # Test setup and utilities
-│   └── setup.ts      # Vitest configuration for jsdom
-└── assets/           # Static assets
+├── app/                     # Application entry and core setup
+│   ├── main.tsx            # Application entry point
+│   ├── router.tsx          # Centralized routing configuration
+│   ├── providers.tsx       # Application-wide context providers
+│   └── index.css          # Global styles and design system
+│
+├── pages/                   # Route-level page components
+├── components/              # Feature components and UI components
+│   ├── ui/                 # shadcn/ui components (auto-generated)
+│   ├── auth/               # Authentication components (LoginModal, ProtectedRoute)
+│   └── errors/             # Error handling components
+├── contexts/                # React Context providers (AuthContext)
+│
+├── shared/                  # Shared utilities and infrastructure
+│   ├── components/         # Shared components (ErrorBoundary)
+│   ├── hooks/              # Shared hooks (use-mobile, use-toast)
+│   ├── lib/                # Shared utilities & Supabase client
+│   ├── config/             # Configuration (env, roles)
+│   ├── stores/             # Shared state (session)
+│   └── types/              # Shared TypeScript types (supabase.ts)
+│
+├── features/                # Feature-specific modules
+│   └── cart/
+│       └── store.ts        # Cart state management
+│
+├── entities/                # Domain entities (for future use)
+├── data/                    # Static data and legacy store
+└── lib/                     # Utilities (shop queries, utils.ts)
+
+tests/                       # Root-level tests directory
+└── setup.ts                # Vitest configuration
 ```
+
+### Environment Configuration
+
+**IMPORTANT**: Before running the application, you must configure environment variables.
+
+1. Copy `.env.example` to `.env.local`
+2. Fill in required Supabase credentials:
+   - `VITE_SUPABASE_URL`: Your Supabase project URL
+   - `VITE_SUPABASE_ANON_KEY`: Your Supabase anonymous key
+3. Environment validation: Runtime validation via Zod schema in `src/shared/config/env.ts` will throw errors if required variables are missing
 
 ### Design System
 
-The project uses a **chrome silver luxury glass morphism design system** with metallic silver tones defined in `src/index.css`:
+The project uses a **chrome silver luxury glass morphism design system** with metallic silver tones defined in `src/app/index.css`:
 
 - **Colors**: All colors use HSL format with CSS custom properties
   - Primary: Chrome silver (`--primary: 0 0% 75%`)
@@ -103,11 +145,11 @@ The project uses a **chrome silver luxury glass morphism design system** with me
 - **Backdrop Blur**: Five levels from `--blur-sm` (8px) to `--blur-2xl` (40px)
 - **Theme**: Uses dark theme by default (no separate dark mode toggle needed)
 
-**IMPORTANT**: When adding new colors, they MUST be defined as HSL values in `src/index.css` and referenced via CSS custom properties. The design system extends into `tailwind.config.ts` where color utilities like `bg-golden` or `text-primary-glow` are defined.
+**IMPORTANT**: When adding new colors, they MUST be defined as HSL values in `src/app/index.css` and referenced via CSS custom properties. The design system extends into `tailwind.config.ts` where color utilities like `bg-golden` or `text-primary-glow` are defined.
 
 ### Glass Morphism Component Classes
 
-The design system includes pre-built glass morphism utility classes in `src/index.css`:
+The design system includes pre-built glass morphism utility classes in `src/app/index.css`:
 
 - `.glass`, `.glass-sm`, `.glass-md`, `.glass-lg` - Frosted glass backgrounds with varying opacity
 - `.glass-card` - Full glass card with shimmer animation on hover
@@ -131,24 +173,36 @@ Use these classes instead of creating custom glass effects.
 When adding routes to the application:
 
 1. Create page component in `src/pages/` (should be a default export)
-2. Import the component with lazy loading in `src/routing/router.tsx`
+2. Import the component with lazy loading in `src/app/router.tsx`
 3. Add route object to the routes array ABOVE the catch-all "*" route
 
 Example:
 ```tsx
-// In src/routing/router.tsx:
-import { lazy } from "react";
+// In src/app/router.tsx:
+import { lazy, Suspense } from "react";
+import { LoadingFallback } from "@/components/LoadingFallback";
 
 const NewPage = lazy(() => import("@/pages/NewPage"));
 
 export const router = createBrowserRouter([
-  { path: "/", element: <Landing /> },
-  { path: "/new-page", element: <NewPage /> }, // Add here
-  { path: "*", element: <NotFound /> },        // Keep this last
+  { path: "/", element: <LandingPage /> },
+  {
+    path: "/new-page",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <NewPage />
+      </Suspense>
+    ),
+    errorElement: <RouteErrorBoundary />,
+  },
+  { path: "*", element: <NotFound /> },  // Keep this last
 ]);
 ```
 
-**Important**: All route components should be lazy-loaded using React's `lazy()` for optimal bundle splitting and performance.
+**Important**:
+- All route components should be lazy-loaded using React's `lazy()` for optimal bundle splitting
+- Wrap lazy components in `<Suspense>` with `<LoadingFallback />`
+- Include `errorElement: <RouteErrorBoundary />` for error handling
 
 ### Working with shadcn/ui
 
@@ -160,8 +214,35 @@ export const router = createBrowserRouter([
 
 - Use Tailwind utility classes
 - Reference design system colors via `bg-primary`, `text-golden`, etc.
-- For custom styles, extend in `tailwind.config.ts` or use CSS custom properties in `src/index.css`
+- For custom styles, extend in `tailwind.config.ts` or use CSS custom properties in `src/app/index.css`
 - The theme uses a dark background by default (no separate dark mode toggle needed)
+
+### Supabase Integration
+
+- **Client**: Centralized Supabase client in `src/shared/lib/supabaseClient.ts`
+- **Authentication**: Phone/OTP flow via Supabase Auth
+- **Database**: Shop items stored in `shop_items` and `shop_item_tags` tables
+- **Queries**: Shop queries centralized in `src/lib/shop.ts`
+- **Type Generation**: Run `pnpm generate:types` to generate TypeScript types from Supabase schema
+- **Profiles**: User profiles in `profiles` table with role-based access control
+
+### Import Path Guidelines
+
+The codebase uses a layered architecture with specific import conventions:
+
+- `@/app/*` - Application entry, router, providers (imported by pages/features)
+- `@/shared/*` - Shared utilities, hooks, config, Supabase client (imported everywhere)
+- `@/features/*` - Feature-specific modules (cart, etc.)
+- `@/components/*` - UI components (including shadcn/ui components)
+- `@/pages/*` - Route pages (imported by router)
+- `@/contexts/*` - React Context providers (AuthContext)
+- `@/data/*` - Static data and legacy store
+- `@/lib/*` - Utilities and shop queries
+
+**Always import**:
+- Supabase client from `@/shared/lib/supabaseClient`
+- Roles from `@/shared/config/roles`
+- Hooks from `@/shared/hooks/*`
 
 ## Integration Notes
 
@@ -170,13 +251,19 @@ export const router = createBrowserRouter([
 - **TypeScript**: Configured with separate tsconfig files (app, node, base)
 - **Deployment**: Configured for Vercel with SPA rewrites (see `vercel.json`)
 
-## Current Pages
+## Current Routes
 
-- `/` - Landing page with OTP authentication
-- `/dashboard` - Customer Experience storefront (marked as private)
-- `/dashboard/driver` - Driver Console (marked as private)
-- `/dashboard/admin` - Admin Command center (marked as private)
-- `/_routes` - Routes debug page for development
+- `/` - Landing page with OTP authentication (public)
+- `/dashboard` - Customer Experience storefront (protected)
+- `/dashboard/driver` - Driver Console (protected, driver role)
+- `/dashboard/admin` - Admin Command center (protected, admin role)
+- `/dashboard/brand` - Brand Dashboard (protected, brand role)
+- `/shop` - Public shop listing page
+- `/shop/:slug` - Public shop detail page
+- `/cart` - Shopping cart page
+- `/accept-brand-invite` - Brand invite acceptance (public)
+- `/accept-invite` - Customer invite acceptance (public)
+- `/_routes` - Routes debug page (development only, gated by VITE_ENABLE_ROUTES_DEBUG)
 - `*` - 404 Not Found page
 
 ## Selector Stability

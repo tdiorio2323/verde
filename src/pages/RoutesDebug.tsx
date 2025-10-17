@@ -1,6 +1,13 @@
-import { routes } from "@/routes";
+import { router } from "@/app/router";
+import { ROLES } from "@/shared/config/roles";
 
 export default function RoutesDebug() {
+    const routes = router.routes.map((route) => ({
+        path: route.path || "*",
+        label: route.path === "/" ? "Landing" : route.path === "*" ? "Not Found" : route.path,
+        private: route.path?.includes("/dashboard") || false,
+    }));
+
     return (
         <main
             className="min-h-screen text-foreground p-6 bg-cover bg-center bg-no-repeat"

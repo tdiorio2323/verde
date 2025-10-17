@@ -1,16 +1,21 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getShopItem } from '@/lib/shop';
-import { useCart } from '@/stores/cart';
+import { useCart } from '@/features/cart/store';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, ShoppingCart } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/use-toast';
+import type { Database } from '@/shared/types/supabase';
+
+type ShopItem = Database['public']['Tables']['shop_items']['Row'] & {
+  shop_item_tags?: { tag: string }[];
+};
 
 export default function ShopDetail() {
   const { slug } = useParams();
-  const [item, setItem] = useState<any>();
+  const [item, setItem] = useState<ShopItem | null>(null);
   const [loading, setLoading] = useState(true);
   const add = useCart(s => s.add);
   const { toast } = useToast();
@@ -110,7 +115,7 @@ export default function ShopDetail() {
             
             {item.shop_item_tags && item.shop_item_tags.length > 0 && (
               <div className="mt-6 flex flex-wrap gap-2">
-                {item.shop_item_tags.map((t: any, idx: number) => (
+                {item.shop_item_tags.map((t: { tag: string }, idx: number) => (
                   <Badge key={idx} variant="secondary" className="bg-white/10">
                     {t.tag}
                   </Badge>

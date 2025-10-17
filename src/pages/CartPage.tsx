@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useCart } from '@/stores/cart';
+import { useCart } from '@/features/cart/store';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';

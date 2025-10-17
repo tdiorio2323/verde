@@ -12,6 +12,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "typecheck": "tsc --noEmit",
+    "generate:types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/shared/types/supabase.ts",
+    "format": "prettier -w .",
     "audit:full": "npm run typecheck && npm run lint && npm run test:run && npm run build",
     "audit:quick": "npm run typecheck && npm run lint",
     "audit:env": "ts-node scripts/grep-env.ts",

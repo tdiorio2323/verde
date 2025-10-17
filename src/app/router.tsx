@@ -1,52 +1,50 @@
 import { Suspense, lazy } from "react";
-import {
-  createBrowserRouter,
-  Navigate,
-} from "react-router-dom";
-import RouteErrorBoundary from "./components/errors/RouteErrorBoundary";
-import ProtectedRoute from "./components/auth/ProtectedRoute"; // keep your existing component
-import { ROLES } from "./constants/roles";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import RouteErrorBoundary from "@/components/errors/RouteErrorBoundary";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import { LoadingFallback } from "@/components/LoadingFallback";
+import { ROLES } from "@/shared/config/roles";
 
-// Lazy chunks
-const LandingPage = lazy(() => import("./pages/LandingPage"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const BrandDashboard = lazy(() => import("./pages/BrandDashboard"));
-const ShopPage = lazy(() => import("./pages/ShopPage"));
-const ShopDetail = lazy(() => import("./pages/ShopDetail"));
-const CartPage = lazy(() => import("./pages/CartPage"));
-const AcceptBrandInvite = lazy(() => import("./pages/AcceptBrandInvite"));
-const AcceptCustomerInvite = lazy(() => import("./pages/AcceptCustomerInvite"));
-const RoutesDebug = lazy(() => import("./pages/RoutesDebug")); // optional dev-only
-const NotFound = lazy(() => import("./pages/NotFound"));
+// Lazy load all page components for optimal code splitting
+const LandingPage = lazy(() => import("@/pages/LandingPage"));
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const BrandDashboard = lazy(() => import("@/pages/BrandDashboard"));
+const ShopPage = lazy(() => import("@/pages/ShopPage"));
+const ShopDetail = lazy(() => import("@/pages/ShopDetail"));
+const CartPage = lazy(() => import("@/pages/CartPage"));
+const AcceptBrandInvite = lazy(() => import("@/pages/AcceptBrandInvite"));
+const AcceptCustomerInvite = lazy(() => import("@/pages/AcceptCustomerInvite"));
+const RoutesDebug = lazy(() => import("@/pages/RoutesDebug"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 
-// Minimal fallback
-const Fallback = () => (
-  <div className="flex h-dvh items-center justify-center">
-    <div className="animate-pulse text-sm text-neutral-500">Loading…</div>
-  </div>
-);
-
-// Optional: gate the debug route by env
+/**
+ * Gate the debug route by environment variable
+ */
 const DEBUG_ROUTES_ENABLED =
   import.meta.env.DEV && import.meta.env.VITE_ENABLE_ROUTES_DEBUG === "true";
 
+/**
+ * Application router configuration using React Router v6
+ * All routes are lazy-loaded and wrapped in Suspense boundaries
+ */
 export const router = createBrowserRouter([
+  // Public landing page
   {
     path: "/",
     element: (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<LoadingFallback />}>
         <LandingPage />
       </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Customer default
+  // Customer dashboard (default protected route)
   {
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-        <Suspense fallback={<Fallback />}>
+        <Suspense fallback={<LoadingFallback />}>
           <Dashboard />
         </Suspense>
       </ProtectedRoute>
@@ -54,12 +52,12 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Driver
+  // Driver-specific dashboard
   {
     path: "/dashboard/driver",
     element: (
       <ProtectedRoute requireRole={ROLES.DRIVER}>
-        <Suspense fallback={<Fallback />}>
+        <Suspense fallback={<LoadingFallback />}>
           <Dashboard />
         </Suspense>
       </ProtectedRoute>
@@ -67,12 +65,12 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Admin
+  // Admin dashboard
   {
     path: "/dashboard/admin",
     element: (
       <ProtectedRoute requireRole={ROLES.ADMIN}>
-        <Suspense fallback={<Fallback />}>
+        <Suspense fallback={<LoadingFallback />}>
           <Dashboard />
         </Suspense>
       </ProtectedRoute>
@@ -80,12 +78,12 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Brand
+  // Brand dashboard
   {
     path: "/dashboard/brand",
     element: (
       <ProtectedRoute requireRole={ROLES.BRAND}>
-        <Suspense fallback={<Fallback />}>
+        <Suspense fallback={<LoadingFallback />}>
           <BrandDashboard />
         </Suspense>
       </ProtectedRoute>
@@ -93,11 +91,11 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Shop routes (public)
+  // Public shop routes
   {
     path: "/shop",
     element: (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<LoadingFallback />}>
         <ShopPage />
       </Suspense>
     ),
@@ -106,16 +104,18 @@ export const router = createBrowserRouter([
   {
     path: "/shop/:slug",
     element: (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<LoadingFallback />}>
         <ShopDetail />
       </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
   },
+
+  // Cart page
   {
     path: "/cart",
     element: (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<LoadingFallback />}>
         <CartPage />
       </Suspense>
     ),
@@ -126,7 +126,7 @@ export const router = createBrowserRouter([
   {
     path: "/accept-brand-invite",
     element: (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<LoadingFallback />}>
         <AcceptBrandInvite />
       </Suspense>
     ),
@@ -135,20 +135,20 @@ export const router = createBrowserRouter([
   {
     path: "/accept-invite",
     element: (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<LoadingFallback />}>
         <AcceptCustomerInvite />
       </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Dev-only route inspector. Excluded in prod unless explicitly enabled.
+  // Dev-only route inspector (excluded in production)
   ...(DEBUG_ROUTES_ENABLED
     ? [
         {
           path: "/_routes",
           element: (
-            <Suspense fallback={<Fallback />}>
+            <Suspense fallback={<LoadingFallback />}>
               <RoutesDebug />
             </Suspense>
           ),
@@ -157,16 +157,16 @@ export const router = createBrowserRouter([
       ]
     : []),
 
-  // Hard redirect if someone hits /admin or /driver roots
+  // Convenience redirects
   { path: "/admin", element: <Navigate to="/dashboard/admin" replace /> },
   { path: "/driver", element: <Navigate to="/dashboard/driver" replace /> },
   { path: "/brand", element: <Navigate to="/dashboard/brand" replace /> },
 
-  // 404
+  // 404 catch-all (must be last)
   {
     path: "*",
     element: (
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<LoadingFallback />}>
         <NotFound />
       </Suspense>
     ),

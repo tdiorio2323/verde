@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import { supabase } from "@/lib/supabase";
-import { deriveRole } from "@/lib/roles";
-import { ROLES, type Role } from "@/constants/roles";
+import { supabase } from "@/shared/lib/supabaseClient";
+import { deriveRole, ROLES, type Role } from "@/shared/config/roles";
 
 type SessionState = {
   isAdmin: boolean;

@@ -5,11 +5,16 @@ import { listShopItems } from '@/lib/shop';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Home, User } from 'lucide-react';
-import { useCart } from '@/stores/cart';
+import { useCart } from '@/features/cart/store';
 import { useAuth } from '@/contexts/AuthContext';
+import type { Database } from '@/shared/types/supabase';
+
+type ShopItem = Database['public']['Tables']['shop_items']['Row'] & {
+  shop_item_tags?: { tag: string }[];
+};
 
 export default function ShopPage() {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<ShopItem[]>([]);
   const [q, setQ] = useState('');
   const [loading, setLoading] = useState(true);
   const cartItems = useCart(s => s.items);

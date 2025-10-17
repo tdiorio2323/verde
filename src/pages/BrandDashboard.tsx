@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useSession } from "@/state/session";
-import { supabase } from "@/lib/supabase";
+import { useSession } from "@/shared/stores/session";
+import { supabase } from "@/shared/lib/supabaseClient";
 
 export default function BrandDashboard() {
   const { brandId, refresh } = useSession();

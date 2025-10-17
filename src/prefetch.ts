@@ -7,7 +7,7 @@ export function prefetchDashboard() {
 
 export function prefetchOnIdle() {
   if ("requestIdleCallback" in window) {
-    (window as any).requestIdleCallback(() => prefetchDashboard());
+    (window as Window & { requestIdleCallback: (callback: () => void) => void }).requestIdleCallback(() => prefetchDashboard());
   } else {
     setTimeout(prefetchDashboard, 500);
   }

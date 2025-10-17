@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from '@/shared/lib/supabaseClient';
 
 export async function listShopItems(tag?: string, q?: string) {
   const baseSel = 'id,kind,slug,title,description,price_cents,image_url,shop_item_tags(tag)';

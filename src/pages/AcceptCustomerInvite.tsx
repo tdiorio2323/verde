@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Navigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/shared/lib/supabaseClient";
 
 export default function AcceptCustomerInvite() {
   const [sp] = useSearchParams();
