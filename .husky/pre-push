@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "▶ Running full audit before push…"
+pnpm typecheck || exit 1
+pnpm lint || exit 1
+pnpm test:run || exit 1
+pnpm build || exit 1
+
+echo "✓ Audit passed. Proceeding with push."
