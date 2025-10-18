@@ -39,3 +39,10 @@ build/
 # Test coverage
 coverage/
 .vercel
+
+# Route audit outputs
+route-atlas.json
+ROUTE_ATLAS.md
+unknown-links.csv
+unmounted-pages.csv
+crawl-report.md

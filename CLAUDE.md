@@ -48,7 +48,18 @@ pnpm audit:full  # or: npm run audit:full
 
 # Run quick audit (typecheck + lint)
 pnpm audit:quick  # or: npm run audit:quick
+
+# Audit environment variables usage
+pnpm audit:env  # or: npm run audit:env
+
+# Audit routes inventory
+pnpm audit:routes  # or: npm run audit:routes
+
+# Prepare git hooks (run after clone)
+pnpm prepare  # or: npm run prepare
 ```
+
+**Git Hooks**: The project uses Husky for pre-push hooks. After cloning, run `pnpm prepare` to install hooks that run type checking and linting before pushing.
 
 ## Architecture
 
@@ -66,12 +77,12 @@ pnpm audit:quick  # or: npm run audit:quick
   - User profiles stored in Supabase `profiles` table
   - Roles: customer, driver, admin, brand (see `src/shared/config/roles.ts`)
 - **State Management**:
-  - Custom store implementation using `useSyncExternalStore` (React 18)
-  - Store defined in `src/data/store.ts` with `useAppStore` hook
+  - Zustand store with devtools middleware
+  - Store defined in `src/stores/appStore.ts` with `useAppStore` hook
   - Feature-specific stores in `src/features/*/store.ts` (e.g., cart store)
   - Session state in `src/shared/stores/session.ts`
-  - Uses derived selectors with memoization to prevent unnecessary re-renders
-  - **IMPORTANT**: All selectors must return stable references (see Selector Stability section)
+  - Uses Zustand's built-in selector patterns for optimal re-render performance
+  - **IMPORTANT**: Follow Zustand best practices - prefer atomic selectors over object selectors (see Selector Best Practices section)
 - **UI Framework**: shadcn/ui components (~50 components in `src/components/ui/`)
 - **Styling**: Tailwind CSS with custom chrome silver glass morphism design system
 - **Testing**: Vitest with React Testing Library
@@ -95,6 +106,8 @@ src/
 │   ├── auth/               # Authentication components (LoginModal, ProtectedRoute)
 │   └── errors/             # Error handling components
 ├── contexts/                # React Context providers (AuthContext)
+├── stores/                  # Zustand state management stores
+│   └── appStore.ts         # Main application store
 │
 ├── shared/                  # Shared utilities and infrastructure
 │   ├── components/         # Shared components (ErrorBoundary)
@@ -102,14 +115,14 @@ src/
 │   ├── lib/                # Shared utilities & Supabase client
 │   ├── config/             # Configuration (env, roles)
 │   ├── stores/             # Shared state (session)
-│   └── types/              # Shared TypeScript types (supabase.ts)
+│   └── types/              # Shared TypeScript types (app.ts, supabase.ts)
 │
 ├── features/                # Feature-specific modules
 │   └── cart/
 │       └── store.ts        # Cart state management
 │
 ├── entities/                # Domain entities (for future use)
-├── data/                    # Static data and legacy store
+├── data/                    # Static data and type definitions
 └── lib/                     # Utilities (shop queries, utils.ts)
 
 tests/                       # Root-level tests directory
@@ -234,15 +247,17 @@ The codebase uses a layered architecture with specific import conventions:
 
 - `@/app/*` - Application entry, router, providers (imported by pages/features)
 - `@/shared/*` - Shared utilities, hooks, config, Supabase client (imported everywhere)
+- `@/stores/*` - Zustand state management stores (appStore, etc.)
 - `@/features/*` - Feature-specific modules (cart, etc.)
 - `@/components/*` - UI components (including shadcn/ui components)
 - `@/pages/*` - Route pages (imported by router)
 - `@/contexts/*` - React Context providers (AuthContext)
-- `@/data/*` - Static data and legacy store
+- `@/data/*` - Static data and type definitions
 - `@/lib/*` - Utilities and shop queries
 
 **Always import**:
 
+- App store from `@/stores/appStore`
 - Supabase client from `@/shared/lib/supabaseClient`
 - Roles from `@/shared/config/roles`
 - Hooks from `@/shared/hooks/*`
@@ -269,16 +284,16 @@ The codebase uses a layered architecture with specific import conventions:
 - `/_routes` - Routes debug page (development only, gated by VITE_ENABLE_ROUTES_DEBUG)
 - `*` - 404 Not Found page
 
-## Selector Stability
+## Selector Best Practices
 
-The custom store relies on `useSyncExternalStore` (React 18), requiring every selector to return a stable reference to prevent infinite re-renders. This is NOT Zustand—it's a custom implementation inspired by Zustand patterns.
+The application uses Zustand for state management. Follow these patterns for optimal performance:
 
 ### Rules
 
-- **Memoize derived data**: Wrap multi-field selectors with `createDerivedSelector` (see `src/data/store.ts:173`) and supply an equality check (`shallowEqual`, custom equality functions).
-- **Avoid inline objects/functions**: Instead of `useAppStore(state => ({ foo: state.foo, bar: state.bar }))`, use individual selectors or pre-defined derived selectors.
-- **Cache snapshots**: When adding selectors that compute arrays or objects, ensure they reference existing state objects or return memoized copies.
-- **Use pre-defined selectors**: Import from `selectors` object in `src/data/store.ts:645` when possible.
+- **Prefer atomic selectors**: Instead of selecting multiple fields in one selector, use separate selectors for each field
+- **Avoid inline object creation**: Don't create new objects in selectors unless necessary
+- **Use shallow equality**: For objects/arrays, use Zustand's `shallow` comparison or custom equality functions
+- **Keep selectors simple**: Complex computations should be memoized outside the selector
 
 ### Example
 
@@ -289,20 +304,24 @@ const data = useAppStore((state) => ({
   total: state.cart.total,
 }));
 
-// ✅ GOOD: Use separate selectors
+// ✅ GOOD: Use separate atomic selectors
 const items = useAppStore((state) => state.cart.items);
 const total = useAppStore((state) => state.cart.total);
 
-// ✅ BETTER: Use pre-defined derived selector
-const cartTotals = useAppStore(selectors.cartTotals);
+// ✅ ALSO GOOD: Use shallow comparison for objects
+import { shallow } from 'zustand/shallow';
+const { items, total } = useAppStore(
+  (state) => ({ items: state.cart.items, total: state.cart.total }),
+  shallow
+);
 ```
 
 ### Testing
 
 Before merging changes to the store:
 
-1. Run `pnpm build` (or `npm run build`) to confirm no TypeScript errors
-2. Test in browser DevTools → Console for React's `getSnapshot` warnings
-3. Check that components don't re-render unnecessarily
+1. Run `pnpm typecheck` and `pnpm build` to confirm no TypeScript errors
+2. Test in browser to ensure components don't re-render unnecessarily
+3. Run `pnpm audit:quick` for quick validation
 
 See `CONTRIBUTING.md` for deployment guidelines.

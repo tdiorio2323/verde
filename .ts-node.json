@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs"
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
+}

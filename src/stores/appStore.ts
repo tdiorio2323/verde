@@ -66,7 +66,7 @@ const buildTimeline = (targetStatus: OrderStatus, baseTime = new Date()): OrderT
 const ensureQuantity = (quantity: number) => Math.max(0, Math.min(9, quantity));
 
 const resolveProduct = (productId: number) =>
-  products.find((product) => product.id === productId);
+  get().products.find((product) => product.id === productId);
 
 const recalcAdminOrders = (orders: CustomerOrder[]) => {
   return orders.slice(0, 6).map((order) => ({
@@ -74,13 +74,13 @@ const recalcAdminOrders = (orders: CustomerOrder[]) => {
     customer: order.items[0]?.name.split(" ")[0] ?? "Guest",
     status: order.status,
     dispensary:
-      dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "Verde",
+      get().dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "Verde",
     eta: `${order.etaMinutes} min`,
     basket: order.total,
   }));
 };
 
-const calculateTotals = (cart: AppState["cart"], items: CartLineItem[]) => {
+export const calculateTotals = (cart: AppState["cart"], items: CartLineItem[], products: AppState["products"]) => {
   const currentProducts = products;
   const subtotal = items.reduce((sum, item) => {
     const product = currentProducts.find((prod) => prod.id === item.productId);
@@ -244,6 +244,7 @@ export const useAppStore = create<AppStore>()(
         const { subtotal, serviceFee, tax, deliveryFee, total } = calculateTotals(
           state.cart,
           state.cart.items,
+          state.products,
         );
 
         const now = new Date();
