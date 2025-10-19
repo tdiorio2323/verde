@@ -18,23 +18,16 @@ import {
 import DataTable from "@/components/dashboard/DataTable";
 import KpiCard from "@/components/dashboard/KpiCard";
 import { useAppStore } from "@/stores/appStore";
-
-const statusTone: Record<string, string> = {
-  preparing: "bg-amber-300/30 text-amber-100",
-  enroute: "bg-sky-400/40 text-sky-100",
-  confirmed: "bg-purple-400/30 text-purple-100",
-  placed: "bg-white/20 text-white",
-  delivered: "bg-emerald-400/20 text-emerald-100",
-};
+import { ORDER_STATUS_STYLES } from "@/shared/config/statuses";
+import { ORDER_STATUSES, ORDER_STATUS_LABELS } from "@/lib/constants";
+import { filterOrdersByStatus } from "@/shared/lib/filters";
 
 const orderStatuses = [
   { id: "all", label: "All statuses" },
-  { id: "placed", label: "Placed" },
-  { id: "confirmed", label: "Confirmed" },
-  { id: "preparing", label: "Preparing" },
-  { id: "enroute", label: "En Route" },
-  { id: "arriving", label: "Arriving" },
-  { id: "delivered", label: "Delivered" },
+  ...ORDER_STATUSES.map((status) => ({
+    id: status,
+    label: ORDER_STATUS_LABELS[status],
+  })),
 ];
 
 const AdminView = () => {
@@ -42,8 +35,7 @@ const AdminView = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const filteredOrders = useMemo(() => {
-    if (statusFilter === "all") return adminState.orders;
-    return adminState.orders.filter((order) => order.status === statusFilter);
+    return filterOrdersByStatus(adminState.orders, statusFilter);
   }, [adminState.orders, statusFilter]);
 
   const onlineDrivers = adminState.users.filter(
@@ -101,7 +93,7 @@ const AdminView = () => {
                   <TableCell className="text-white">
                     <div className="flex items-center gap-3">
                       <Badge
-                        className={`rounded-full border border-white/20 px-3 py-1 text-xs ${statusTone[order.status] ?? "bg-white/15 text-white"}`}
+                        className={`rounded-full border border-white/20 px-3 py-1 text-xs ${ORDER_STATUS_STYLES[order.status] ?? "bg-white/15 text-white"}`}
                       >
                         {order.status}
                       </Badge>

@@ -12,6 +12,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import type { CheckoutPayload } from "@/shared/types/app";
+import {
+  validateName,
+  validatePhone,
+  validateAddress,
+  hasErrors as checkHasErrors,
+} from "@/shared/lib/validation";
+
+// Shared className constants for consistent styling
+const GLASS_INPUT_CLASSES =
+  "h-12 rounded-2xl border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-2 focus-visible:ring-white/40";
+
+const GLASS_TEXTAREA_CLASSES =
+  "rounded-2xl border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-2 focus-visible:ring-white/40";
+
+const LABEL_CLASSES = "text-xs uppercase tracking-[0.28em] text-white/60";
+
+const ERROR_TEXT_CLASSES = "text-xs text-amber-200";
 
 export type CheckoutModalProps = {
   open: boolean;
@@ -38,26 +55,30 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
 
   const errors = useMemo(() => {
     return {
-      customerName: form.customerName.trim().length < 2 ? "Name is required" : "",
-      phone: /\d{3}-?\d{3}-?\d{4}/.test(form.phone.trim()) ? "" : "Valid phone required",
-      address: form.address.trim().length < 6 ? "Delivery address required" : "",
-    } as Record<string, string>;
+      customerName: validateName(form.customerName),
+      phone: validatePhone(form.phone),
+      address: validateAddress(form.address),
+    };
   }, [form.customerName, form.phone, form.address]);
 
-  const hasErrors = Boolean(errors.customerName || errors.phone || errors.address);
+  const formHasErrors = checkHasErrors(errors);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setTouched({ customerName: true, phone: true, address: true, notes: true });
-    if (hasErrors) {
+
+    if (formHasErrors) {
       return;
     }
+
     onConfirm({
       customerName: form.customerName.trim(),
       phone: form.phone.trim(),
       address: form.address.trim(),
       notes: form.notes?.trim() || "",
     });
+
+    // Reset form state
     setForm(initialForm);
     setTouched({ customerName: false, phone: false, address: false, notes: false });
   };
@@ -82,10 +103,7 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
 
         <form onSubmit={handleSubmit} className="space-y-5 px-6 py-6">
           <div className="space-y-1">
-            <Label
-              htmlFor="checkout-name"
-              className="text-xs uppercase tracking-[0.28em] text-white/60"
-            >
+            <Label htmlFor="checkout-name" className={LABEL_CLASSES}>
               Contact name
             </Label>
             <Input
@@ -93,19 +111,16 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
               value={form.customerName}
               onChange={(event) => setForm({ ...form, customerName: event.target.value })}
               onBlur={() => setTouched((prev) => ({ ...prev, customerName: true }))}
-              className="h-12 rounded-2xl border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-2 focus-visible:ring-white/40"
+              className={GLASS_INPUT_CLASSES}
               placeholder="Jordan Blake"
             />
             {touched.customerName && errors.customerName && (
-              <p className="text-xs text-amber-200">{errors.customerName}</p>
+              <p className={ERROR_TEXT_CLASSES}>{errors.customerName}</p>
             )}
           </div>
 
           <div className="space-y-1">
-            <Label
-              htmlFor="checkout-phone"
-              className="text-xs uppercase tracking-[0.28em] text-white/60"
-            >
+            <Label htmlFor="checkout-phone" className={LABEL_CLASSES}>
               Mobile number
             </Label>
             <Input
@@ -114,19 +129,16 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
               onChange={(event) => setForm({ ...form, phone: event.target.value })}
               onBlur={() => setTouched((prev) => ({ ...prev, phone: true }))}
               inputMode="tel"
-              className="h-12 rounded-2xl border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-2 focus-visible:ring-white/40"
+              className={GLASS_INPUT_CLASSES}
               placeholder="310-555-0198"
             />
             {touched.phone && errors.phone && (
-              <p className="text-xs text-amber-200">{errors.phone}</p>
+              <p className={ERROR_TEXT_CLASSES}>{errors.phone}</p>
             )}
           </div>
 
           <div className="space-y-1">
-            <Label
-              htmlFor="checkout-address"
-              className="text-xs uppercase tracking-[0.28em] text-white/60"
-            >
+            <Label htmlFor="checkout-address" className={LABEL_CLASSES}>
               Delivery address
             </Label>
             <Textarea
@@ -134,26 +146,23 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
               value={form.address}
               onChange={(event) => setForm({ ...form, address: event.target.value })}
               onBlur={() => setTouched((prev) => ({ ...prev, address: true }))}
-              className="min-h-[100px] rounded-2xl border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-2 focus-visible:ring-white/40"
+              className={`${GLASS_TEXTAREA_CLASSES} min-h-[100px]`}
               placeholder="525 Luxe Tower, Unit 3204, Los Angeles, CA"
             />
             {touched.address && errors.address && (
-              <p className="text-xs text-amber-200">{errors.address}</p>
+              <p className={ERROR_TEXT_CLASSES}>{errors.address}</p>
             )}
           </div>
 
           <div className="space-y-1">
-            <Label
-              htmlFor="checkout-notes"
-              className="text-xs uppercase tracking-[0.28em] text-white/60"
-            >
+            <Label htmlFor="checkout-notes" className={LABEL_CLASSES}>
               Concierge notes (optional)
             </Label>
             <Textarea
               id="checkout-notes"
               value={form.notes ?? ""}
               onChange={(event) => setForm({ ...form, notes: event.target.value })}
-              className="min-h-[80px] rounded-2xl border-white/20 bg-white/10 text-white placeholder:text-white/40 focus-visible:border-white/40 focus-visible:ring-2 focus-visible:ring-white/40"
+              className={`${GLASS_TEXTAREA_CLASSES} min-h-[80px]`}
               placeholder="Gate code, valet details, or delivery preferences"
             />
           </div>
@@ -162,7 +171,7 @@ const CheckoutModal = ({ open, onOpenChange, onConfirm, cartTotal }: CheckoutMod
             <Button
               type="submit"
               className="h-12 rounded-full border border-white/30 bg-gradient-to-r from-sky-400 via-indigo-400 to-amber-200 text-base font-semibold text-background shadow-glow transition-transform hover:scale-[1.01]"
-              disabled={hasErrors && Object.values(touched).some(Boolean)}
+              disabled={formHasErrors && Object.values(touched).some(Boolean)}
             >
               Place order • ${cartTotal.toFixed(2)}
             </Button>

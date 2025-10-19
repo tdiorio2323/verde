@@ -8,6 +8,14 @@ import type { Product } from "@/data/products";
 import type { CustomerOrder, DriverAssignment } from "@/data/orders";
 import type { Dispensary } from "@/data/dispensaries";
 import type { CartLineItem } from "@/shared/types/app";
+import {
+  ORDER_STATUSES,
+  USER_ROLES,
+  DRIVER_STATUSES,
+  MIN_CART_QUANTITY,
+  MAX_CART_QUANTITY,
+} from "@/lib/constants";
+import type { OrderStatus, UserRole, DriverStatus } from "@/lib/constants";
 
 /**
  * Type guard to check if a value is a valid Product.
@@ -121,8 +129,8 @@ export function isCartLineItem(value: unknown): value is CartLineItem {
   return (
     typeof item.productId === "number" &&
     typeof item.quantity === "number" &&
-    item.quantity >= 0 &&
-    item.quantity <= 9
+    item.quantity >= MIN_CART_QUANTITY &&
+    item.quantity <= MAX_CART_QUANTITY
   );
 }
 
@@ -163,21 +171,31 @@ export function isCartLineItemArray(value: unknown): value is CartLineItem[] {
  * @param value - Value to check
  * @returns true if value is a valid order status
  */
-export function isOrderStatus(
-  value: unknown,
-): value is "placed" | "confirmed" | "preparing" | "enroute" | "arriving" | "delivered" {
-  return (
-    typeof value === "string" &&
-    ["placed", "confirmed", "preparing", "enroute", "arriving", "delivered"].includes(value)
-  );
+export function isOrderStatus(value: unknown): value is OrderStatus {
+  return typeof value === "string" && ORDER_STATUSES.includes(value as OrderStatus);
 }
 
 /**
- * Type guard to check if a string is a valid role.
+ * Type guard to check if a string is a valid user role.
  *
  * @param value - Value to check
  * @returns true if value is a valid role
  */
-export function isRole(value: unknown): value is "customer" | "driver" | "admin" {
-  return typeof value === "string" && ["customer", "driver", "admin"].includes(value);
+export function isUserRole(value: unknown): value is UserRole {
+  return typeof value === "string" && USER_ROLES.includes(value as UserRole);
 }
+
+/**
+ * Type guard to check if a string is a valid driver assignment status.
+ *
+ * @param value - Value to check
+ * @returns true if value is a valid driver status
+ */
+export function isDriverStatus(value: unknown): value is DriverStatus {
+  return typeof value === "string" && DRIVER_STATUSES.includes(value as DriverStatus);
+}
+
+/**
+ * @deprecated Use isUserRole instead
+ */
+export const isRole = isUserRole;

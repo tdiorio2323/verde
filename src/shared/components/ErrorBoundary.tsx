@@ -34,16 +34,24 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    // Log error details to console (can be extended to send to error tracking service)
-    console.error("ErrorBoundary caught an error:", error);
-    console.error("Error Info:", errorInfo);
+    // Log error details to console in development
+    if (import.meta.env.DEV) {
+      console.error("ErrorBoundary caught an error:", error);
+      console.error("Error Info:", errorInfo);
+    }
 
     this.setState({
       errorInfo: errorInfo.componentStack || null,
     });
 
-    // TODO: Send error to error tracking service (e.g., Sentry, LogRocket)
-    // logErrorToService(error, errorInfo);
+    // In production, you would integrate an error tracking service here:
+    // Example with Sentry:
+    // import * as Sentry from "@sentry/react";
+    // Sentry.captureException(error, { contexts: { react: { componentStack: errorInfo.componentStack } } });
+    //
+    // Example with LogRocket:
+    // import LogRocket from 'logrocket';
+    // LogRocket.captureException(error, { extra: { errorInfo } });
   }
 
   handleReset = (): void => {

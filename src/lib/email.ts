@@ -25,6 +25,9 @@ interface CustomerInviteParams {
 
 /**
  * Send brand admin/manager invite email
+ *
+ * Note: In production, this should integrate with your email service provider.
+ * See setup instructions at the top of this file.
  */
 export async function sendBrandInvite({
   email,
@@ -34,34 +37,44 @@ export async function sendBrandInvite({
 }: BrandInviteParams): Promise<{ success: boolean; error?: string }> {
   const inviteUrl = `${PUBLIC_HOST}/accept-brand-invite?token=${token}`;
 
-  // TODO: Replace with your email service
-  // Example using Resend:
-  /*
-  const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
-  
-  await resend.emails.send({
-    from: 'Verde <noreply@verde.com>',
-    to: email,
-    subject: `You've been invited to manage ${brandName}`,
-    html: getBrandInviteTemplate({ email, brandName, inviteUrl, expiresAt }),
-  });
-  */
+  // Production email service integration goes here
+  // Uncomment and configure when email service is set up:
+  //
+  // try {
+  //   const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
+  //   await resend.emails.send({
+  //     from: 'Verde <noreply@verde.com>',
+  //     to: email,
+  //     subject: `You've been invited to manage ${brandName}`,
+  //     html: getBrandInviteTemplate({ email, brandName, inviteUrl, expiresAt }),
+  //   });
+  //   return { success: true };
+  // } catch (error) {
+  //   console.error("Failed to send brand invite:", error);
+  //   return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+  // }
 
-  // Development fallback: log to console
+  // Development mode: log invite details to console
   if (import.meta.env.DEV) {
-    console.log("📧 Brand Invite Email:", {
+    console.log("📧 Brand Invite Email (dev mode):", {
       to: email,
       subject: `You've been invited to manage ${brandName}`,
       inviteUrl,
       expiresAt,
     });
+    return { success: true };
   }
 
-  return { success: true };
+  // Production without email service configured
+  console.warn("Email service not configured. Invite link:", inviteUrl);
+  return { success: false, error: "Email service not configured" };
 }
 
 /**
  * Send customer invite email
+ *
+ * Note: In production, this should integrate with your email service provider.
+ * See setup instructions at the top of this file.
  */
 export async function sendCustomerInvite({
   email,
@@ -71,30 +84,37 @@ export async function sendCustomerInvite({
 }: CustomerInviteParams): Promise<{ success: boolean; error?: string }> {
   const inviteUrl = `${PUBLIC_HOST}/accept-invite?token=${token}`;
 
-  // TODO: Replace with your email service
-  // Example using Resend:
-  /*
-  const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
-  
-  await resend.emails.send({
-    from: `${brandName} <noreply@verde.com>`,
-    to: email,
-    subject: `Welcome to ${brandName} on Verde`,
-    html: getCustomerInviteTemplate({ email, brandName, inviteUrl, expiresAt }),
-  });
-  */
+  // Production email service integration goes here
+  // Uncomment and configure when email service is set up:
+  //
+  // try {
+  //   const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
+  //   await resend.emails.send({
+  //     from: `${brandName} <noreply@verde.com>`,
+  //     to: email,
+  //     subject: `Welcome to ${brandName} on Verde`,
+  //     html: getCustomerInviteTemplate({ email, brandName, inviteUrl, expiresAt }),
+  //   });
+  //   return { success: true };
+  // } catch (error) {
+  //   console.error("Failed to send customer invite:", error);
+  //   return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+  // }
 
-  // Development fallback: log to console
+  // Development mode: log invite details to console
   if (import.meta.env.DEV) {
-    console.log("📧 Customer Invite Email:", {
+    console.log("📧 Customer Invite Email (dev mode):", {
       to: email,
       subject: `Welcome to ${brandName} on Verde`,
       inviteUrl,
       expiresAt,
     });
+    return { success: true };
   }
 
-  return { success: true };
+  // Production without email service configured
+  console.warn("Email service not configured. Invite link:", inviteUrl);
+  return { success: false, error: "Email service not configured" };
 }
 
 /**

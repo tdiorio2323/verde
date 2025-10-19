@@ -5,7 +5,7 @@ export type CartItem = {
   slug: string;
   title: string;
   price_cents: number;
-  qty: number;
+  quantity: number;
   image_url?: string;
 };
 
@@ -14,9 +14,9 @@ type State = {
 };
 
 type Actions = {
-  add: (item: Omit<CartItem, "qty">, qty?: number) => void;
+  add: (item: Omit<CartItem, "quantity">, quantity?: number) => void;
   remove: (id: string) => void;
-  setQty: (id: string, qty: number) => void;
+  setQuantity: (id: string, quantity: number) => void;
   clear: () => void;
   totalCents: () => number;
 };
@@ -24,25 +24,42 @@ type Actions = {
 export const useCart = create<State & Actions>((set, get) => ({
   items: [],
 
-  add: (i, qty = 1) =>
-    set((s) => {
-      const idx = s.items.findIndex((x) => x.id === i.id);
-      if (idx >= 0) {
-        const copy = [...s.items];
-        copy[idx] = { ...copy[idx], qty: copy[idx].qty + qty };
-        return { items: copy };
+  add: (item, quantity = 1) =>
+    set((state) => {
+      const existingItemIndex = state.items.findIndex(
+        (cartItem) => cartItem.id === item.id
+      );
+
+      if (existingItemIndex >= 0) {
+        const updatedItems = [...state.items];
+        const existingItem = updatedItems[existingItemIndex];
+        updatedItems[existingItemIndex] = {
+          ...existingItem,
+          quantity: existingItem.quantity + quantity,
+        };
+        return { items: updatedItems };
       }
-      return { items: [...s.items, { ...i, qty }] };
+
+      return { items: [...state.items, { ...item, quantity }] };
     }),
 
-  remove: (id) => set((s) => ({ items: s.items.filter((x) => x.id !== id) })),
+  remove: (id) =>
+    set((state) => ({
+      items: state.items.filter((item) => item.id !== id),
+    })),
 
-  setQty: (id, qty) =>
-    set((s) => ({
-      items: s.items.map((x) => (x.id === id ? { ...x, qty } : x)),
+  setQuantity: (id, quantity) =>
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      ),
     })),
 
   clear: () => set({ items: [] }),
 
-  totalCents: () => get().items.reduce((t, x) => t + x.price_cents * x.qty, 0),
+  totalCents: () =>
+    get().items.reduce(
+      (total, item) => total + item.price_cents * item.quantity,
+      0
+    ),
 }));

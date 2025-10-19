@@ -4,22 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppStore } from "@/stores/appStore";
 import type { DriverAssignmentStatus } from "@/data/orders";
-
-const statusColor: Record<DriverAssignmentStatus, string> = {
-  assigned: "bg-white/15 text-white",
-  accepted: "bg-amber-300/30 text-amber-100",
-  enroute: "bg-sky-400/40 text-sky-50",
-  arrived: "bg-emerald-400/40 text-emerald-50",
-  delivered: "bg-white/20 text-white",
-};
-
-const statusLabel: Record<DriverAssignmentStatus, string> = {
-  assigned: "Assigned",
-  accepted: "Accepted",
-  enroute: "En Route",
-  arrived: "Arrived",
-  delivered: "Delivered",
-};
+import { DRIVER_STATUS_STYLES, DRIVER_STATUS_LABELS } from "@/shared/config/statuses";
 
 const nextAction: Record<DriverAssignmentStatus, { label: string; disabled: boolean }> = {
   assigned: { label: "Accept run", disabled: false },
@@ -57,9 +42,9 @@ export const DriverView = () => {
                   <p className="text-sm text-white/60">{assignment.address}</p>
                 </div>
                 <Badge
-                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider ${statusColor[assignment.status]}`}
+                  className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-wider ${DRIVER_STATUS_STYLES[assignment.status]}`}
                 >
-                  {statusLabel[assignment.status]}
+                  {DRIVER_STATUS_LABELS[assignment.status]}
                 </Badge>
               </div>
               <div className="mt-4 grid gap-4 md:grid-cols-4">
@@ -82,7 +67,7 @@ export const DriverView = () => {
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-3 text-xs text-white/70">
                   <p className="uppercase tracking-[0.25em] text-white/50">Status</p>
                   <p className="mt-1 text-lg font-semibold text-white">
-                    {statusLabel[assignment.status]}
+                    {DRIVER_STATUS_LABELS[assignment.status]}
                   </p>
                 </div>
               </div>

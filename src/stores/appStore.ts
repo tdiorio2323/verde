@@ -18,98 +18,62 @@ import type {
   SortOption,
 } from "@/shared/types/app";
 import type { CustomerOrder, DriverAssignmentStatus, OrderStatus } from "@/data/orders";
+import {
+  MIN_CART_QUANTITY,
+  MAX_CART_QUANTITY,
+  FREE_DELIVERY_THRESHOLD,
+} from "@/lib/constants";
+import { buildOrderTimeline, getNextOrderStatus } from "@/shared/lib/order-utils";
+import { getNextDriverStatus } from "@/shared/config/statuses";
+import { formatTime, addMinutes } from "@/shared/lib/date-utils";
 
-const ORDER_SEQUENCE: OrderStatus[] = [
-  "placed",
-  "confirmed",
-  "preparing",
-  "enroute",
-  "arriving",
-  "delivered",
-];
+/**
+ * Ensure quantity is within valid cart bounds
+ */
+const ensureQuantity = (quantity: number) =>
+  Math.max(MIN_CART_QUANTITY, Math.min(MAX_CART_QUANTITY, quantity));
 
-const ORDER_LABELS: Record<OrderStatus, string> = {
-  placed: "Order Placed",
-  confirmed: "Dispensary Confirmed",
-  preparing: "Curating Order",
-  enroute: "Driver En Route",
-  arriving: "Arriving",
-  delivered: "Delivered",
-};
-
-const formatTime = (date: Date) =>
-  date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
-const addMinutes = (date: Date, minutes: number) => {
-  const next = new Date(date);
-  next.setMinutes(next.getMinutes() + minutes);
-  return next;
-};
-
-const buildTimeline = (targetStatus: OrderStatus, baseTime = new Date()): OrderTimelineStep[] => {
-  const targetIndex = ORDER_SEQUENCE.indexOf(targetStatus);
-
-  return ORDER_SEQUENCE.map((status, index) => {
-    const complete = index <= targetIndex;
-    return {
-      id: status,
-      label: ORDER_LABELS[status],
-      complete,
-      at: complete ? formatTime(addMinutes(baseTime, index * 4)) : "--",
-    } satisfies OrderTimelineStep;
-  });
-};
-
-const ensureQuantity = (quantity: number) => Math.max(0, Math.min(9, quantity));
-
-const resolveProduct = (productId: number) =>
-  get().products.find((product) => product.id === productId);
-
-const recalcAdminOrders = (orders: CustomerOrder[]) => {
+/**
+ * Recalculate admin orders summary from customer orders
+ * Takes the most recent orders and formats them for admin dashboard
+ */
+const recalcAdminOrders = (orders: CustomerOrder[], dispensaries: AppState["dispensaries"]) => {
   return orders.slice(0, 6).map((order) => ({
     id: order.id,
     customer: order.items[0]?.name.split(" ")[0] ?? "Guest",
     status: order.status,
-    dispensary:
-      get().dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "Verde",
+    dispensary: dispensaries.find((disp) => disp.id === order.dispensaryId)?.name ?? "Verde",
     eta: `${order.etaMinutes} min`,
     basket: order.total,
   }));
 };
 
-export const calculateTotals = (cart: AppState["cart"], items: CartLineItem[], products: AppState["products"]) => {
-  const currentProducts = products;
+/**
+ * Calculate order totals from cart items
+ * @param cart - Cart state containing rates and fees
+ * @param items - Cart line items
+ * @param products - Available products to look up prices
+ * @returns Object with subtotal, fees, tax, and total
+ */
+export const calculateTotals = (
+  cart: AppState["cart"],
+  items: CartLineItem[],
+  products: AppState["products"]
+) => {
   const subtotal = items.reduce((sum, item) => {
-    const product = currentProducts.find((prod) => prod.id === item.productId);
+    const product = products.find((prod) => prod.id === item.productId);
     if (!product) return sum;
     return sum + product.price * item.quantity;
   }, 0);
 
   const serviceFee = subtotal * cart.serviceRate;
   const tax = subtotal * cart.taxRate;
-  const deliveryFee = subtotal >= 150 ? 0 : cart.deliveryBase;
+  const deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : cart.deliveryBase;
   const total = subtotal + serviceFee + tax + deliveryFee;
 
   return { subtotal, serviceFee, tax, deliveryFee, total };
 };
 
-const advanceDriverStatus = (status: DriverAssignmentStatus): DriverAssignmentStatus => {
-  switch (status) {
-    case "assigned":
-      return "accepted";
-    case "accepted":
-      return "enroute";
-    case "enroute":
-      return "arrived";
-    case "arrived":
-      return "delivered";
-    default:
-      return status;
-  }
-};
 
 const generatorSeed = { current: 1285 };
 
@@ -232,53 +196,61 @@ export const useAppStore = create<AppStore>()(
           cart: { ...state.cart, items: [] },
         })),
       checkout: (payload) => {
-        const state = get(); // Get current state for conditional logic
+        const state = get();
+
+        // Validate cart is not empty
         if (state.cart.items.length === 0) {
           return false;
         }
 
+        // Find selected dispensary
         const selectedDispensary = state.dispensaries.find(
           (disp) => disp.id === state.session.selectedDispensaryId,
         );
 
-        const { subtotal, serviceFee, tax, deliveryFee, total } = calculateTotals(
-          state.cart,
-          state.cart.items,
-          state.products,
-        );
+        // Calculate order totals
+        const { total } = calculateTotals(state.cart, state.cart.items, state.products);
 
+        // Map cart items to order items
+        const orderItems = state.cart.items
+          .map((item) => {
+            const product = state.products.find((prod) => prod.id === item.productId);
+            if (!product) return null;
+            return {
+              id: product.id,
+              name: product.name,
+              quantity: item.quantity,
+              price: product.price,
+            };
+          })
+          .filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+        // Calculate ETA
+        const etaMinutes = selectedDispensary
+          ? Math.round((selectedDispensary.etaRange[0] + selectedDispensary.etaRange[1]) / 2)
+          : 35;
+
+        // Create new order
         const now = new Date();
         const newOrder: CustomerOrder = {
           id: generateOrderId(),
           dispensaryId: selectedDispensary?.id ?? state.dispensaries[0]?.id ?? "",
           status: "preparing",
           placedAt: now.toISOString(),
-          etaMinutes: selectedDispensary
-            ? Math.round((selectedDispensary.etaRange[0] + selectedDispensary.etaRange[1]) / 2)
-            : 35,
+          etaMinutes,
           driverName: mockCustomerOrder.driverName,
           driverAvatar: mockCustomerOrder.driverAvatar,
           vehicle: mockCustomerOrder.vehicle,
           address: payload.address,
-          timeline: buildTimeline("preparing", now),
-          items: state.cart.items
-            .map((item) => {
-              const product = state.products.find((prod) => prod.id === item.productId);
-              if (!product) return null;
-              return {
-                id: product.id,
-                name: product.name,
-                quantity: item.quantity,
-                price: product.price,
-              };
-            })
-            .filter((item): item is NonNullable<typeof item> => Boolean(item)),
+          timeline: buildOrderTimeline("preparing", now),
+          items: orderItems,
           total,
         };
 
+        // Update state
         set((state) => {
           const orders = [newOrder, ...state.orders.list];
-          const updatedAdminOrders = recalcAdminOrders(orders);
+          const updatedAdminOrders = recalcAdminOrders(orders, state.dispensaries);
 
           return {
             orders: {
@@ -303,25 +275,16 @@ export const useAppStore = create<AppStore>()(
           if (!state.orders.activeOrderId) return state;
 
           const orders = state.orders.list.map((order) => {
+            // Only update the active order
             if (order.id !== state.orders.activeOrderId) {
               return order;
             }
 
-            const currentIndex = ORDER_SEQUENCE.indexOf(order.status);
-            const nextStatus = ORDER_SEQUENCE[Math.min(currentIndex + 1, ORDER_SEQUENCE.length - 1)];
+            const nextStatus = getNextOrderStatus(order.status);
             const now = new Date();
 
-            const nextTimeline = order.timeline.map((step) => {
-              const stepIndex = ORDER_SEQUENCE.indexOf(step.id);
-              if (stepIndex <= ORDER_SEQUENCE.indexOf(nextStatus)) {
-                return {
-                  ...step,
-                  at: step.at === "--" ? formatTime(addMinutes(now, stepIndex * 3)) : step.at,
-                  complete: true,
-                };
-              }
-              return step;
-            });
+            // Update timeline to reflect new status
+            const nextTimeline = buildOrderTimeline(nextStatus, now);
 
             return {
               ...order,
@@ -337,7 +300,7 @@ export const useAppStore = create<AppStore>()(
             },
             admin: {
               ...state.admin,
-              orders: recalcAdminOrders(orders),
+              orders: recalcAdminOrders(orders, state.dispensaries),
             },
           };
         }),
@@ -347,7 +310,9 @@ export const useAppStore = create<AppStore>()(
             if (assignment.id !== assignmentId) {
               return assignment;
             }
-            const nextStatus = advanceDriverStatus(assignment.status);
+
+            const nextStatus = getNextDriverStatus(assignment.status);
+
             return {
               ...assignment,
               status: nextStatus,

@@ -52,12 +52,23 @@ pnpm audit:quick  # or: npm run audit:quick
 # Audit environment variables usage
 pnpm audit:env  # or: npm run audit:env
 
-# Audit routes inventory
+# Audit routes inventory (generates ROUTE_ATLAS.md)
 pnpm audit:routes  # or: npm run audit:routes
+
+# Audit routes and open the report
+pnpm audit:routes:open  # or: npm run audit:routes:open
 
 # Prepare git hooks (run after clone)
 pnpm prepare  # or: npm run prepare
 ```
+
+**Route Auditing**: The `audit:routes` command uses ts-morph to analyze `src/app/router.tsx` and generate:
+- `ROUTE_ATLAS.md` - Human-readable route documentation with protection status, roles, and lazy chunks
+- `route-atlas.json` - Machine-readable route data
+- `unknown-links.csv` - Links/navigations that don't match defined routes (if any)
+- `unmounted-pages.csv` - Page components not mounted in router (if any)
+
+**Environment Variable Auditing**: The `audit:env` command scans all source files for `import.meta.env.*` usage and lists all referenced environment variables.
 
 **Git Hooks**: The project uses Husky for pre-push hooks. After cloning, run `pnpm prepare` to install hooks that run type checking and linting before pushing.
 
@@ -87,8 +98,9 @@ pnpm prepare  # or: npm run prepare
 - **Styling**: Tailwind CSS with custom chrome silver glass morphism design system
 - **Testing**: Vitest with React Testing Library
   - Test files use `.test.tsx` or `.test.ts` extension
-  - Setup file at `tests/setup.ts` configures jsdom environment
+  - Setup file at `tests/setup.ts` configures jsdom environment with @testing-library/jest-dom matchers
   - Run tests with `pnpm test` (watch mode) or `pnpm test:run` (single run)
+  - Run specific test: `pnpm test src/path/to/file.test.tsx`
 
 ### Directory Structure
 
@@ -175,11 +187,16 @@ Use these classes instead of creating custom glass effects.
 
 ### Key Technical Details
 
-- **Path Alias**: `@` resolves to `./src` (configured in `vite.config.ts:19`)
+- **Path Alias**: `@` resolves to `./src` (configured in `vite.config.ts`)
 - **Component Tagger**: Uses `lovable-tagger` plugin in development mode for Lovable.dev integration
 - **Port**: Dev server runs on `:8080` with IPv6 host (`::`)
 - **UI Components**: Generated via shadcn/ui CLI (see `components.json`)
 - **Form Validation**: Uses `react-hook-form` + `@hookform/resolvers` + `zod`
+- **Build Optimization**: Manual code splitting configured in `vite.config.ts`:
+  - `vendor` chunk: React core libraries (react, react-dom, react-router-dom)
+  - `ui` chunk: Radix UI primitives (accordion, dialog, dropdown-menu)
+  - `utils` chunk: Animation and utility libraries (framer-motion, date-fns, lucide-react)
+- **Browser Targets**: ES2020, Chrome 100+, Safari 15+ (see `vite.config.ts` build.target)
 
 ### Adding New Routes
 
@@ -284,16 +301,18 @@ The codebase uses a layered architecture with specific import conventions:
 - `/_routes` - Routes debug page (development only, gated by VITE_ENABLE_ROUTES_DEBUG)
 - `*` - 404 Not Found page
 
-## Selector Best Practices
+## Zustand State Management Best Practices
 
-The application uses Zustand for state management. Follow these patterns for optimal performance:
+The application uses Zustand with strict patterns to prevent unnecessary re-renders and React's `useSyncExternalStore` warnings.
 
-### Rules
+### Selector Stability Rules
 
 - **Prefer atomic selectors**: Instead of selecting multiple fields in one selector, use separate selectors for each field
 - **Avoid inline object creation**: Don't create new objects in selectors unless necessary
 - **Use shallow equality**: For objects/arrays, use Zustand's `shallow` comparison or custom equality functions
 - **Keep selectors simple**: Complex computations should be memoized outside the selector
+- **Memoize derived data**: For multi-field selectors, wrap with `createDerivedSelector` (see `src/data/store.ts`) and supply equality checks like `shallowEqual` or domain-specific comparators (e.g., `areCartTotalsEqual`)
+- **Cache snapshots**: When adding selectors that compute arrays or objects, ensure they reference existing state objects or return memoized copies
 
 ### Example
 
@@ -314,14 +333,21 @@ const { items, total } = useAppStore(
   (state) => ({ items: state.cart.items, total: state.cart.total }),
   shallow
 );
+
+// ✅ BEST: Use createDerivedSelector for complex derived state
+const useCartTotals = createDerivedSelector(
+  (state) => ({ items: state.cart.items, total: state.cart.total }),
+  areCartTotalsEqual
+);
 ```
 
-### Testing
+### Store Validation
 
-Before merging changes to the store:
+Before merging changes to any store:
 
-1. Run `pnpm typecheck` and `pnpm build` to confirm no TypeScript errors
-2. Test in browser to ensure components don't re-render unnecessarily
-3. Run `pnpm audit:quick` for quick validation
+1. Run `pnpm typecheck` to confirm no TypeScript errors
+2. Run `pnpm build` to ensure React's `getSnapshot` warning stays silent
+3. Test in browser DevTools → Components → verify no infinite re-render warnings
+4. Run `pnpm audit:quick` for quick validation
 
-See `CONTRIBUTING.md` for deployment guidelines.
+See `CONTRIBUTING.md` for detailed deployment guidelines.
