@@ -152,7 +152,7 @@ const ProductDetailVerde = () => {
       const cart = existingCart ? JSON.parse(existingCart) : [];
 
       // Add or update product in cart
-      const existingItem = cart.find((item: any) => item.id === product.id);
+      const existingItem = cart.find((item: { id: string }) => item.id === product.id);
       if (existingItem) {
         existingItem.quantity += quantity;
       } else {
@@ -259,7 +259,7 @@ const ProductDetailVerde = () => {
           <div className="space-y-6">
             <div>
               <Badge className="mb-3 bg-white/20 text-white">
-                {product.category ? product.category.charAt(0).toUpperCase() + product.category.slice(1).replaceAll('_', ' ') : 'Product'}
+                {product.category ? product.category.charAt(0).toUpperCase() + product.category.slice(1).replace(/_/g, ' ') : 'Product'}
               </Badge>
               <h1 className="text-4xl font-bold text-white mb-2">{product.name}</h1>
               <div className="flex items-center gap-2 mb-4">
