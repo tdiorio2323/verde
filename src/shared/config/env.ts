@@ -10,6 +10,10 @@ const envSchema = z.object({
     .string()
     .min(10, "VITE_SUPABASE_ANON_KEY must be at least 10 characters")
     .optional(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z
+    .string()
+    .min(10, "NEXT_PUBLIC_SUPABASE_ANON_KEY must be at least 10 characters")
+    .optional(),
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY: z
     .string()
     .min(10, "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY must be at least 10 characters")
@@ -44,8 +48,9 @@ export const env = {
   ),
   VITE_SUPABASE_ANON_KEY: resolveRequiredValue(
     parsedEnv.VITE_SUPABASE_ANON_KEY,
-    parsedEnv.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
-    "Supabase publishable key not provided. Set VITE_SUPABASE_ANON_KEY or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY.",
+    parsedEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+      parsedEnv.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+    "Supabase publishable key not provided. Set VITE_SUPABASE_ANON_KEY, NEXT_PUBLIC_SUPABASE_ANON_KEY, or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY.",
   ),
   VITE_APP_ENV: parsedEnv.VITE_APP_ENV,
   VITE_ENABLE_ROUTES_DEBUG: parsedEnv.VITE_ENABLE_ROUTES_DEBUG,
