@@ -21,6 +21,7 @@ import {
   Truck,
   LogOut,
   Store,
+  Palette,
 } from "lucide-react";
 
 const LandingPage = () => {
@@ -43,6 +44,16 @@ const LandingPage = () => {
               >
                 <Store className="h-4 w-4 mr-2" />
                 Shop
+              </Button>
+            </Link>
+            <Link to="/designs">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="glass-md hover:bg-white/10 text-white/90 hover:text-white rounded-full"
+              >
+                <Palette className="h-4 w-4 mr-2" />
+                Designs
               </Button>
             </Link>
 

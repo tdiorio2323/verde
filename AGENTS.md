@@ -1,21 +1,21 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-
-The Vite + React codebase lives in `src/`, with entry wiring in `src/main.tsx` and app shell logic in `src/App.tsx`. Feature UI resides under `src/components/` and reusable utilities sit in `src/lib/` and `src/hooks/`. Route-level views live in `src/pages/`, while static data objects are kept in `src/data/`. Shared styling is managed through Tailwind configuration (`tailwind.config.ts`) and global styles in `src/index.css`. Public assets that ship as-is belong in `public/`, and built artifacts land in `dist/`.
+Verde is a Vite + React TypeScript app rooted in `src/`. Entry code lives in `src/main.tsx`, the shell in `src/App.tsx`, feature UI in `src/components/`, route screens in `src/pages/`, shared logic in `src/hooks/` and `src/lib/`, and reusable data in `src/data/`. Place generated Supabase types under `src/shared/`, Tailwind theming in `tailwind.config.ts`, and global styles in `src/index.css`. Use `scripts/` for automation, `tests/` for Vitest or Playwright setup, `docs/` for documentation variants, `public/` for shipped assets, `dist/` for build artifacts, and `supabase/` for environment templates or SQL.
 
 ## Build, Test, and Development Commands
-
-Install dependencies with `pnpm install` (preferred) or `npm install` if pnpm is unavailable. Use `pnpm dev` to run the Vite dev server with hot reloading. Execute `pnpm build` for the production bundle, and `pnpm build --mode development` when a development-targeted build is needed. Preview the production build locally via `pnpm preview` after running a build. Run `pnpm lint` to apply ESLint across the repo.
+Install dependencies with `pnpm install` (fallback: `npm install`). Run `pnpm dev` for the Vite dev server. Create bundles with `pnpm build` or `pnpm build:dev`, and serve them locally using `pnpm preview`. Lint via `pnpm lint`, type-check with `pnpm typecheck`, and execute specs using `pnpm test` (watch) or `pnpm test:run` (CI-friendly). Gate changes with `pnpm audit:quick`, perform full release checks with `pnpm audit:full`, and refresh Supabase typings through `pnpm generate:types`.
 
 ## Coding Style & Naming Conventions
-
-Follow TypeScript strictness defaults and React functional components. Use PascalCase for component files (e.g., `UserCard.tsx`), camelCase for helpers, and kebab-case only for asset filenames. Keep component folders co-located with their styles or utilities when tightly coupled. Tailwind classes should favor design tokens defined in `tailwind.config.ts`, and avoid arbitrary values unless prototyping. Run `pnpm lint` before committing to ensure ESLint and TypeScript catch issues.
+Keep TypeScript strict and components functional. Use PascalCase for component files (`StoreCard.tsx`), camelCase for helpers, and kebab-case only for raw assets. Favor Tailwind token classes over arbitrary values. Run `pnpm lint` and `pnpm format` (Prettier, default 2-space indent) before committing, and honor the Node range in `package.json` (`>=18.18 <=22`).
 
 ## Testing Guidelines
-
-A formal test suite is not yet present; when adding coverage, create colocated `*.test.tsx` files that exercise component behavior with Vitest and React Testing Library. Prefer descriptive `describe` blocks that mirror page or component names. Smoke-test critical flows (navigation, forms, data fetching) before opening a pull request, and document manual test steps in the PR description until automated tests exist.
+Vitest with React Testing Library underpins unit coverage; shared config sits in `tests/setup.ts`. Co-locate specs beside source as `*.test.tsx` or `*.test.ts`, focusing on user-visible behavior and state edges. Use `pnpm test:run` for deterministic output in CI and log manual checks for navigation, auth, or Supabase flows until they gain automated coverage.
 
 ## Commit & Pull Request Guidelines
+Write focused commits with imperative summaries such as `Add cart drawer badge totals`, and reference tickets or docs as needed. PRs should explain the problem, list functional or visual changes, include screenshots for UI updates, and note tests run. Request review from domain owners, keep branches rebased on `main`, and wait for at least one approval before merging.
 
-Commits should stay focused, use imperative summaries (e.g., `Add product carousel hover states`), and mention scope only when it aids clarity. Reference related issues in the body when applicable. Pull requests must include a clear problem statement, screenshots or clips for visual updates, and notes on testing performed. Tag reviewers familiar with the touched area and wait for at least one approval before merging. Keep branches up to date with `main` to minimize rebase churn.
+## Environment & Tooling Notes
+Prefer pnpm to respect workspace resolution. Husky installs via the `prepare` script; adjust `core.hooksPath` only with team consensus. Store Supabase secrets in `.env` (never commit) and run `pnpm audit:env` to confirm required keys. Add new automation in `scripts/` with a pointer in `README` so future agents can reproduce the workflow.
+
+Both `VITE_SUPABASE_*` and `NEXT_PUBLIC_SUPABASE_*` environment names are accepted; use whichever matches your deployment tooling, ensuring the publishable key maps to the Supabase “designs” bucket.

@@ -12,6 +12,8 @@ const BrandDashboard = lazy(() => import("@/pages/BrandDashboard"));
 const ShopPage = lazy(() => import("@/pages/ShopPage"));
 const ShopDetail = lazy(() => import("@/pages/ShopDetail"));
 const CartPage = lazy(() => import("@/pages/CartPage"));
+const DesignsPage = lazy(() => import("@/pages/DesignsPage"));
+const DesignsTestPage = lazy(() => import("@/pages/DesignsTestPage"));
 const AcceptBrandInvite = lazy(() => import("@/pages/AcceptBrandInvite"));
 const AcceptCustomerInvite = lazy(() => import("@/pages/AcceptCustomerInvite"));
 const RoutesDebug = lazy(() => import("@/pages/RoutesDebug"));
@@ -106,6 +108,28 @@ export const router = createBrowserRouter([
     element: (
       <Suspense fallback={<LoadingFallback />}>
         <ShopDetail />
+      </Suspense>
+    ),
+    errorElement: <RouteErrorBoundary />,
+  },
+
+  // Designs library (public)
+  {
+    path: "/designs",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <DesignsPage />
+      </Suspense>
+    ),
+    errorElement: <RouteErrorBoundary />,
+  },
+
+  // Designs test page (debug)
+  {
+    path: "/designs-test",
+    element: (
+      <Suspense fallback={<LoadingFallback />}>
+        <DesignsTestPage />
       </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
