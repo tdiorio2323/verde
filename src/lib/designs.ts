@@ -148,3 +148,9 @@ export const isImageAsset = (asset: DesignAsset): boolean => {
 
   return /\.(png|jpe?g|gif|bmp|webp|svg)$/i.test(asset.path);
 };
+
+// Replace with your WhatsApp number (country code + number, no spaces)
+const phoneNumber = "1234567890"; // Example: "1234567890" for +1 (234) 567-8901
+
+// Replace with your Telegram username (without @)  
+const telegramUsername = "yourusername"; // Example: "tdiorio" for @tdiorio

@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ExternalLink, Loader2, RefreshCcw } from "lucide-react";
+import { ExternalLink, Loader2, RefreshCcw, ShoppingCart, Check } from "lucide-react";
 
 import { fetchDesignAssets, isImageAsset, type DesignAsset } from "@/lib/designs";
+import { useDesignCartStore } from "@/stores/designCartStore";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -39,6 +40,8 @@ const DesignsPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [debugInfo, setDebugInfo] = useState<string>("Initializing...");
+  
+  const { addItem, removeItem, isInCart, getItemCount } = useDesignCartStore();
 
   const loadAssets = useCallback(async () => {
     console.log("loadAssets called");
@@ -88,8 +91,9 @@ const DesignsPage = () => {
       return "No designs found";
     }
 
-    return `${assets.length} design${assets.length === 1 ? "" : "s"} available`;
-  }, [assets.length, isLoading]);
+    const cartCount = getItemCount();
+    return `${assets.length} design${assets.length === 1 ? "" : "s"} available${cartCount > 0 ? ` • ${cartCount} in cart` : ""}`;
+  }, [assets.length, isLoading, getItemCount]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -107,6 +111,19 @@ const DesignsPage = () => {
 
           <div className="flex items-center gap-3">
             <span className="text-sm text-muted-foreground">{assetCountLabel}</span>
+            
+            {getItemCount() > 0 && (
+              <Button 
+                variant="default" 
+                size="sm" 
+                onClick={() => window.location.href = '/designs/checkout'}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                Checkout ({getItemCount()})
+              </Button>
+            )}
+            
             <Button variant="outline" size="sm" onClick={() => void loadAssets()} disabled={isLoading}>
               {isLoading ? (
                 <>
@@ -168,14 +185,36 @@ const DesignsPage = () => {
                         {asset.name}
                       </h2>
                       
-                      {asset.publicUrl ? (
-                        <Button size="sm" asChild variant="secondary">
-                          <Link to={asset.publicUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            Open
-                          </Link>
-                        </Button>
-                      ) : null}
+                      <div className="flex items-center gap-2">
+                        {isInCart(asset.path) ? (
+                          <Button 
+                            size="sm" 
+                            variant="secondary" 
+                            onClick={() => removeItem(asset.path)}
+                            className="text-green-600"
+                          >
+                            <Check className="mr-2 h-4 w-4" />
+                            Added
+                          </Button>
+                        ) : (
+                          <Button 
+                            size="sm" 
+                            onClick={() => addItem(asset)}
+                            className="bg-blue-600 hover:bg-blue-700"
+                          >
+                            <ShoppingCart className="mr-2 h-4 w-4" />
+                            Add to Cart
+                          </Button>
+                        )}
+                        
+                        {asset.publicUrl ? (
+                          <Button size="sm" asChild variant="outline">
+                            <Link to={asset.publicUrl} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-4 w-4" />
+                            </Link>
+                          </Button>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
                 </article>
