@@ -73,7 +73,11 @@ const listRecursive = async (path = ""): Promise<DesignAsset[]> => {
   let offset = 0;
   const BATCH_SIZE = 100; // Process in batches to handle large directories
   
+  console.log(`=== DEBUG: Starting listRecursive for path: "${path}" ===`);
+  
   while (true) {
+    console.log(`Fetching batch: offset=${offset}, limit=${BATCH_SIZE}`);
+    
     const { data, error } = await supabase.storage.from(DESIGNS_BUCKET).list(path, {
       limit: BATCH_SIZE,
       offset,
@@ -84,6 +88,8 @@ const listRecursive = async (path = ""): Promise<DesignAsset[]> => {
       console.error("Storage list error:", error);
       throw error;
     }
+
+    console.log(`Batch response: ${data?.length || 0} items received`);
 
     if (!data || data.length === 0) {
       break; // No more items
@@ -131,7 +137,11 @@ const listRecursive = async (path = ""): Promise<DesignAsset[]> => {
 
 export const fetchDesignAssets = async (): Promise<DesignAsset[]> => {
   try {
-    console.log("Fetching ALL design assets from bucket:", DESIGNS_BUCKET);
+    console.log("=== DEBUG: Fetching design assets ===");
+    console.log("DESIGNS_BUCKET:", DESIGNS_BUCKET);
+    console.log("Environment check - import.meta.env.VITE_SUPABASE_URL:", import.meta.env.VITE_SUPABASE_URL);
+    console.log("Environment check - import.meta.env.VITE_SUPABASE_ANON_KEY:", import.meta.env.VITE_SUPABASE_ANON_KEY ? "✓ Present" : "✗ Missing");
+    
     const assets = await listRecursive();
     console.log("Successfully fetched", assets.length, "design assets");
     return assets;
