@@ -4,9 +4,8 @@ import ShopCard from "@/components/ShopCard";
 import { listShopItems } from "@/lib/shop";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Home, User } from "lucide-react";
+import { ShoppingCart, Home } from "lucide-react";
 import { useCart } from "@/features/cart/store";
-import { useAuth } from "@/contexts/auth/hook";
 import type { Database } from "@/shared/types/supabase";
 
 type ShopItem = Database["public"]["Tables"]["shop_items"]["Row"] & {
@@ -19,7 +18,6 @@ export default function ShopPage() {
   const [loading, setLoading] = useState(true);
   const cartItems = useCart((s) => s.items);
   const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
-  const { user } = useAuth();
 
   useEffect(() => {
     setLoading(true);
@@ -72,18 +70,6 @@ export default function ShopPage() {
                   Home
                 </Button>
               </Link>
-
-              {user && (
-                <Link to="/dashboard" className="w-full sm:w-auto">
-                  <Button
-                    variant="ghost"
-                    className="w-full sm:w-auto glass-md hover:bg-white/10 text-white/70 hover:text-white min-h-[44px]"
-                  >
-                    <User className="mr-2 h-4 w-4" />
-                    Dashboard
-                  </Button>
-                </Link>
-              )}
 
               <Link to="/cart" className="w-full sm:w-auto">
                 <Button className="w-full sm:w-auto relative glass-md bg-white/10 hover:bg-white/20 border-white/20 min-h-[44px]">

@@ -1,25 +1,10 @@
 import { RouterProvider } from "react-router-dom";
 import { router } from "@/app/router";
-import { AgeVerificationModal } from "@/components/auth/AgeVerificationModal";
-import { useAuth } from "@/contexts/auth/hook";
-import { useState, useEffect } from "react";
 
 /**
- * App content wrapper that handles age verification modal
+ * App content wrapper - renders the router
  */
 export function AppContent() {
-  const { user } = useAuth();
-  const [showAgeVerification, setShowAgeVerification] = useState(false);
-
-  useEffect(() => {
-    // Show age verification modal if user is logged in but not age verified
-    if (user && !user.ageVerified) {
-      setShowAgeVerification(true);
-    } else {
-      setShowAgeVerification(false);
-    }
-  }, [user]);
-
   return (
     <>
       {/* Skip Navigation Link for Accessibility */}
@@ -30,7 +15,6 @@ export function AppContent() {
         Skip to main content
       </a>
       <RouterProvider router={router} />
-      <AgeVerificationModal open={showAgeVerification} onOpenChange={setShowAgeVerification} />
     </>
   );
 }

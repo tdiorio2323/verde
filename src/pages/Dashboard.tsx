@@ -2,9 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/contexts/auth/hook";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { Home } from "lucide-react";
 import ShopView from "@/components/dashboard/ShopView";
 import CartDrawer from "@/components/dashboard/CartDrawer";
 import OrderTracking from "@/components/dashboard/OrderTracking";
@@ -25,7 +24,6 @@ const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, signOut } = useAuth();
   const session = useAppStore((state) => state.session);
   const activeOrder = useAppStore((state) =>
     state.orders.list.find((order) => order.id === state.orders.activeOrderId) ?? null,
@@ -47,12 +45,16 @@ const Dashboard = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  // Sync user role from Supabase to store
+  // Set initial role based on route
   useEffect(() => {
-    if (user && user.role !== session.role) {
-      setRole(user.role);
+    if (location.pathname.includes("/dashboard/driver")) {
+      setRole("driver");
+    } else if (location.pathname.includes("/dashboard/admin")) {
+      setRole("admin");
+    } else if (!session.role) {
+      setRole("customer");
     }
-  }, [user, session.role, setRole]);
+  }, [location.pathname, session.role, setRole]);
 
   useEffect(() => {
     if (location.pathname.includes("/dashboard/driver") && session.role !== "driver") {
@@ -150,21 +152,16 @@ const Dashboard = () => {
                 <p>{dispensaryName}</p>
                 <p>{cartCount} items in cart</p>
               </div>
-              <div className="flex items-center gap-2 border-l border-white/15 pl-4">
-                <div className="text-xs text-white/70">
-                  <p className="font-semibold text-white">{user?.fullName || "Guest"}</p>
-                  <p>{user?.phone}</p>
-                </div>
-                <Button
-                  onClick={() => signOut().then(() => navigate("/"))}
-                  variant="ghost"
-                  size="sm"
-                  className="glass-md hover:bg-white/10 text-white/70 hover:text-white"
-                  title="Sign Out"
-                >
-                  <LogOut className="h-4 w-4" />
-                </Button>
-              </div>
+              <Button
+                onClick={() => navigate("/")}
+                variant="ghost"
+                size="sm"
+                className="glass-md hover:bg-white/10 text-white/70 hover:text-white"
+                title="Back to Home"
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Button>
             </div>
           </div>
         </header>

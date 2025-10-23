@@ -3,7 +3,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
-import { AuthProvider } from "@/contexts/auth/provider";
 
 /**
  * Application-wide providers wrapper.
@@ -11,20 +10,17 @@ import { AuthProvider } from "@/contexts/auth/provider";
  *
  * Providers included:
  * - ErrorBoundary: Catches and displays React errors
- * - AuthProvider: Manages authentication state
  * - TooltipProvider: Enables tooltip components
  * - Toaster/Sonner: Toast notification systems
  */
 export function AppProviders({ children }: PropsWithChildren) {
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <TooltipProvider>
-          {children}
-          <Toaster />
-          <Sonner />
-        </TooltipProvider>
-      </AuthProvider>
+      <TooltipProvider>
+        {children}
+        <Toaster />
+        <Sonner />
+      </TooltipProvider>
     </ErrorBoundary>
   );
 }
