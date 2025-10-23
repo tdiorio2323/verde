@@ -51,17 +51,6 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Driver-specific dashboard (now public)
-  {
-    path: "/dashboard/driver",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <Dashboard />
-      </Suspense>
-    ),
-    errorElement: <RouteErrorBoundary />,
-  },
-
   // Admin dashboard (now public)
   {
     path: "/dashboard/admin",
@@ -185,7 +174,6 @@ export const router = createBrowserRouter([
 
   // Convenience redirects
   { path: "/admin", element: <Navigate to="/dashboard/admin" replace /> },
-  { path: "/driver", element: <Navigate to="/dashboard/driver" replace /> },
   { path: "/brand", element: <Navigate to="/dashboard/brand" replace /> },
 
   // 404 catch-all (must be last)

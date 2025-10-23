@@ -11,7 +11,7 @@ import type {
   OrderTimelineStep,
 } from "@/data/orders";
 
-export type Role = "customer" | "driver" | "admin";
+export type Role = "customer" | "admin" | "brand";
 
 export type AuthUser = {
   id: string;

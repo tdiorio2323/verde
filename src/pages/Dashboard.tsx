@@ -7,7 +7,6 @@ import { Home } from "lucide-react";
 import ShopView from "@/components/dashboard/ShopView";
 import CartDrawer from "@/components/dashboard/CartDrawer";
 import OrderTracking from "@/components/dashboard/OrderTracking";
-import DriverView from "@/components/dashboard/DriverView";
 import AdminView from "@/components/dashboard/AdminView";
 import CheckoutModal from "@/components/dashboard/CheckoutModal";
 import { useAppStore } from "@/stores/appStore";
@@ -16,7 +15,6 @@ import type { CheckoutPayload, Role } from "@/shared/types/app";
 
 const roleOptions = [
   { id: "customer" as const, label: "Customer", description: "Browse, curate, track orders" },
-  { id: "driver" as const, label: "Driver", description: "Live runs & premium handoffs" },
   { id: "admin" as const, label: "Admin", description: "Command center insights" },
 ];
 
@@ -47,9 +45,7 @@ const Dashboard = () => {
 
   // Set initial role based on route
   useEffect(() => {
-    if (location.pathname.includes("/dashboard/driver")) {
-      setRole("driver");
-    } else if (location.pathname.includes("/dashboard/admin")) {
+    if (location.pathname.includes("/dashboard/admin")) {
       setRole("admin");
     } else if (!session.role) {
       setRole("customer");
@@ -57,9 +53,7 @@ const Dashboard = () => {
   }, [location.pathname, session.role, setRole]);
 
   useEffect(() => {
-    if (location.pathname.includes("/dashboard/driver") && session.role !== "driver") {
-      setRole("driver");
-    } else if (location.pathname.includes("/dashboard/admin") && session.role !== "admin") {
+    if (location.pathname.includes("/dashboard/admin") && session.role !== "admin") {
       setRole("admin");
     } else if (location.pathname === "/dashboard" && session.role !== "customer") {
       setRole("customer");
@@ -199,12 +193,6 @@ const Dashboard = () => {
                   onAdvance={advanceActiveOrderStatus}
                 />
               </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="driver" className="mt-8">
-            <div className="px-4 pb-16 sm:px-6">
-              <DriverView />
             </div>
           </TabsContent>
 
