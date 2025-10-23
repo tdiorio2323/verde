@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ExternalLink, Loader2, RefreshCcw, ShoppingCart, Check } from "lucide-react";
 
@@ -6,6 +6,7 @@ import { fetchDesignAssets, isImageAsset, type DesignAsset } from "@/lib/designs
 import { useDesignCartStore } from "@/stores/designCartStore";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { APP_ENV } from "@/shared/config/inspectEnv";
 
 const formatFileSize = (bytes: number | null): string => {
   if (!bytes) {
@@ -16,6 +17,30 @@ const formatFileSize = (bytes: number | null): string => {
   const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   const size = bytes / 1024 ** exponent;
   return `${size.toFixed(size < 10 && exponent > 0 ? 1 : 0)} ${units[exponent]}`;
+};
+
+const watermarkOverlayStyle: CSSProperties = {
+  pointerEvents: "none",
+  position: "absolute",
+  inset: 0,
+  backgroundImage:
+    "linear-gradient(45deg, rgba(255, 255, 255, 0.6) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.6) 75%), linear-gradient(45deg, rgba(0, 0, 0, 0.4) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.4) 75%)",
+  backgroundSize: "40px 40px",
+  backgroundPosition: "0 0, 20px 20px",
+  opacity: 0.7,
+  mixBlendMode: "overlay",
+};
+
+const logoWatermarkStyle: CSSProperties = {
+  pointerEvents: "none",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "90%",
+  maxWidth: "450px",
+  opacity: 1,
+  zIndex: 10,
 };
 
 const formatDate = (value: string | null): string => {
@@ -66,8 +91,14 @@ const DesignsPage = () => {
         return new Date(right).getTime() - new Date(left).getTime();
       });
 
-      setAssets(sorted);
-      setDebugInfo(`Successfully loaded ${sorted.length} assets`);
+      const sanitized = sorted.filter((asset) => asset.name.toLowerCase() !== "blue-sashimi.pdf");
+
+      if (sanitized.length !== sorted.length) {
+        console.info("Filtered out deprecated asset blue-sashimi.pdf");
+      }
+
+      setAssets(sanitized);
+      setDebugInfo(`Successfully loaded ${sanitized.length} assets`);
     } catch (err) {
       console.error("Failed to load designs", err);
       const errorMsg = err instanceof Error ? err.message : "Unable to load designs from Supabase.";
@@ -166,12 +197,21 @@ const DesignsPage = () => {
                 >
                   <div className="relative bg-muted/40">
                     {isImage && asset.publicUrl ? (
-                      <img
-                        src={asset.publicUrl}
-                        alt={asset.name}
-                        className="w-full h-auto object-contain transition duration-300 group-hover:scale-[1.01]"
-                        loading="lazy"
-                      />
+                      <div className="relative">
+                        <img
+                          src={asset.publicUrl}
+                          alt={asset.name}
+                          className="w-full h-auto object-contain transition duration-300 group-hover:scale-[1.01]"
+                          loading="lazy"
+                        />
+                        <div style={watermarkOverlayStyle} aria-hidden="true" />
+                        <img
+                          src="/verde-logo.png"
+                          alt="Verde Watermark"
+                          style={logoWatermarkStyle}
+                          aria-hidden="true"
+                        />
+                      </div>
                     ) : (
                       <div className="flex h-48 w-full items-center justify-center text-sm text-muted-foreground">
                         Preview unavailable
@@ -230,6 +270,40 @@ const DesignsPage = () => {
           </div>
         ) : null}
       </main>
+      
+      {/* Dev Environment Inspector - Only visible in development */}
+      {APP_ENV.IS_DEV && (
+        <footer className="mt-8 p-4 bg-gray-100 border border-gray-200 rounded-lg">
+          <div className="text-sm text-gray-600 space-y-2">
+            <h4 className="font-semibold">Dev Environment Status</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <span className="inline-block w-3 h-3 rounded-full mr-2" 
+                      style={{ backgroundColor: APP_ENV.HAS_SUPABASE_URL ? '#10b981' : '#ef4444' }}></span>
+                SUPABASE_URL: {APP_ENV.HAS_SUPABASE_URL ? 'Set' : 'Missing'}
+              </div>
+              <div>
+                <span className="inline-block w-3 h-3 rounded-full mr-2" 
+                      style={{ backgroundColor: APP_ENV.HAS_SUPABASE_ANON ? '#10b981' : '#ef4444' }}></span>
+                SUPABASE_ANON_KEY: {APP_ENV.HAS_SUPABASE_ANON ? 'Set' : 'Missing'}
+              </div>
+              <div>
+                <span className="inline-block w-3 h-3 rounded-full mr-2" 
+                      style={{ backgroundColor: '#3b82f6' }}></span>
+                Environment: {APP_ENV.NODE_ENV}
+              </div>
+              <div>
+                <span className="inline-block w-3 h-3 rounded-full mr-2" 
+                      style={{ backgroundColor: APP_ENV.ROUTES_DEBUG ? '#f59e0b' : '#6b7280' }}></span>
+                Routes Debug: {APP_ENV.ROUTES_DEBUG ? 'Enabled' : 'Disabled'}
+              </div>
+            </div>
+            <div className="text-xs text-gray-500 mt-2">
+              Check console for window.__APP_ENV object
+            </div>
+          </div>
+        </footer>
+      )}
     </div>
   );
 };

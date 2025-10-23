@@ -1,77 +1,102 @@
-# Welcome to your Lovable project
+# Verde Cannabis Marketplace
 
-## Project info
+A modern cannabis delivery platform built with React, TypeScript, and Supabase.
 
-**URL**: https://lovable.dev/projects/80074ec3-bcf4-4664-b8d4-6e22f1506a17
+## Quickstart
 
-## How can I edit this code?
+```bash
+# Install dependencies
+pnpm install
 
-There are several ways of editing your application.
+# Copy environment template
+cp .env.example .env.local
+# Edit .env.local with your Supabase credentials
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/80074ec3-bcf4-4664-b8d4-6e22f1506a17) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Start development server
+pnpm dev
 ```
 
-**Edit a file directly in GitHub**
+## Build & Preview
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Build for production
+pnpm build
 
-**Use GitHub Codespaces**
+# Preview production build locally
+pnpm preview
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Environment
 
-## What technologies are used for this project?
+This project supports both Vite and Next.js environment variable prefixes due to the `envPrefix` configuration in `vite.config.ts`:
 
-This project is built with:
+- **VITE_*** (recommended): Standard Vite environment variables
+- **NEXT_PUBLIC_*** (alternative): Next.js compatibility mode
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Either prefix works interchangeably. The environment schema in `src/shared/config/env.ts` validates and resolves both formats.
+
+Required variables:
+```bash
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+```
+
+## Supabase Storage: designs/
+
+The `/designs` route connects to a Supabase storage bucket named "designs":
+
+- **Required bucket**: `designs` (must exist in your Supabase project)
+- **Access**: Public read access or signed URLs supported
+- **Testing**: Visit `/designs` and expect asset count > 0
+
+See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for detailed bucket configuration.
+
+## Troubleshooting
+
+### Empty designs list
+- **Missing environment variables**: Ensure `VITE_SUPABASE_*` or `NEXT_PUBLIC_SUPABASE_*` are set
+- **Check console**: Debug logs show environment status and API responses
+
+### 403 errors on storage objects
+- **Storage policy missing**: Run the SQL in [SUPABASE_SETUP.md](./SUPABASE_SETUP.md)
+- **Bucket not public**: Enable public access or use signed URLs
+
+### Runtime environment inspection
+In development, check `window.__APP_ENV` in browser console for environment validation.
+
+## Project Technologies
+
+- **Frontend**: React 18 + TypeScript + Vite
+- **Styling**: Tailwind CSS + shadcn/ui components  
+- **Backend**: Supabase (database, auth, storage)
+- **State**: Zustand for cart management
+- **Testing**: Vitest + React Testing Library
 
 ## Repository Guidelines
 
-Refer to the contributor playbook in [AGENTS.md](./AGENTS.md) for structure, workflows, and coding standards.
+Refer to [AGENTS.md](./AGENTS.md) for structure, workflows, and coding standards.
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/80074ec3-bcf4-4664-b8d4-6e22f1506a17) and click on Share -> Publish.
+Deploy via Vercel or your preferred platform. Ensure environment variables are configured in your deployment settings.
 
-## Can I connect a custom domain to my Lovable project?
+## How can I edit this code?
 
-Yes, you can!
+**Use Lovable**
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Visit the [Lovable Project](https://lovable.dev/projects/80074ec3-bcf4-4664-b8d4-6e22f1506a17) and start prompting.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**Use your preferred IDE**
+
+Clone this repo and push changes. Requirements: Node.js 18.18+ and pnpm.
+
+```sh
+git clone <YOUR_GIT_URL>
+cd <YOUR_PROJECT_NAME>
+pnpm install
+pnpm dev
+```
+
+**GitHub Codespaces**
+
+Click "Code" → "Codespaces" → "New codespace" for a cloud development environment.

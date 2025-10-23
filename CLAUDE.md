@@ -60,6 +60,9 @@ pnpm audit:routes:open  # or: npm run audit:routes:open
 
 # Prepare git hooks (run after clone)
 pnpm prepare  # or: npm run prepare
+
+# Check environment variables are configured
+pnpm check:env  # or: npm run check:env
 ```
 
 **Route Auditing**: The `audit:routes` command uses ts-morph to analyze `src/app/router.tsx` and generate:
@@ -90,8 +93,12 @@ pnpm prepare  # or: npm run prepare
 - **State Management**:
   - Zustand store with devtools middleware
   - Store defined in `src/stores/appStore.ts` with `useAppStore` hook
-  - Feature-specific stores in `src/features/*/store.ts` (e.g., cart store)
-  - Session state in `src/shared/stores/session.ts`
+  - Feature-specific stores:
+    - `src/features/cart/store.ts` - Shopping cart for products
+    - `src/stores/designCartStore.ts` - Design selection cart
+  - Utility stores:
+    - `src/shared/stores/session.ts` - Session state
+    - `src/data/store.ts` - Store utilities including `createDerivedSelector` for memoized selectors
   - Uses Zustand's built-in selector patterns for optimal re-render performance
   - **IMPORTANT**: Follow Zustand best practices - prefer atomic selectors over object selectors (see Selector Best Practices section)
 - **UI Framework**: shadcn/ui components (~50 components in `src/components/ui/`)
@@ -147,9 +154,15 @@ tests/                       # Root-level tests directory
 
 1. Copy `.env.example` to `.env.local`
 2. Fill in required Supabase credentials:
-   - `VITE_SUPABASE_URL`: Your Supabase project URL
-   - `VITE_SUPABASE_ANON_KEY`: Your Supabase anonymous key
-3. Environment validation: Runtime validation via Zod schema in `src/shared/config/env.ts` will throw errors if required variables are missing
+   - `VITE_SUPABASE_URL`: Your Supabase project URL (or `NEXT_PUBLIC_SUPABASE_URL` as alternative)
+   - `VITE_SUPABASE_ANON_KEY`: Your Supabase anonymous key (or `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+   - `SUPABASE_PROJECT_ID`: Optional, required for `pnpm generate:types` command
+3. Optional variables:
+   - `VITE_APP_ENV`: Application environment (development/staging/production)
+   - `VITE_ENABLE_ROUTES_DEBUG`: Enable routes debug page (true/false)
+4. Environment validation:
+   - Runtime validation via Zod schema in `src/shared/config/env.ts` will throw errors if required variables are missing
+   - Run `pnpm check:env` to validate all environment variables before starting development
 
 ### Design System
 
@@ -254,9 +267,22 @@ export const router = createBrowserRouter([
 - **Client**: Centralized Supabase client in `src/shared/lib/supabaseClient.ts`
 - **Authentication**: Phone/OTP flow via Supabase Auth
 - **Database**: Shop items stored in `shop_items` and `shop_item_tags` tables
+- **Storage**: `designs` bucket for design assets (requires public read access or signed URLs)
 - **Queries**: Shop queries centralized in `src/lib/shop.ts`
 - **Type Generation**: Run `pnpm generate:types` to generate TypeScript types from Supabase schema
 - **Profiles**: User profiles in `profiles` table with role-based access control
+
+### Design Cart System
+
+The application includes a design cart feature with WhatsApp/Telegram checkout integration:
+
+- **Store**: Zustand store in `src/stores/designCartStore.ts` manages selected designs
+- **Flow**: Users browse `/designs` → add to cart → checkout via `/designs/checkout`
+- **Checkout Options**:
+  - WhatsApp: Formats order as WhatsApp message with customer details and design list
+  - Telegram: Sends order via Telegram bot integration
+- **Customer Info**: Collects name, Instagram handle, phone, email, and order notes
+- **Storage**: Design assets stored in Supabase `designs` bucket (see `SUPABASE_SETUP.md`)
 
 ### Import Path Guidelines
 
@@ -275,9 +301,12 @@ The codebase uses a layered architecture with specific import conventions:
 **Always import**:
 
 - App store from `@/stores/appStore`
+- Design cart store from `@/stores/designCartStore`
+- Cart store from `@/features/cart/store`
 - Supabase client from `@/shared/lib/supabaseClient`
 - Roles from `@/shared/config/roles`
 - Hooks from `@/shared/hooks/*`
+- Store utilities (createDerivedSelector) from `@/data/store`
 
 ## Integration Notes
 
@@ -294,10 +323,16 @@ The codebase uses a layered architecture with specific import conventions:
 - `/dashboard/admin` - Admin Command center (protected, admin role)
 - `/dashboard/brand` - Brand Dashboard (protected, brand role)
 - `/shop` - Public shop listing page
-- `/shop/:slug` - Public shop detail page
+- `/shop/:slug` - Public shop detail page (dynamic parameter)
+- `/designs` - Designs library with Supabase storage integration (public)
+- `/designs/checkout` - Design cart checkout with WhatsApp/Telegram integration (public)
+- `/designs-test` - Designs test/debug page (public)
 - `/cart` - Shopping cart page
 - `/accept-brand-invite` - Brand invite acceptance (public)
 - `/accept-invite` - Customer invite acceptance (public)
+- `/admin` → `/dashboard/admin` - Convenience redirect
+- `/driver` → `/dashboard/driver` - Convenience redirect
+- `/brand` → `/dashboard/brand` - Convenience redirect
 - `/_routes` - Routes debug page (development only, gated by VITE_ENABLE_ROUTES_DEBUG)
 - `*` - 404 Not Found page
 

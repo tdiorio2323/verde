@@ -1,30 +1,133 @@
-# Supabase Authentication Setup Guide
+# Supabase Setup Guide
 
-This guide will help you set up Supabase authentication for the Verde Cannabis Marketplace.
+This document outlines the Supabase configuration required for the Verde Cannabis Marketplace.
 
-## 📋 Prerequisites
+## Environment Variables
 
-- A Supabase account (sign up at https://supabase.com)
-- Your Supabase project created
-- Project URL and Anon Key (provided by you)
-
-## 🚀 Step-by-Step Setup
-
-### 1. Create .env.local File
-
-Since .env.local cannot be edited directly by me, **you need to create it manually**:
+Set these in your `.env.local` file:
 
 ```bash
-cd /Users/tylerdiorio/verde
-cp .env.local.example .env.local
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-Then edit `.env.local` and add your credentials:
+**Note**: Both `VITE_*` and `NEXT_PUBLIC_*` prefixes are supported due to `envPrefix` in `vite.config.ts`.
+
+## Database Schema
+
+The application uses these main tables:
+- `profiles` - User profiles with roles (customer, driver, admin, brand)
+- `brand_invites` - Brand invitation system
+- `customer_invites` - Customer invitation system
+
+## Storage Configuration
+
+### Required Bucket: "designs"
+
+Create a storage bucket named `designs` for the design library feature:
+
+1. Navigate to Storage in your Supabase dashboard
+2. Click "New bucket"
+3. Name: `designs`
+4. Public: Enable if you want direct public access
+
+### Storage Policies
+
+For public read access to the designs bucket, run this SQL:
+
+```sql
+-- Enable public read access for storage.objects in bucket "designs"
+create policy "Public read designs"
+  on storage.objects for select
+  using ( bucket_id = 'designs' );
+
+-- Optional: Enable public read access for storage.buckets
+create policy "Public bucket access"
+  on storage.buckets for select
+  using ( name = 'designs' );
+```
+
+**Note**: Remove these policies if you prefer using signed URLs only for enhanced security.
+
+### Alternative: Signed URLs Only
+
+If you prefer private storage with signed URLs:
+
+1. Keep the bucket private (no public policies)
+2. The application will automatically fall back to signed URLs
+3. URLs expire after 24 hours for security
+
+## Type Generation
+
+Generate TypeScript types from your Supabase schema:
 
 ```bash
-VITE_SUPABASE_URL=https://ucpylqriavjrgkthloxy.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjcHlscXJpYXZqcmdrdGhsb3h5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1OTMwMjcsImV4cCI6MjA3NjE2OTAyN30.bXph85ytc5ILSamhh4kyN1SY2Ni5LhXpgl_Q6kJzty4
+# Add your project ID to this command
+pnpm supabase:types
+
+# Or run manually:
+supabase gen types typescript --project-id YOUR_PROJECT_ID --schema public > src/shared/types/supabase.ts
 ```
+
+## Row Level Security (RLS)
+
+The following tables should have RLS enabled:
+- `profiles` - Users can only read/update their own profile
+- `brand_invites` - Restricted access based on invite tokens
+- `customer_invites` - Restricted access based on invite tokens
+
+## Testing the Setup
+
+1. **Verify environment**: Run `pnpm check:env`
+2. **Test designs bucket**: Visit `/designs` route
+3. **Expected result**: Asset count > 0 if files are uploaded
+4. **Debug info**: Check browser console for detailed logs
+
+## Troubleshooting
+
+### Storage Access Issues
+- **403 Forbidden**: Check storage policies above
+- **Empty bucket**: Upload test files to `/designs`
+- **Network errors**: Verify SUPABASE_URL and ANON_KEY
+
+### Authentication Issues
+- **Invalid JWT**: Regenerate anon key in Supabase dashboard
+- **CORS errors**: Ensure domain is added to allowed origins
+
+For more help, see the [Troubleshooting section in README.md](./README.md#troubleshooting).
+
+---
+
+## Complete Authentication Setup
+
+For detailed authentication setup including phone OTP, age verification, and role-based access, see the sections below:
+
+### Phone Authentication Setup
+
+1. Go to your Supabase Dashboard → Authentication → Providers
+2. Enable **Phone** authentication
+3. Configure SMS provider (Twilio recommended for production)
+
+### Database Migration
+
+Run the `supabase-setup.sql` script in your Supabase SQL Editor to create:
+- `profiles` table with user data
+- Row Level Security (RLS) policies  
+- Automatic profile creation trigger
+- Auto-update timestamp function
+
+### Testing Authentication
+
+```bash
+pnpm dev
+```
+
+1. Open http://localhost:8080
+2. Test phone OTP login flow
+3. Verify age verification modal (21+ compliance)
+4. Test role-based route access
+
+For complete authentication setup details, configuration options, troubleshooting, and security features, see the detailed sections in this file above.
 
 ### 2. Enable Phone Authentication in Supabase
 

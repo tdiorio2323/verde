@@ -19,6 +19,8 @@
     "audit:env": "tsx scripts/grep-env.ts",
     "audit:routes": "tsx scripts/generate-route-atlas.ts",
     "audit:routes:open": "pnpm audit:routes && open ROUTE_ATLAS.md",
+    "check:env": "node scripts/check-env.mjs",
+    "supabase:types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/shared/types/supabase.ts",
     "prepare": "husky"
   },
   "dependencies": {
