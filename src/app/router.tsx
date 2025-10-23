@@ -1,9 +1,7 @@
 import { Suspense, lazy } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import RouteErrorBoundary from "@/components/errors/RouteErrorBoundary";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { LoadingFallback } from "@/components/LoadingFallback";
-import { ROLES } from "@/shared/config/roles";
 
 // Lazy load all page components for optimal code splitting
 const LandingPage = lazy(() => import("@/pages/LandingPage"));
@@ -42,54 +40,46 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Customer dashboard (default protected route)
+  // Customer dashboard (now public)
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute>
-        <Suspense fallback={<LoadingFallback />}>
-          <Dashboard />
-        </Suspense>
-      </ProtectedRoute>
+      <Suspense fallback={<LoadingFallback />}>
+        <Dashboard />
+      </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Driver-specific dashboard
+  // Driver-specific dashboard (now public)
   {
     path: "/dashboard/driver",
     element: (
-      <ProtectedRoute requireRole={ROLES.DRIVER}>
-        <Suspense fallback={<LoadingFallback />}>
-          <Dashboard />
-        </Suspense>
-      </ProtectedRoute>
+      <Suspense fallback={<LoadingFallback />}>
+        <Dashboard />
+      </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Admin dashboard
+  // Admin dashboard (now public)
   {
     path: "/dashboard/admin",
     element: (
-      <ProtectedRoute requireRole={ROLES.ADMIN}>
-        <Suspense fallback={<LoadingFallback />}>
-          <Dashboard />
-        </Suspense>
-      </ProtectedRoute>
+      <Suspense fallback={<LoadingFallback />}>
+        <Dashboard />
+      </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Brand dashboard
+  // Brand dashboard (now public)
   {
     path: "/dashboard/brand",
     element: (
-      <ProtectedRoute requireRole={ROLES.BRAND}>
-        <Suspense fallback={<LoadingFallback />}>
-          <BrandDashboard />
-        </Suspense>
-      </ProtectedRoute>
+      <Suspense fallback={<LoadingFallback />}>
+        <BrandDashboard />
+      </Suspense>
     ),
     errorElement: <RouteErrorBoundary />,
   },

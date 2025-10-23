@@ -1,12 +1,9 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import BackgroundGrid from "@/components/ui/BackgroundGrid";
 import GlowButton from "@/components/ui/GlowButton";
 import Section from "@/components/layout/Section";
 import FeatureCard from "@/components/ui/FeatureCard";
 import Footer from "@/components/Footer";
-import { LoginModal } from "@/components/auth/LoginModal";
-import { useAuth } from "@/contexts/auth/hook";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { fr } from "@/lib/motion";
@@ -19,14 +16,11 @@ import {
   TrendingUp,
   Lock,
   Truck,
-  LogOut,
   Store,
   Palette,
 } from "lucide-react";
 
 const LandingPage = () => {
-  const { user, signOut } = useAuth();
-  const [showLoginModal, setShowLoginModal] = useState(false);
   return (
     <main className="relative min-h-screen bg-black text-white">
       {/* HERO */}
@@ -56,27 +50,6 @@ const LandingPage = () => {
                 Designs
               </Button>
             </Link>
-
-            {user ? (
-              <div className="flex items-center gap-4">
-                <div className="glass-md rounded-full px-6 py-2 border border-white/15">
-                  <p className="text-sm text-white/90">{user.phone}</p>
-                </div>
-                <Button
-                  onClick={() => signOut()}
-                  variant="ghost"
-                  size="sm"
-                  className="glass-md hover:bg-white/10 text-white/90 hover:text-white rounded-full"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
-                </Button>
-              </div>
-            ) : (
-              <Button onClick={() => setShowLoginModal(true)} className="btn-holographic">
-                Sign In
-              </Button>
-            )}
           </div>
         </div>
 
@@ -246,10 +219,7 @@ const LandingPage = () => {
         </div>
       </Section>
 
-      <Footer onOpenLogin={() => setShowLoginModal(true)} />
-
-      {/* Login Modal */}
-      <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
+      <Footer />
     </main>
   );
 };

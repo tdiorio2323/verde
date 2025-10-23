@@ -1,24 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import GlassCard from "@/components/ui/GlassCard";
-import { useAuth } from "@/contexts/auth/hook";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-type FooterProps = {
-  onOpenLogin?: () => void;
-};
-
-export default function Footer({ onOpenLogin }: FooterProps) {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  const handleGetStarted = () => {
-    if (user) {
-      navigate("/dashboard");
-    } else if (onOpenLogin) {
-      onOpenLogin();
-    }
-  };
+export default function Footer() {
 
   return (
     <footer className="relative bg-gradient-to-b from-background via-background/98 to-background border-t border-border-glass/30">
@@ -85,39 +70,40 @@ export default function Footer({ onOpenLogin }: FooterProps) {
                       }}
                     />
 
-                    <Button
-                      size="lg"
-                      onClick={handleGetStarted}
-                      className="
-                        relative text-lg px-12 py-7 rounded-full font-bold
-                        btn-holographic
-                        text-background
-                        border-2 border-white/30
-                        shadow-glow hover:shadow-silver hover:scale-[1.02] hover:border-white/40
-                        active:scale-[0.98]
-                        transition-all duration-500
-                        before:content-[''] before:absolute before:inset-0 before:rounded-full
-                        before:bg-gradient-to-b before:from-white/30 before:via-white/15 before:to-transparent
-                        before:pointer-events-none
-                      "
-                    >
-                      <span className="relative z-10 flex items-center gap-2">
-                        {user ? "Go to Dashboard" : "Get Started"}
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2.5}
-                            d="M13 7l5 5m0 0l-5 5m5-5H6"
-                          />
-                        </svg>
-                      </span>
-                    </Button>
+                    <Link to="/shop">
+                      <Button
+                        size="lg"
+                        className="
+                          relative text-lg px-12 py-7 rounded-full font-bold
+                          btn-holographic
+                          text-background
+                          border-2 border-white/30
+                          shadow-glow hover:shadow-silver hover:scale-[1.02] hover:border-white/40
+                          active:scale-[0.98]
+                          transition-all duration-500
+                          before:content-[''] before:absolute before:inset-0 before:rounded-full
+                          before:bg-gradient-to-b before:from-white/30 before:via-white/15 before:to-transparent
+                          before:pointer-events-none
+                        "
+                      >
+                        <span className="relative z-10 flex items-center gap-2">
+                          Browse Shop
+                          <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2.5}
+                              d="M13 7l5 5m0 0l-5 5m5-5H6"
+                            />
+                          </svg>
+                        </span>
+                      </Button>
+                    </Link>
                   </div>
 
                   <Button
