@@ -146,16 +146,11 @@ const LandingPage = () => {
           />
         </div>
         <div className="mt-8 flex justify-center">
-          {user ? (
-            <GlowButton href="/dashboard">Go to Dashboard</GlowButton>
-          ) : (
-            <Button
-              onClick={() => setShowLoginModal(true)}
-              className="btn-holographic text-lg px-8 py-6"
-            >
-              Sign Up Free
+          <Link to="/shop">
+            <Button className="btn-holographic text-lg px-8 py-6">
+              Browse Shop
             </Button>
-          )}
+          </Link>
         </div>
       </Section>
 
