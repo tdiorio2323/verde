@@ -178,3 +178,13 @@ export const API_TIMEOUT = 30000;
 
 /** Default retry attempts for failed requests */
 export const API_RETRY_ATTEMPTS = 3;
+
+// ========================================
+// SOCIALS
+// ========================================
+
+/** Telegram username for contact */
+export const TELEGRAM_USERNAME = "tdiorio";
+
+/** WhatsApp number for contact */
+export const WHATSAPP_NUMBER = "13474859935";

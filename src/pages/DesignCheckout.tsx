@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Trash2, MessageCircle, Send } from "lucide-react";
 
 import { useDesignCartStore } from "@/stores/designCartStore";
+import { TELEGRAM_USERNAME, WHATSAPP_NUMBER } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,7 +83,7 @@ Please confirm availability and pricing. Thank you! 🙏`;
   const sendWhatsAppMessage = () => {
     const message = formatWhatsAppMessage();
     // Your WhatsApp number: +1 (347) 485-9935
-    const phoneNumber = "13474859935"; // WhatsApp format: country code + number
+    const phoneNumber = WHATSAPP_NUMBER; // WhatsApp format: country code + number
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
@@ -91,7 +92,7 @@ Please confirm availability and pricing. Thank you! 🙏`;
   const sendTelegramMessage = () => {
     const message = formatTelegramMessage();
     // TODO: Replace with your actual Telegram username (without @)
-    const telegramUsername = "yourusername"; // Example: "tdiorio" for @tdiorio
+    const telegramUsername = TELEGRAM_USERNAME; // Example: "tdiorio" for @tdiorio
     const encodedMessage = encodeURIComponent(message);
     const telegramUrl = `https://t.me/${telegramUsername}?text=${encodedMessage}`;
     window.open(telegramUrl, '_blank');

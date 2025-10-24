@@ -126,12 +126,13 @@ export default function CartPage() {
                 >
                   Clear Cart
                 </Button>
-                <Button
-                  className="w-full sm:flex-1 bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600 min-h-[48px]"
-                  disabled
-                >
-                  Checkout (Coming Soon)
-                </Button>
+                <Link to="/checkout" className="w-full sm:flex-1">
+                  <Button
+                    className="w-full bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600 min-h-[48px]"
+                  >
+                    Checkout
+                  </Button>
+                </Link>
               </CardFooter>
             </Card>
           </div>

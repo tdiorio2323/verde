@@ -8,7 +8,7 @@ import ShopView from "@/components/dashboard/ShopView";
 import CartDrawer from "@/components/dashboard/CartDrawer";
 import OrderTracking from "@/components/dashboard/OrderTracking";
 import AdminView from "@/components/dashboard/AdminView";
-import CheckoutModal from "@/components/dashboard/CheckoutModal";
+
 import { useAppStore } from "@/stores/appStore";
 import { calculateTotals } from "@/stores/appStore";
 import type { CheckoutPayload, Role } from "@/shared/types/app";
@@ -41,54 +41,7 @@ const Dashboard = () => {
   }, [dispensaries, session.selectedDispensaryId]);
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  // Set initial role based on route
-  useEffect(() => {
-    if (location.pathname.includes("/dashboard/admin")) {
-      setRole("admin");
-    } else if (!session.role) {
-      setRole("customer");
-    }
-  }, [location.pathname, session.role, setRole]);
-
-  useEffect(() => {
-    if (location.pathname.includes("/dashboard/admin") && session.role !== "admin") {
-      setRole("admin");
-    } else if (location.pathname === "/dashboard" && session.role !== "customer") {
-      setRole("customer");
-    }
-  }, [location.pathname, session.role, setRole]);
-
-  const handleRoleChange = (value: string) => {
-    const role = value as Role;
-    if (role === session.role) return;
-    setRole(role);
-    if (role === "customer") {
-      navigate("/dashboard", { replace: true });
-    } else {
-      navigate(`/dashboard/${role}`, { replace: true });
-    }
-  };
-
-  const handleCheckoutConfirm = (payload: CheckoutPayload) => {
-    const success = checkout(payload);
-
-    if (success) {
-      setIsCheckoutOpen(false);
-      setIsCartOpen(false);
-      toast({
-        title: "Order Placed Successfully",
-        description: "Your order has been confirmed and is being prepared.",
-      });
-    } else {
-      toast({
-        title: "Checkout Failed",
-        description: "Your cart is empty. Please add items before checking out.",
-        variant: "destructive",
-      });
-    }
-  };
 
   const cartCount = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.quantity, 0),
@@ -207,14 +160,7 @@ const Dashboard = () => {
       <CartDrawer
         open={isCartOpen}
         onOpenChange={setIsCartOpen}
-        onCheckout={() => setIsCheckoutOpen(true)}
-      />
-
-      <CheckoutModal
-        open={isCheckoutOpen}
-        onOpenChange={setIsCheckoutOpen}
-        onConfirm={handleCheckoutConfirm}
-        cartTotal={totals.total}
+        onCheckout={() => navigate("/checkout")}
       />
     </main>
   );

@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ShopCard from "@/components/ShopCard";
-import { listShopItems } from "@/lib/shop";
+import { fetchDesignAssets } from "@/lib/designs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Home } from "lucide-react";
 import { useCart } from "@/features/cart/store";
-import type { Database } from "@/shared/types/supabase";
-
-type ShopItem = Database["public"]["Tables"]["shop_items"]["Row"] & {
-  shop_item_tags?: { tag: string }[];
-};
+import type { DesignAsset } from "@/lib/designs";
 
 export default function ShopPage() {
-  const [items, setItems] = useState<ShopItem[]>([]);
+  const [items, setItems] = useState<DesignAsset[]>([]);
   const [q, setQ] = useState("");
   const [loading, setLoading] = useState(true);
   const cartItems = useCart((s) => s.items);
@@ -21,11 +17,15 @@ export default function ShopPage() {
 
   useEffect(() => {
     setLoading(true);
-    listShopItems(undefined, q).then(({ data }) => {
+    fetchDesignAssets().then((data) => {
       setItems(data || []);
       setLoading(false);
     });
-  }, [q]);
+  }, []);
+
+  const filteredItems = items.filter((item) =>
+    item.name.toLowerCase().includes(q.toLowerCase())
+  );
 
   return (
     <main className="relative min-h-screen text-white">
@@ -96,7 +96,7 @@ export default function ShopPage() {
           />
         </div>
 
-        {/* Products Grid - Mobile: 1 col, Tablet: 2 cols, Desktop: 3 cols */}
+        {/* Products Grid - 6 cols */}
         {loading ? (
           <div className="flex min-h-[400px] items-center justify-center">
             <div className="text-center">
@@ -104,14 +104,21 @@ export default function ShopPage() {
               <p className="mt-4 text-white/70">Loading shop items...</p>
             </div>
           </div>
-        ) : items.length === 0 ? (
+        ) : filteredItems.length === 0 ? (
           <div className="flex min-h-[400px] items-center justify-center">
             <p className="text-white/60">No items found.</p>
           </div>
         ) : (
-          <div className="grid gap-4 grid-cols-1 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((it) => (
-              <ShopCard key={it.id} item={it} />
+          <div className="grid gap-4 grid-cols-1 sm:gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            {filteredItems.map((it) => (
+              <ShopCard key={it.id} item={{
+                id: it.id || '',
+                slug: it.name,
+                title: it.name,
+                price_cents: 2500,
+                image_url: it.publicUrl,
+                kind: 'Design'
+              }} />
             ))}
           </div>
         )}

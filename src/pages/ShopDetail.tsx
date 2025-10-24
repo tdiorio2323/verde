@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { motion } from "framer-motion";
 import type { Database } from "@/shared/types/supabase";
 
 type ShopItem = Database["public"]["Tables"]["shop_items"]["Row"] & {
@@ -128,13 +129,15 @@ export default function ShopDetail() {
           </CardContent>
 
           <CardFooter className="flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <Button
-              onClick={handleAddToCart}
-              className="w-full sm:flex-1 bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600 min-h-[48px]"
-            >
-              <ShoppingCart className="mr-2 h-5 w-5" />
-              Add to Cart
-            </Button>
+            <motion.div whileTap={{ scale: 0.95 }} className="w-full sm:flex-1">
+              <Button
+                onClick={handleAddToCart}
+                className="w-full bg-gradient-to-r from-sky-500 via-purple-500 to-amber-500 hover:from-sky-600 hover:via-purple-600 hover:to-amber-600 min-h-[48px]"
+              >
+                <ShoppingCart className="mr-2 h-5 w-5" />
+                Add to Cart
+              </Button>
+            </motion.div>
             <Link to="/cart" className="w-full sm:flex-1">
               <Button
                 variant="outline"
